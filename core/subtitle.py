@@ -1,16 +1,15 @@
-#!/usr/bin/env python3
-import argparse
 import logging
 import os
 from enum import Enum
 from typing import List, Optional, Set
 
+from core.section.section import SrtSection
+from core.section.timing import SrtSectionTiming
+
 ENCODINGS = [
     "utf-8-sig",
     "iso-8859-1",
 ]
-
-logging.basicConfig(format="%(levelname)s %(message)s", level=logging.DEBUG)
 
 
 class Subtitle:
@@ -40,30 +39,6 @@ class Subtitle:
 
     def save(self, output_filepath: Optional[str] = None):
         pass
-
-
-class SrtSectionTiming:
-    def __init__(self, start_time: str, end_time: str):
-        self.start_time = start_time
-        self.end_time = end_time
-
-    def __str__(self) -> str:
-        return f"{self.start_time} --> {self.end_time}"
-
-
-class SrtSection:
-    def __init__(self, timing: SrtSectionTiming, lines: Optional[List[str]] = None):
-        self.timing: SrtSectionTiming = timing
-        self.lines: List[str] = lines if lines is not None else []
-
-    def add_line(self, line: str):
-        self.lines.append(line)
-
-    def content(self) -> str:
-        return "\n".join(self.lines)
-
-    def __str__(self) -> str:
-        return f"{self.timing}\n{self.content()}\n"
 
 
 class SrtSubtitle(Subtitle):
@@ -117,34 +92,3 @@ class SubtitleFormat(Enum):
         return set(e.ext for e in self)
 
     SRT = (".srt", SrtSubtitle)
-
-
-class SubtitleParser:
-    def load(self, filepath: str) -> Subtitle:
-        fname, fext = os.path.splitext(filepath)
-        if fext not in SubtitleFormat.values():
-            raise NotImplementedError
-        logging.info(f"importing subtitle {filepath}")
-        handler = SubtitleFormat.get_handler(fext)
-        return handler(filepath)
-
-
-def main():
-    argparser = argparse.ArgumentParser(description="Clean Subtitles")
-    argparser.add_argument(
-        "file",
-        metavar="FILE",
-        type=argparse.FileType("r"),
-        help="the subtitle file to be processed",
-    )
-    args = argparser.parse_args()
-
-    parser = SubtitleParser()
-    subtitle: Subtitle = parser.load(args.file.name)
-    subtitle.parse()
-    subtitle.print()
-    subtitle.save()
-
-
-if __name__ == "__main__":
-    main()
