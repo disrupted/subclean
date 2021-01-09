@@ -1,13 +1,24 @@
 #!/usr/bin/env python3
+import argparse
 import logging
 import os
 import sys
+from enum import Enum
 from typing import List, Optional
 
 ENCODINGS = [
     "utf-8-sig",
     "iso-8859-1",
 ]
+
+argparser = argparse.ArgumentParser(description="Clean Subtitles")
+argparser.add_argument(
+    "file",
+    metavar="FILE",
+    type=argparse.FileType("r"),
+    help="the subtitle file to be processed",
+)
+args = argparser.parse_args()
 
 
 class Subtitle:
@@ -25,7 +36,7 @@ class Subtitle:
                     f.seek(0)
                     return e
             except UnicodeDecodeError:
-                print("UnicodeDecodeError for encoding %s" % e)
+                logging.error("UnicodeDecodeError for encoding %s" % e)
         return None
 
     def parse(self):
@@ -82,26 +93,44 @@ class SrtSubtitle(Subtitle):
             # so this must be text
             else:
                 if len(line) < 1:
-                    print("ERROR empty line")
+                    logging.warn("empty line")
                     continue
                 section.add_line(line)
 
 
-class SubtitleParser:
-    SUPPORTED_FORMATS = [".srt"]
+class SubtitleFormat(Enum):
+    def __init__(self, ext, handler):
+        self.ext: str = ext
+        self.handler: Subtitle = handler
 
+    @classmethod
+    def get_handler(self, ext: str):
+        return list(e.handler for e in self if e.ext == ext)[0]
+
+    @classmethod
+    def values(self):
+        return set(e.ext for e in self)
+
+    SRT = (".srt", SrtSubtitle)
+
+
+class SubtitleParser:
     def load(self, filepath) -> Subtitle:
         fname, fext = os.path.splitext(filepath)
-        if fext not in self.SUPPORTED_FORMATS:
+        if fext not in SubtitleFormat.values():
             raise NotImplementedError
-        if fext == ".srt":
-            print(f"importing subtitle {filepath}")
-            return SrtSubtitle(filepath)
+        logging.info(f"importing subtitle {filepath}")
+        handler = SubtitleFormat.get_handler(fext)
+        return handler(filepath)
         sys.exit()
 
 
-FILE = "sub.srt"
-parser = SubtitleParser()
-subtitle: Subtitle = parser.load(FILE)
-subtitle.parse()
-subtitle.print()
+def main():
+    parser = SubtitleParser()
+    subtitle: Subtitle = parser.load(args.file.name)
+    subtitle.parse()
+    subtitle.print()
+
+
+if __name__ == "__main__":
+    main()
