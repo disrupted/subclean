@@ -11,6 +11,8 @@ ENCODINGS = [
     "iso-8859-1",
 ]
 
+logging.basicConfig(format="%(levelname)s %(message)s", level=logging.DEBUG)
+
 argparser = argparse.ArgumentParser(description="Clean Subtitles")
 argparser.add_argument(
     "file",
@@ -80,21 +82,18 @@ class SrtSubtitle(Subtitle):
 
         section: SrtSection = None
         for line in in_f:
-            # this is index number
+            # index number
             if line.isdigit():
-                pass
-            # this is timing
+                continue
+            # timing
             elif " --> " in line:
                 timing = self.parse_timing(line)
                 section = SrtSection(timing)
             # empty line, that means end of a block
             elif not line:
                 self.sections.append(section)
-            # so this must be text
+            # content
             else:
-                if len(line) < 1:
-                    logging.warn("empty line")
-                    continue
                 section.add_line(line)
 
 
