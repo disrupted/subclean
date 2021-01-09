@@ -3,7 +3,7 @@ import os
 from enum import Enum
 from typing import List, Optional, Set
 
-from core.section.section import SrtSection
+from core.section import Section, SrtSection
 from core.section.timing import SrtSectionTiming
 
 ENCODINGS = [
@@ -17,7 +17,7 @@ class Subtitle:
         self.filepath: str = filepath
         self.encoding: Optional[str] = self.load()
         self.file: List[str]
-        self.sections: List[SrtSection] = []
+        self.sections: List[Section] = []
 
     def load(self) -> Optional[str]:
         for e in ENCODINGS:
