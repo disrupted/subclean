@@ -3,7 +3,7 @@ import argparse
 import logging
 import os
 from enum import Enum
-from typing import List, Optional
+from typing import List, Optional, Set
 
 ENCODINGS = [
     "utf-8-sig",
@@ -38,11 +38,17 @@ class Subtitle:
         for section in self.sections:
             print(section)
 
+    def save(self, output_filepath: Optional[str] = None):
+        pass
+
 
 class SrtSectionTiming:
     def __init__(self, start_time: str, end_time: str):
         self.start_time = start_time
         self.end_time = end_time
+
+    def __str__(self) -> str:
+        return f"{self.start_time} --> {self.end_time}"
 
 
 class SrtSection:
@@ -53,22 +59,24 @@ class SrtSection:
     def add_line(self, line: str):
         self.lines.append(line)
 
-    def __repr__(self):
-        text = "\n".join(self.lines)
-        return f"{self.timing.start_time}, {self.timing.end_time}\n{text}\n"
+    def content(self) -> str:
+        return "\n".join(self.lines)
+
+    def __str__(self) -> str:
+        return f"{self.timing}\n{self.content()}\n"
 
 
 class SrtSubtitle(Subtitle):
-    def __init__(self, filepath):
+    def __init__(self, filepath: str):
         super().__init__(filepath)
 
-    def parse_timing(self, input: str) -> SrtSectionTiming:
+    def __parse_timing(self, input: str) -> SrtSectionTiming:
         start_time, end_time = input.split(" --> ")
         return SrtSectionTiming(start_time, end_time)
 
     def parse(self):
         with open(self.filepath, "r", encoding=self.encoding) as f:
-            in_f = [line.strip() for line in f]
+            in_f: List[str] = list(line.strip() for line in f) + [""]
 
         section: SrtSection = None
         for line in in_f:
@@ -77,7 +85,7 @@ class SrtSubtitle(Subtitle):
                 continue
             # timing
             elif " --> " in line:
-                timing = self.parse_timing(line)
+                timing = self.__parse_timing(line)
                 section = SrtSection(timing)
             # empty line, that means end of a block
             elif not line:
@@ -86,6 +94,14 @@ class SrtSubtitle(Subtitle):
             else:
                 section.add_line(line)
 
+    def save(self, output_filepath: Optional[str] = None):
+        if output_filepath is None:
+            fname, fext = os.path.splitext(self.filepath)
+            output_filepath = f"{fname}_output{fext}"
+        with open(output_filepath, "w") as out_f:
+            for index, section in enumerate(self.sections, start=1):
+                out_f.write(f"{index}\n{section}\n")
+
 
 class SubtitleFormat(Enum):
     def __init__(self, ext, handler):
@@ -93,18 +109,18 @@ class SubtitleFormat(Enum):
         self.handler: Subtitle = handler
 
     @classmethod
-    def get_handler(self, ext: str):
+    def get_handler(self, ext: str) -> List[Subtitle]:
         return list(e.handler for e in self if e.ext == ext)[0]
 
     @classmethod
-    def values(self):
+    def values(self) -> Set[str]:
         return set(e.ext for e in self)
 
     SRT = (".srt", SrtSubtitle)
 
 
 class SubtitleParser:
-    def load(self, filepath) -> Subtitle:
+    def load(self, filepath: str) -> Subtitle:
         fname, fext = os.path.splitext(filepath)
         if fext not in SubtitleFormat.values():
             raise NotImplementedError
@@ -127,6 +143,7 @@ def main():
     subtitle: Subtitle = parser.load(args.file.name)
     subtitle.parse()
     subtitle.print()
+    subtitle.save()
 
 
 if __name__ == "__main__":
