@@ -2,7 +2,6 @@
 import argparse
 import logging
 import os
-import sys
 from enum import Enum
 from typing import List, Optional
 
@@ -12,15 +11,6 @@ ENCODINGS = [
 ]
 
 logging.basicConfig(format="%(levelname)s %(message)s", level=logging.DEBUG)
-
-argparser = argparse.ArgumentParser(description="Clean Subtitles")
-argparser.add_argument(
-    "file",
-    metavar="FILE",
-    type=argparse.FileType("r"),
-    help="the subtitle file to be processed",
-)
-args = argparser.parse_args()
 
 
 class Subtitle:
@@ -121,10 +111,18 @@ class SubtitleParser:
         logging.info(f"importing subtitle {filepath}")
         handler = SubtitleFormat.get_handler(fext)
         return handler(filepath)
-        sys.exit()
 
 
 def main():
+    argparser = argparse.ArgumentParser(description="Clean Subtitles")
+    argparser.add_argument(
+        "file",
+        metavar="FILE",
+        type=argparse.FileType("r"),
+        help="the subtitle file to be processed",
+    )
+    args = argparser.parse_args()
+
     parser = SubtitleParser()
     subtitle: Subtitle = parser.load(args.file.name)
     subtitle.parse()
