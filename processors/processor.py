@@ -14,7 +14,7 @@ class Processor:
             for j, line in enumerate(section.lines):
                 for operation in self.operations:
                     line = operation(line)
-                self.subtitle.sections[i].lines[j] = self.clean_dashes(line)
+                self.subtitle.sections[i].lines[j] = line
         return self.subtitle
 
 
@@ -25,6 +25,67 @@ class DialogProcessor(Processor):
 
     def clean_dashes(self, line: str) -> str:
         return re.sub(r"^(<\/?i>)*([-‐]+)(\s+)?", r"\1- ", line)
+
+
+class SDHProcessor(Processor):
+    def __init__(self, subtitle: Subtitle):
+        super().__init__(subtitle)
+        self.operations: List[Callable] = [self.clean_hi]
+
+    def is_hi(self, line: str) -> bool:
+        return bool(
+            self.is_simple_hi(line) or self.is_parentheses(line) or self.is_music(line)
+        )
+
+    def is_simple_hi(self, line: str) -> bool:
+        return bool(
+            re.search(r"^[^a-hj-z.,;?!]*$", line)
+            and re.search(r"[A-Z]{2,}|(<i>)?[♪]+(<\/i>)?", line)
+        )
+
+    def is_parentheses(self, line: str) -> bool:
+        return bool(re.search(r"^([-‐\s<i>]+)?[(\[*][^\)\]]+[)\]*<\/i>]+$", line))
+
+    def is_music(self, line: str) -> bool:
+        return bool(
+            re.search(
+                r"^[- ♪]+\s?([-‐a-z,]+\s)*\b(music(al)?|song|track)\b\s?(((play|swell)(s|ing)|intensifies|crescendo|sting))?\b(\s?over\s(headphones|speakers))?\s?♪$",
+                line,
+            )
+        )
+
+    def contains_hi(self, line: str) -> bool:
+        return bool(
+            re.search(
+                r"^([-\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?|\s?[(\[*].*?[)\]*:]+\s?",
+                line,
+            )
+        )
+
+    def clean_hi(self, line: str) -> str:
+        """Clean hearing impaired."""
+        line = re.sub(
+            r"^([-\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?",
+            r"\1",
+            line,
+        )
+
+    # def clean_parentheses(self, line: str) -> str:
+    #     """Clean parentheses ()[]."""
+    #     return re.sub(r"\s?[(\[*].*?[)\]*:]+\s?", "", line)
+
+    def process(self) -> Subtitle:
+        for i, section in enumerate(self.subtitle.sections):
+            for j, line in enumerate(section.lines):
+                if self.is_hi(line):
+                    if self.subtitle.sections.pop_line(j):
+                        # remove whole section if empty
+                        self.subtitle.pop_section(i)
+                elif self.contains_hi(line):
+                    for operation in self.operations:
+                        line = operation(line)
+                self.subtitle.sections[i].lines[j] = line
+        return self.subtitle
 
 
 class ErrorProcessor(Processor):

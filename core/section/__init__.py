@@ -11,6 +11,17 @@ class Section:
     def add_line(self, line: str):
         self.lines.append(line)
 
+    def remove_line(self, line: str) -> bool:
+        self.lines.remove(line)
+        return self.is_empty()
+
+    def pop_line(self, index: int) -> bool:
+        self.lines.pop(index)
+        return self.is_empty()
+
+    def is_empty(self) -> bool:
+        return bool(sum(len(line) for line in self.lines) == 0)
+
     def content(self) -> str:
         pass
 

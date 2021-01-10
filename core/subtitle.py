@@ -53,21 +53,24 @@ class SrtSubtitle(Subtitle):
         with open(self.filepath, "r", encoding=self.encoding) as f:
             in_f: List[str] = list(line.strip() for line in f) + [""]
 
-        section: SrtSection = None
         for line in in_f:
-            # index number
-            if line.isdigit():
+            # empty line (end of section) or index number (begin of section)
+            if not line or line.isdigit():
                 continue
             # timing
             elif " --> " in line:
                 timing = self.__parse_timing(line)
                 section = SrtSection(timing)
-            # empty line, that means end of a block
-            elif not line:
                 self.sections.append(section)
             # content
             else:
-                section.add_line(line)
+                self.sections[-1].add_line(line)
+
+    def add_section(self, section: Section):
+        self.sections.append(section)
+
+    def pop_section(self, index: int):
+        self.sections.pop(index)
 
     def save(self, output_filepath: Optional[str] = None):
         if output_filepath is None:
