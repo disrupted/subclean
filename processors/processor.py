@@ -64,7 +64,7 @@ class SDHProcessor(Processor):
 
     def clean_hi(self, line: str) -> str:
         """Clean hearing impaired."""
-        line = re.sub(
+        return re.sub(
             r"^([-\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?",
             r"\1",
             line,
@@ -78,7 +78,7 @@ class SDHProcessor(Processor):
         for i, section in enumerate(self.subtitle.sections):
             for j, line in enumerate(section.lines):
                 if self.is_hi(line):
-                    if self.subtitle.sections.pop_line(j):
+                    if self.subtitle.sections[i].pop_line(j):
                         # remove whole section if empty
                         self.subtitle.pop_section(i)
                 elif self.contains_hi(line):

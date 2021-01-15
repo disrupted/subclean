@@ -1,7 +1,7 @@
 import logging
 import os
 from enum import Enum
-from typing import List, Optional, Set
+from typing import List, Optional, Set, Callable
 
 from core.section import Section, SrtSection
 from core.section.timing import SrtSectionTiming
@@ -32,6 +32,12 @@ class Subtitle:
 
     def parse(self):
         pass
+
+    def add_section(self, section: Section):
+        self.sections.append(section)
+
+    def pop_section(self, index: int):
+        self.sections.pop(index)
 
     def print(self):
         for section in self.sections:
@@ -66,12 +72,6 @@ class SrtSubtitle(Subtitle):
             else:
                 self.sections[-1].add_line(line)
 
-    def add_section(self, section: Section):
-        self.sections.append(section)
-
-    def pop_section(self, index: int):
-        self.sections.pop(index)
-
     def save(self, output_filepath: Optional[str] = None):
         if output_filepath is None:
             fname, fext = os.path.splitext(self.filepath)
@@ -89,10 +89,10 @@ class FakeSubtitle(Subtitle):
 class SubtitleFormat(Enum):
     def __init__(self, ext, handler):
         self.ext: str = ext
-        self.handler: Subtitle = handler
+        self.handler: Callable[Subtitle] = handler
 
     @classmethod
-    def get_handler(self, ext: str) -> List[Subtitle]:
+    def get_handler(self, ext: str) -> Callable:
         return list(e.handler for e in self if e.ext == ext)[0]
 
     @classmethod
