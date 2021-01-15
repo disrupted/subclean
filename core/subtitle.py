@@ -1,7 +1,7 @@
 import logging
-import os
 from enum import Enum
-from typing import List, Optional, Set, Callable
+from pathlib import Path
+from typing import Callable, List, Optional, Set
 
 from core.section import Section, SrtSection
 from core.section.timing import SrtSectionTiming
@@ -74,8 +74,8 @@ class SrtSubtitle(Subtitle):
 
     def save(self, output_filepath: Optional[str] = None):
         if output_filepath is None:
-            fname, fext = os.path.splitext(self.filepath)
-            output_filepath = f"{fname}_output{fext}"
+            p = Path(self.filepath)
+            output_filepath = f"{p.stem}_output{p.suffix}"
         with open(output_filepath, "w") as out_f:
             for index, section in enumerate(self.sections, start=1):
                 out_f.write(f"{index}\n{section}\n")
