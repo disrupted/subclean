@@ -6,12 +6,12 @@ from core.subtitle import SrtSubtitle, Subtitle
 
 class TestSubtitleParser:
     @pytest.fixture()
-    def subtitle(self):
+    def subtitle(self) -> Subtitle:
         parser = SubtitleParser()
         subtitle: Subtitle = parser.load("sub.srt")
         return subtitle
 
-    def test_handler(self, subtitle):
+    def test_handler(self, subtitle: Subtitle):
         assert isinstance(subtitle, SrtSubtitle)
 
     def test_srtparser(self, subtitle: SrtSubtitle):
