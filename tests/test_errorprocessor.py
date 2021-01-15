@@ -1,15 +1,14 @@
 import pytest
 
 from core.subtitle import FakeSubtitle, Subtitle
-from processors.processor import ErrorProcessor, Processor
+from processors.processor import ErrorProcessor
 
 
 class TestErrorProcessor:
     @pytest.fixture()
     def processor(self) -> ErrorProcessor:
         subtitle: Subtitle = FakeSubtitle()
-        processor: Processor = ErrorProcessor(subtitle)
-        return processor
+        return ErrorProcessor(subtitle)
 
     def test_fix_spaces(self, processor: ErrorProcessor):
         assert (

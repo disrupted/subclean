@@ -1,15 +1,14 @@
 import pytest
 
 from core.subtitle import FakeSubtitle, Subtitle
-from processors.processor import Processor, SDHProcessor
+from processors.processor import SDHProcessor
 
 
 class TestSDHProcessor:
     @pytest.fixture()
     def processor(self) -> SDHProcessor:
         subtitle: Subtitle = FakeSubtitle()
-        processor: Processor = SDHProcessor(subtitle)
-        return processor
+        return SDHProcessor(subtitle)
 
     def test_is_hi(self, processor: SDHProcessor):
         assert processor.is_hi("[camera shutter]")

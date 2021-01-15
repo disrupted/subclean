@@ -1,15 +1,14 @@
 import pytest
 
 from core.subtitle import FakeSubtitle, Subtitle
-from processors.processor import DialogProcessor, Processor
+from processors.processor import DialogProcessor
 
 
 class TestDialogProcessor:
     @pytest.fixture()
     def processor(self) -> DialogProcessor:
         subtitle: Subtitle = FakeSubtitle()
-        processor: Processor = DialogProcessor(subtitle)
-        return processor
+        return DialogProcessor(subtitle)
 
     def test_clean_dashes(self, processor: DialogProcessor):
         assert processor.clean_dashes("-dialog.") == "- dialog."
