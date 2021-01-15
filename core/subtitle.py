@@ -51,9 +51,9 @@ class SrtSubtitle(Subtitle):
 
     def parse(self):
         with open(self.filepath, "r", encoding=self.encoding) as f:
-            in_f: List[str] = list(line.strip() for line in f) + [""]
+            lines: List[str] = list(line.strip() for line in f) + [""]
 
-        for line in in_f:
+        for line in lines:
             # empty line (end of section) or index number (begin of section)
             if not line or line.isdigit():
                 continue
