@@ -138,3 +138,5 @@ dmypy.json
 # profiling data
 .prof
 
+*.srt
+*.bak
