@@ -1,6 +1,7 @@
 import re
 from typing import Callable, List
 
+from core.section import Section
 from core.subtitle import Subtitle
 
 
@@ -74,17 +75,20 @@ class SDHProcessor(Processor):
     #     """Clean parentheses ()[]."""
     #     return re.sub(r"\s?[(\[*].*?[)\]*:]+\s?", "", line)
 
+    def clean_section(self, section: Section) -> Section:
+        lines: List[str] = []
+        for line in section.lines:
+            if self.is_hi(line):
+                continue
+            elif self.contains_hi(line):
+                line = self.clean_hi(line)
+            lines.append(line)
+        section.lines = lines
+        return section
+
     def process(self) -> Subtitle:
-        for i, section in enumerate(self.subtitle.sections):
-            lines = []
-            for j, line in enumerate(section.lines):
-                if self.is_hi(line):
-                    continue
-                elif self.contains_hi(line):
-                    for operation in self.operations:
-                        line = operation(line)
-                lines.append(line)
-            self.subtitle.sections[i].lines = lines
+        # Clean sections
+        self.subtitle.sections = [self.clean_section(s) for s in self.subtitle.sections]
         # Remove empty sections
         self.subtitle.sections = [s for s in self.subtitle.sections if not s.is_empty()]
         return self.subtitle
