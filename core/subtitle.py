@@ -89,7 +89,7 @@ class FakeSubtitle(Subtitle):
 class SubtitleFormat(Enum):
     def __init__(self, ext, handler):
         self.ext: str = ext
-        self.handler: Callable[Subtitle] = handler
+        self.handler: Callable = handler
 
     @classmethod
     def get_handler(self, ext: str) -> Callable:
