@@ -12,7 +12,7 @@ class TestSDHProcessor:
         return SDHProcessor(subtitle)
 
     @pytest.fixture()
-    def sub_fake_processor(self) -> SDHProcessor:
+    def sub_processor(self) -> SDHProcessor:
         parser = SubtitleParser()
         subtitle = parser.load("sub_sdh.srt")
         subtitle.parse()
@@ -91,7 +91,7 @@ class TestSDHProcessor:
         assert fake_processor.is_music("♪ uneasy musical crescendo ♪")
         assert fake_processor.is_music("♪ up‐tempo percussive music playing ♪")
 
-    def test_delete_empty_section(self, sub_fake_processor: SDHProcessor):
-        assert len(sub_fake_processor.subtitle.sections) == 3
-        output_subtitle = sub_fake_processor.process()
-        assert len(output_subtitle.sections) == 2
+    def test_delete_empty_section(self, sub_processor: SDHProcessor):
+        assert len(sub_processor.subtitle.sections) == 3
+        output_subtitle = sub_processor.process()
+        assert len(output_subtitle.sections) == 1

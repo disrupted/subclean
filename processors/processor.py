@@ -76,15 +76,17 @@ class SDHProcessor(Processor):
 
     def process(self) -> Subtitle:
         for i, section in enumerate(self.subtitle.sections):
+            lines = []
             for j, line in enumerate(section.lines):
                 if self.is_hi(line):
-                    if self.subtitle.sections[i].pop_line(j):
-                        # remove whole section if empty
-                        self.subtitle.pop_section(i)
+                    continue
                 elif self.contains_hi(line):
                     for operation in self.operations:
                         line = operation(line)
-                self.subtitle.sections[i].lines[j] = line
+                lines.append(line)
+            self.subtitle.sections[i].lines = lines
+        # Remove empty sections
+        self.subtitle.sections = [s for s in self.subtitle.sections if not s.is_empty()]
         return self.subtitle
 
 

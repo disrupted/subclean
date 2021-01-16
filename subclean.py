@@ -4,7 +4,7 @@ import logging
 
 from core.parser import SubtitleParser
 from core.subtitle import Subtitle
-from processors.processor import DialogProcessor
+from processors.processor import DialogProcessor, SDHProcessor
 
 logging.basicConfig(format="%(levelname)s %(message)s", level=logging.DEBUG)
 
@@ -22,8 +22,12 @@ def main():
     parser = SubtitleParser()
     subtitle: Subtitle = parser.load(args.file.name)
     subtitle.parse()
-    processor = DialogProcessor(subtitle)
-    subtitle = processor.process()
+    # processor = DialogProcessor(subtitle)
+    # subtitle = processor.process()
+    processors = [SDHProcessor, DialogProcessor]
+    for processor in processors:
+        p = processor(subtitle)
+        subtitle = p.process()
     # subtitle.print()
     subtitle.save()
 
