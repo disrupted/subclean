@@ -24,7 +24,8 @@ class DialogProcessor(Processor):
         super().__init__(subtitle)
         self.operations: List[Callable] = [self.clean_dashes]
 
-    def clean_dashes(self, line: str) -> str:
+    @classmethod
+    def clean_dashes(cls, line: str) -> str:
         return re.sub(r"^(<\/?i>)*([-‐]+)(\s+)?", r"\1- ", line)
 
 
@@ -33,21 +34,25 @@ class SDHProcessor(Processor):
         super().__init__(subtitle)
         self.operations: List[Callable] = [self.clean_hi]
 
-    def is_hi(self, line: str) -> bool:
+    @classmethod
+    def is_hi(cls, line: str) -> bool:
         return bool(
-            self.is_simple_hi(line) or self.is_parentheses(line) or self.is_music(line)
+            cls.is_simple_hi(line) or cls.is_parentheses(line) or cls.is_music(line)
         )
 
-    def is_simple_hi(self, line: str) -> bool:
+    @classmethod
+    def is_simple_hi(cls, line: str) -> bool:
         return bool(
             re.search(r"^[^a-hj-z.,;?!]*$", line)
             and re.search(r"[A-Z]{2,}|(<i>)?[♪]+(<\/i>)?", line)
         )
 
-    def is_parentheses(self, line: str) -> bool:
+    @classmethod
+    def is_parentheses(cls, line: str) -> bool:
         return bool(re.search(r"^([-‐\s<i>]+)?[(\[*][^\)\]]+[)\]*<\/i>]+$", line))
 
-    def is_music(self, line: str) -> bool:
+    @classmethod
+    def is_music(cls, line: str) -> bool:
         return bool(
             re.search(
                 r"^[- ♪]+\s?([-‐a-z,]+\s)*\b(music(al)?|song|track)\b\s?(((play|swell)(s|ing)|intensifies|crescendo|sting))?\b(\s?over\s(headphones|speakers))?\s?♪$",
@@ -55,7 +60,8 @@ class SDHProcessor(Processor):
             )
         )
 
-    def contains_hi(self, line: str) -> bool:
+    @classmethod
+    def contains_hi(cls, line: str) -> bool:
         return bool(
             re.search(
                 r"^([-\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?|\s?[(\[*].*?[)\]*:]+\s?",
@@ -63,7 +69,8 @@ class SDHProcessor(Processor):
             )
         )
 
-    def clean_hi(self, line: str) -> str:
+    @classmethod
+    def clean_hi(cls, line: str) -> str:
         """Clean hearing impaired."""
         return re.sub(
             r"^([-\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?",
@@ -71,17 +78,27 @@ class SDHProcessor(Processor):
             line,
         )
 
-    # def clean_parentheses(self, line: str) -> str:
+    @classmethod
+    def is_parenthesis_not_matching(cls, line: str) -> bool:
+        return bool(
+            re.search(r"[()\[\]]", line)
+            and (
+                line.count("(") != line.count(")") or line.count("[") != line.count("]")
+            )
+        )
+
+    # def clean_parentheses(cls, line: str) -> str:
     #     """Clean parentheses ()[]."""
     #     return re.sub(r"\s?[(\[*].*?[)\]*:]+\s?", "", line)
 
-    def clean_section(self, section: Section) -> Section:
+    @classmethod
+    def clean_section(cls, section: Section) -> Section:
         lines: List[str] = []
         for line in section.lines:
-            if self.is_hi(line):
+            if cls.is_hi(line) or cls.is_parenthesis_not_matching(line):
                 continue
-            elif self.contains_hi(line):
-                line = self.clean_hi(line)
+            elif cls.contains_hi(line):
+                line = cls.clean_hi(line)
             lines.append(line)
         section.lines = lines
         return section
@@ -106,21 +123,27 @@ class ErrorProcessor(Processor):
             self.fix_music,
         ]
 
-    def fix_spaces(self, line: str) -> str:
+    @classmethod
+    def fix_spaces(cls, line: str) -> str:
         """Add missing spaces between sentences."""
         return re.sub(r"\b([.?!]{1,2})([A-Z][a-z])", r"\1 \2", line)
 
-    def trim_whitespace(self, line: str) -> str:
+    @classmethod
+    def trim_whitespace(cls, line: str) -> str:
         return re.sub(r"\s{2,}", " ", line)
 
-    def fix_hyphen(self, line: str) -> str:
+    @classmethod
+    def fix_hyphen(cls, line: str) -> str:
         return re.sub(r"'’", "'", line)
 
-    def fix_ampersand(self, line: str) -> str:
+    @classmethod
+    def fix_ampersand(cls, line: str) -> str:
         return re.sub(r"&amp;", "&", line)
 
-    def fix_quote(self, line: str) -> str:
+    @classmethod
+    def fix_quote(cls, line: str) -> str:
         return re.sub(r"&quot;", '"', line)
 
-    def fix_music(self, line: str) -> str:
+    @classmethod
+    def fix_music(cls, line: str) -> str:
         return re.sub(r"^#\s", "♪ ", line)
