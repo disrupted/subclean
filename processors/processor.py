@@ -72,11 +72,13 @@ class SDHProcessor(Processor):
     @classmethod
     def clean_hi(cls, line: str) -> str:
         """Clean hearing impaired."""
-        return re.sub(
+        line = re.sub(
             r"^([-\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?",
             r"\1",
             line,
         )
+        line = cls.clean_parentheses(line)
+        return line
 
     @classmethod
     def is_parenthesis_not_matching(cls, line: str) -> bool:
@@ -87,9 +89,10 @@ class SDHProcessor(Processor):
             )
         )
 
-    # def clean_parentheses(cls, line: str) -> str:
-    #     """Clean parentheses ()[]."""
-    #     return re.sub(r"\s?[(\[*].*?[)\]*:]+\s?", "", line)
+    @classmethod
+    def clean_parentheses(cls, line: str) -> str:
+        """Clean parentheses ()[]."""
+        return re.sub(r"[(\[*].*?[)\]*:]+", "", line)
 
     @classmethod
     def clean_section(cls, section: Section) -> Section:
@@ -117,6 +120,7 @@ class ErrorProcessor(Processor):
         self.operations: List[Callable] = [
             self.fix_hyphen,
             self.fix_spaces,
+            self.fix_space_punctuation,
             self.trim_whitespace,
             self.fix_ampersand,
             self.fix_quote,
@@ -126,11 +130,19 @@ class ErrorProcessor(Processor):
     @classmethod
     def fix_spaces(cls, line: str) -> str:
         """Add missing spaces between sentences."""
-        return re.sub(r"\b([.?!]{1,2})([A-Z][a-z])", r"\1 \2", line)
+        return re.sub(r"\b([.?!]+)([A-Z][a-z])", r"\1 \2", line)
 
     @classmethod
     def trim_whitespace(cls, line: str) -> str:
-        return re.sub(r"\s{2,}", " ", line)
+        return re.sub(r"\s+", " ", line).strip()
+
+    @classmethod
+    def fix_space_punctuation(cls, line: str) -> str:
+        line = re.sub(r"\s+([.,!?]+)", r"\1", line)  # remove space before punctuation
+        line = re.sub(
+            r"([.,!?]+)\s{2,}(?!$)", r"\1 ", line
+        )  # fix multiple spaces after punctuation
+        return line
 
     @classmethod
     def fix_hyphen(cls, line: str) -> str:

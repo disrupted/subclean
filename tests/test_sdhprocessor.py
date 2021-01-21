@@ -32,6 +32,30 @@ class TestSDHProcessor:
         assert fake_processor.is_hi("- TAMIKA: Yeah.") is False
         assert fake_processor.is_hi("♪ (SOFT PIANO MUSIC PLAYS) ♪")
 
+    def test_contains_hi(self, fake_processor: SDHProcessor):
+        assert fake_processor.contains_hi("that's for you. [sighs]")
+
+    # def test_clean_hi(self, fake_processor: SDHProcessor):
+    #     assert fake_processor.clean_hi("that's for you. [sighs]") == "that's for you."
+
+    def test_clean_parentheses(self, fake_processor: SDHProcessor):
+        assert (
+            fake_processor.clean_parentheses("that's for you. [sighs]")
+            == "that's for you. "
+        )
+        assert (
+            fake_processor.clean_parentheses(
+                "on my part, I mean, [laughs] utter idiocy."
+            )
+            == "on my part, I mean,  utter idiocy."
+        )
+        assert (
+            fake_processor.clean_parentheses(
+                "telling a joke [laughs], I mean, [continues laughing] you should've seen him."
+            )
+            == "telling a joke , I mean,  you should've seen him."
+        )
+
     def test_is_simple_hi(self, fake_processor: SDHProcessor):
         assert fake_processor.is_simple_hi("♪")
         assert fake_processor.is_simple_hi("- ♪ ♪")

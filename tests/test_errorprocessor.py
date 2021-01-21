@@ -15,12 +15,34 @@ class TestErrorProcessor:
             processor.fix_spaces("First sentence.Second sentence.")
             == "First sentence. Second sentence."
         )
+        assert (
+            processor.fix_spaces("First sentence...Second sentence.")
+            == "First sentence... Second sentence."
+        )
 
     def test_trim_whitespace(self, processor: ErrorProcessor):
         assert (
-            processor.trim_whitespace("First sentence.  Second sentence.")
+            processor.trim_whitespace("First sentence.  Second   sentence.")
             == "First sentence. Second sentence."
         )
+        assert (
+            processor.trim_whitespace("on my part, I mean,  utter idiocy. ")
+            == "on my part, I mean, utter idiocy."
+        )
+
+    def test_fix_space_punctuation(self, processor: ErrorProcessor):
+        assert (
+            processor.fix_space_punctuation(
+                "First sentence  . Second sentence ,  blabla."
+            )
+            == "First sentence. Second sentence, blabla."
+        )
+        assert (
+            processor.fix_space_punctuation("First sentence... Second sentence.")
+            == "First sentence... Second sentence."
+        )
+        assert processor.fix_space_punctuation("Whoa ...") == "Whoa..."
+        assert processor.fix_space_punctuation("Whoa...") == "Whoa..."
 
     def test_fix_hyphen(self, processor: ErrorProcessor):
         assert processor.fix_hyphen("'’") == "'"
