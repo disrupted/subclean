@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 import argparse
-import logging
 
 from core.parser import SubtitleParser
 from core.subtitle import Subtitle
-from processors.processor import DialogProcessor, ErrorProcessor, SDHProcessor
+from processors.processor import Processors
 
-logging.basicConfig(format="%(levelname)s %(message)s", level=logging.DEBUG)
-
-DEFAULT_PROCESSORS = [SDHProcessor, DialogProcessor, ErrorProcessor]
+DEFAULT_PROCESSORS_ENUM = [Processors.SDH, Processors.Dialog, Processors.Error]
 
 
 def main():
@@ -17,16 +14,28 @@ def main():
         "file",
         metavar="FILE",
         type=argparse.FileType("r"),
-        help="the subtitle file to be processed",
+        help="Subtitle file to be processed",
+    )
+    argparser.add_argument(
+        "-v", "--verbose", action="store_true", help="Increase output verbosity"
+    )
+    argparser.add_argument(
+        "--processors",
+        nargs="+",
+        type=lambda processor: Processors[processor],
+        choices=set(Processors),
+        help="Processors to run",
+        default=DEFAULT_PROCESSORS_ENUM,
     )
     args = argparser.parse_args()
 
     parser = SubtitleParser()
     subtitle: Subtitle = parser.load(args.file.name)
     subtitle.parse()
-    for processor in DEFAULT_PROCESSORS:
+    processors = [processor.value for processor in args.processors]
+    for processor in processors:
         subtitle = processor(subtitle).process()
-    subtitle.print()
+    # subtitle.print()
     subtitle.save()
 
 

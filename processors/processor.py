@@ -1,6 +1,8 @@
 import re
+from enum import Enum
 from typing import Callable, List
 
+from blacklist import blacklist
 from core.section import Section
 from core.subtitle import Subtitle
 
@@ -18,6 +20,29 @@ class Processor:
                 self.subtitle.sections[i].lines[j] = line
         return self.subtitle
 
+    def remove_empty_sections(self) -> None:
+        self.subtitle.sections = [s for s in self.subtitle.sections if not s.is_empty()]
+
+
+class BlacklistProcessor(Processor):
+    def __init__(self, subtitle: Subtitle):
+        super().__init__(subtitle)
+
+    def clean_section(self, section: Section) -> Section:
+        section.lines = [line for line in section.lines if not self.in_blacklist(line)]
+        return section
+
+    def in_blacklist(self, line: str) -> bool:
+        for regex in blacklist:
+            if re.search(regex, line, flags=re.IGNORECASE):
+                return True
+        return False
+
+    def process(self) -> Subtitle:
+        self.subtitle.sections = [self.clean_section(s) for s in self.subtitle.sections]
+        self.remove_empty_sections()
+        return self.subtitle
+
 
 class DialogProcessor(Processor):
     def __init__(self, subtitle: Subtitle):
@@ -32,7 +57,6 @@ class DialogProcessor(Processor):
 class SDHProcessor(Processor):
     def __init__(self, subtitle: Subtitle):
         super().__init__(subtitle)
-        self.operations: List[Callable] = [self.clean_hi]
 
     @classmethod
     def is_hi(cls, line: str) -> bool:
@@ -109,8 +133,7 @@ class SDHProcessor(Processor):
     def process(self) -> Subtitle:
         # Clean sections
         self.subtitle.sections = [self.clean_section(s) for s in self.subtitle.sections]
-        # Remove empty sections
-        self.subtitle.sections = [s for s in self.subtitle.sections if not s.is_empty()]
+        self.remove_empty_sections()
         return self.subtitle
 
 
@@ -159,3 +182,12 @@ class ErrorProcessor(Processor):
     @classmethod
     def fix_music(cls, line: str) -> str:
         return re.sub(r"^#\s", "♪ ", line)
+
+
+class Processors(Enum):
+    def __str__(self) -> str:
+        return self.name
+
+    SDH = SDHProcessor
+    Dialog = DialogProcessor
+    Error = ErrorProcessor
