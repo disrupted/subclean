@@ -5,7 +5,12 @@ from core.parser import SubtitleParser
 from core.subtitle import Subtitle
 from processors.processor import Processors
 
-DEFAULT_PROCESSORS_ENUM = [Processors.SDH, Processors.Dialog, Processors.Error]
+DEFAULT_PROCESSORS = [
+    Processors.Blacklist,
+    Processors.SDH,
+    Processors.Dialog,
+    Processors.Error,
+]
 
 
 def main():
@@ -25,7 +30,7 @@ def main():
         type=lambda processor: Processors[processor],
         choices=set(Processors),
         help="Processors to run",
-        default=DEFAULT_PROCESSORS_ENUM,
+        default=DEFAULT_PROCESSORS,
     )
     args = argparser.parse_args()
 

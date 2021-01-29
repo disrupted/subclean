@@ -191,3 +191,4 @@ class Processors(Enum):
     SDH = SDHProcessor
     Dialog = DialogProcessor
     Error = ErrorProcessor
+    Blacklist = BlacklistProcessor
