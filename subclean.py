@@ -31,7 +31,6 @@ def main():
 
     parser = SubtitleParser()
     subtitle: Subtitle = parser.load(args.file.name)
-    subtitle.parse()
     processors = [processor.value for processor in args.processors]
     for processor in processors:
         subtitle = processor(subtitle).process()

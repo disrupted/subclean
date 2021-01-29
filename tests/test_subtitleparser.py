@@ -15,7 +15,6 @@ class TestSubtitleParser:
         assert isinstance(subtitle, SrtSubtitle)
 
     def test_srtparser(self, subtitle: SrtSubtitle):
-        subtitle.parse()
         assert len(subtitle.sections) == 667
         assert len(subtitle.sections[0].lines) == 1
         assert "NETFLIX" in subtitle.sections[0].lines[0]

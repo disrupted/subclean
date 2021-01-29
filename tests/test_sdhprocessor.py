@@ -15,7 +15,7 @@ class TestSDHProcessor:
     def sub_processor(self) -> SDHProcessor:
         parser = SubtitleParser()
         subtitle = parser.load("sub_sdh.srt")
-        subtitle.parse()
+        # subtitle.parse()
         return SDHProcessor(subtitle)
 
     def test_is_hi(self, fake_processor: SDHProcessor):

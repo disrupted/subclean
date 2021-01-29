@@ -19,6 +19,7 @@ class Subtitle:
         self.encoding: Optional[str] = self.load()
         self.file: List[str]
         self.sections: List[Section] = []
+        self.parse()
 
     def load(self) -> Optional[str]:
         for e in ENCODINGS:
@@ -94,11 +95,11 @@ class SubtitleFormat(Enum):
         self.handler: Callable = handler
 
     @classmethod
-    def get_handler(self, ext: str) -> Callable:
-        return list(e.handler for e in self if e.ext == ext)[0]
+    def get_handler(cls, ext: str) -> Callable:
+        return list(e.handler for e in cls if e.ext == ext)[0]
 
     @classmethod
-    def values(self) -> Set[str]:
-        return set(e.ext for e in self)
+    def values(cls) -> Set[str]:
+        return set(e.ext for e in cls)
 
     SRT = (".srt", SrtSubtitle)
