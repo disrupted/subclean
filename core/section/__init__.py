@@ -20,7 +20,7 @@ class Section:
         return self.is_empty()
 
     def is_empty(self) -> bool:
-        return bool(sum(len(line) for line in self.lines) == 0)
+        return sum(len(line) for line in self.lines) == 0
 
     def content(self) -> str:
         pass
