@@ -78,7 +78,7 @@ class SrtSubtitle(Subtitle):
         if output_filepath is None:
             p = Path(self.filepath)
             output_filepath = f"{p.stem}_clean{p.suffix}"
-            logger.info("saving subtitle {}", output_filepath)
+        logger.info("saving subtitle {}", output_filepath)
         with open(output_filepath, "w") as out_f:
             for index, section in enumerate(self.sections, start=1):
                 out_f.write(f"{index}\n{section}\n")

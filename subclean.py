@@ -24,6 +24,7 @@ def main():
     argparser.add_argument(
         "-v", "--verbose", action="store_true", help="Increase output verbosity"
     )
+    argparser.add_argument("-o", "--output", type=str, help="Set output filename")
     argparser.add_argument(
         "--processors",
         nargs="+",
@@ -39,8 +40,8 @@ def main():
     processors = [processor.value for processor in args.processors]
     for processor in processors:
         subtitle = processor(subtitle).process()
-    # subtitle.print()
-    subtitle.save()
+    print(args.output)
+    subtitle.save(output_filepath=args.output)
 
 
 if __name__ == "__main__":
