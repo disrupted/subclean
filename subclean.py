@@ -40,7 +40,6 @@ def main():
     processors = [processor.value for processor in args.processors]
     for processor in processors:
         subtitle = processor(subtitle).process()
-    print(args.output)
     subtitle.save(output_filepath=args.output)
 
 

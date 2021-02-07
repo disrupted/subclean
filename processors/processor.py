@@ -137,6 +137,49 @@ class SDHProcessor(Processor):
         return self.subtitle
 
 
+class LineLengthProcessor(Processor):
+    def __init__(self, subtitle: Subtitle):
+        super().__init__(subtitle)
+
+    @classmethod
+    def is_dialog(cls, line: str) -> bool:
+        return bool(re.search(r"^(<\/?i>)*[-]", line))
+
+    @classmethod
+    def is_short(cls, line: str) -> bool:
+        return len(line) < 15
+
+    @classmethod
+    def line_meets_criteria(cls, line: str) -> bool:
+        return cls.is_short(line) and not cls.is_dialog(line)
+
+    @classmethod
+    def section_meets_criteria(cls, section: Section) -> bool:
+        if not len(section.lines) > 1:
+            return False
+        for line in section.lines:
+            if not cls.line_meets_criteria(line):
+                return False
+        return True
+
+    @classmethod
+    def process_section(cls, section: Section) -> Section:
+        section.lines = [cls.merge_lines(section.lines)]
+        return section
+
+    @classmethod
+    def merge_lines(cls, lines: List[str]) -> str:
+        return " ".join(lines)
+
+    def process(self) -> Subtitle:
+        for section in self.subtitle.sections:
+            if self.section_meets_criteria(section):
+                print(section)
+                section = self.process_section(section)
+                print(section)
+        return self.subtitle
+
+
 class ErrorProcessor(Processor):
     def __init__(self, subtitle: Subtitle):
         super().__init__(subtitle)
@@ -192,3 +235,4 @@ class Processors(Enum):
     Dialog = DialogProcessor
     Error = ErrorProcessor
     Blacklist = BlacklistProcessor
+    LineLength = LineLengthProcessor
