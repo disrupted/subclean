@@ -8,8 +8,7 @@ from processors.processor import LineLengthProcessor
 class TestLineLengthProcessor:
     @pytest.fixture()
     def subtitle(self) -> Subtitle:
-        parser = SubtitleParser()
-        subtitle: Subtitle = parser.load("linelength.srt")
+        subtitle: Subtitle = SubtitleParser.load("linelength.srt")
         return subtitle
 
     @pytest.fixture()

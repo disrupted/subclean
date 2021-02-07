@@ -7,8 +7,7 @@ from core.subtitle import SrtSubtitle, Subtitle
 class TestSubtitleParser:
     @pytest.fixture()
     def subtitle(self) -> Subtitle:
-        parser = SubtitleParser()
-        subtitle: Subtitle = parser.load("sub.srt")
+        subtitle: Subtitle = SubtitleParser.load("sub.srt")
         return subtitle
 
     def test_handler(self, subtitle: Subtitle):

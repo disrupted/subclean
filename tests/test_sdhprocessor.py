@@ -13,8 +13,7 @@ class TestSDHProcessor:
 
     @pytest.fixture()
     def sub_processor(self) -> SDHProcessor:
-        parser = SubtitleParser()
-        subtitle = parser.load("sub_sdh.srt")
+        subtitle = SubtitleParser.load("sub_sdh.srt")
         # subtitle.parse()
         return SDHProcessor(subtitle)
 
