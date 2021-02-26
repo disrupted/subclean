@@ -8,6 +8,8 @@ from blacklist import blacklist
 from core.section import Section
 from core.subtitle import Subtitle
 
+from .utils import remove_styles
+
 
 class Processor:
     def __init__(self, subtitle: Subtitle, *args, **kwargs):
@@ -162,7 +164,7 @@ class LineLengthProcessor(Processor):
 
     @classmethod
     def is_short(cls, line: str) -> bool:
-        return bool(len(line) < cls.line_length)
+        return len(remove_styles(line)) < cls.line_length
 
     @classmethod
     def line_meets_criteria(cls, line: str) -> bool:
