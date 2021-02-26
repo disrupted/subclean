@@ -147,7 +147,7 @@ class LineLengthProcessor(Processor):
 
     @classmethod
     def is_short(cls, line: str) -> bool:
-        return len(line) < 15
+        return len(line) < 20
 
     @classmethod
     def line_meets_criteria(cls, line: str) -> bool:

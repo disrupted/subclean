@@ -43,6 +43,7 @@ class TestErrorProcessor:
         )
         assert processor.fix_space_punctuation("Whoa ...") == "Whoa..."
         assert processor.fix_space_punctuation("Whoa...") == "Whoa..."
+        assert processor.fix_space_punctuation("Yeah. ..maybe.") == "Yeah...maybe."
 
     def test_fix_hyphen(self, processor: ErrorProcessor):
         assert processor.fix_hyphen("'’") == "'"
