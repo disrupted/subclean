@@ -38,6 +38,10 @@ class BlacklistProcessor(Processor):
                 return True
         return False
 
+    @staticmethod
+    def add_custom_regex(regex: str):
+        blacklist.append(regex)
+
     def process(self) -> Subtitle:
         self.subtitle.sections = [self.clean_section(s) for s in self.subtitle.sections]
         self.remove_empty_sections()

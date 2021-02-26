@@ -33,7 +33,13 @@ def main():
         help="Processors to run",
         default=DEFAULT_PROCESSORS,
     )
+    argparser.add_argument(
+        "--regex", type=str, help="Add custom regular expression to BlacklistProcessor"
+    )
     args = argparser.parse_args()
+
+    if args.regex:
+        Processors.Blacklist.value.add_custom_regex(args.regex)
 
     subtitle: Subtitle = SubtitleParser.load(args.file.name)
     processors = [processor.value for processor in args.processors]
