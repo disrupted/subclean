@@ -36,6 +36,9 @@ def main():
     argparser.add_argument(
         "--regex", type=str, help="Add custom regular expression to BlacklistProcessor"
     )
+    argparser.add_argument(
+        "--line-length", type=int, help="Concat lines shorter than x"
+    )
     args = argparser.parse_args()
 
     subtitle: Subtitle = SubtitleParser.load(args.file.name)

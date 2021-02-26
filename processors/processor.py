@@ -148,8 +148,13 @@ class SDHProcessor(Processor):
 
 
 class LineLengthProcessor(Processor):
+    line_length = 20
+
     def __init__(self, subtitle: Subtitle, *args, **kwargs):
         super().__init__(subtitle, *args, **kwargs)
+        cli_args = kwargs.get("cli_args")
+        if cli_args and cli_args.line_length:
+            self.__class__.line_length = cli_args.line_length
 
     @classmethod
     def is_dialog(cls, line: str) -> bool:
@@ -157,7 +162,7 @@ class LineLengthProcessor(Processor):
 
     @classmethod
     def is_short(cls, line: str) -> bool:
-        return len(line) < 20
+        return bool(len(line) < cls.line_length)
 
     @classmethod
     def line_meets_criteria(cls, line: str) -> bool:
@@ -184,9 +189,7 @@ class LineLengthProcessor(Processor):
     def process(self) -> Subtitle:
         for section in self.subtitle.sections:
             if self.section_meets_criteria(section):
-                print(section)
                 section = self.process_section(section)
-                print(section)
         return self.subtitle
 
 

@@ -14,12 +14,12 @@ $ python subclean.py subtitle.srt
 
 ![before-after](https://github.com/disrupted/subclean/blob/main/docs/img/subclean-diff.png?raw=true)
 
+## Usage
+
 ```
-usage: subclean.py [-h] [-v] [-o OUTPUT] [--processors {Dialog,SDH,LineLength,Blacklist,Error} [{Dialog,SDH,LineLength,Blacklist,Error} ...]]
+subclean.py [-h] [-v] [-o OUTPUT] [--processors {Dialog,SDH,LineLength,Blacklist,Error} [{Dialog,SDH,LineLength,Blacklist,Error} ...]]
                    [--regex REGEX]
                    FILE
-
-Clean Subtitles
 
 positional arguments:
   FILE                  Subtitle file to be processed
