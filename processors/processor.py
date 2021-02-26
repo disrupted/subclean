@@ -8,7 +8,7 @@ from core.subtitle import Subtitle
 
 
 class Processor:
-    def __init__(self, subtitle: Subtitle):
+    def __init__(self, subtitle: Subtitle, *args, **kwargs):
         self.subtitle = subtitle
         self.operations: List[Callable] = []
 
@@ -25,8 +25,11 @@ class Processor:
 
 
 class BlacklistProcessor(Processor):
-    def __init__(self, subtitle: Subtitle):
-        super().__init__(subtitle)
+    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+        super().__init__(subtitle, *args, **kwargs)
+        cli_args = kwargs.get("cli_args")
+        if cli_args and cli_args.regex:
+            self.add_custom_regex(cli_args.regex)
 
     def clean_section(self, section: Section) -> Section:
         section.lines = [line for line in section.lines if not self.in_blacklist(line)]
@@ -49,8 +52,8 @@ class BlacklistProcessor(Processor):
 
 
 class DialogProcessor(Processor):
-    def __init__(self, subtitle: Subtitle):
-        super().__init__(subtitle)
+    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+        super().__init__(subtitle, *args, **kwargs)
         self.operations: List[Callable] = [self.clean_dashes]
 
     @classmethod
@@ -59,8 +62,8 @@ class DialogProcessor(Processor):
 
 
 class SDHProcessor(Processor):
-    def __init__(self, subtitle: Subtitle):
-        super().__init__(subtitle)
+    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+        super().__init__(subtitle, *args, **kwargs)
 
     @classmethod
     def is_hi(cls, line: str) -> bool:
@@ -142,8 +145,8 @@ class SDHProcessor(Processor):
 
 
 class LineLengthProcessor(Processor):
-    def __init__(self, subtitle: Subtitle):
-        super().__init__(subtitle)
+    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+        super().__init__(subtitle, *args, **kwargs)
 
     @classmethod
     def is_dialog(cls, line: str) -> bool:
@@ -185,8 +188,8 @@ class LineLengthProcessor(Processor):
 
 
 class ErrorProcessor(Processor):
-    def __init__(self, subtitle: Subtitle):
-        super().__init__(subtitle)
+    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+        super().__init__(subtitle, *args, **kwargs)
         self.operations: List[Callable] = [
             self.fix_hyphen,
             self.fix_spaces,
