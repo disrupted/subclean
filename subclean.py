@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 import argparse
+import sys
+
+from loguru import logger
 
 from core.parser import SubtitleParser
 from core.subtitle import Subtitle
@@ -22,7 +25,13 @@ def main():
         help="Subtitle file to be processed",
     )
     argparser.add_argument(
-        "-v", "--verbose", action="store_true", help="Increase output verbosity"
+        "-v",
+        "--verbose",
+        action="store_const",
+        help="Increase output verbosity",
+        dest="log_level",
+        const="DEBUG",
+        default="INFO",
     )
     argparser.add_argument("-o", "--output", type=str, help="Set output filename")
     argparser.add_argument(
@@ -40,6 +49,9 @@ def main():
         "--line-length", type=int, help="Concat lines shorter than x"
     )
     args = argparser.parse_args()
+
+    logger.remove()
+    logger.add(sys.stderr, level=args.log_level)
 
     subtitle: Subtitle = SubtitleParser.load(args.file.name)
     processors = [processor.value for processor in args.processors]

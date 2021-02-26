@@ -29,7 +29,8 @@ class Subtitle:
                     f.seek(0)
                     return e
             except UnicodeDecodeError:
-                logger.error("UnicodeDecodeError for encoding", e)
+                logger.warning("UnicodeDecodeError for encoding {}", e)
+        logger.error("Failed to load file. Encoding couldn't be found.")
         return None
 
     def parse(self):
