@@ -13,6 +13,7 @@ DEFAULT_PROCESSORS = [
     Processors.SDH,
     Processors.Dialog,
     Processors.Error,
+    Processors.LineLength,
 ]
 
 
@@ -51,7 +52,7 @@ def main():
     args = argparser.parse_args()
 
     logger.remove()
-    logger.add(sys.stderr, level=args.log_level)
+    logger.add(sys.stdout, level=args.log_level)
 
     subtitle: Subtitle = SubtitleParser.load(args.file.name)
     processors = [processor.value for processor in args.processors]

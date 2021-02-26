@@ -148,7 +148,7 @@ class SDHProcessor(Processor):
 
 
 class LineLengthProcessor(Processor):
-    line_length = 20
+    line_length = 50
 
     def __init__(self, subtitle: Subtitle, *args, **kwargs):
         super().__init__(subtitle, *args, **kwargs)
@@ -175,7 +175,7 @@ class LineLengthProcessor(Processor):
         for line in section.lines:
             if not cls.line_meets_criteria(line):
                 return False
-        return True
+        return cls.is_short(cls.merge_lines(section.lines))
 
     @classmethod
     def process_section(cls, section: Section) -> Section:
