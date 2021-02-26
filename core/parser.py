@@ -12,7 +12,7 @@ class SubtitleParser:
         p = Path(filepath)
         if p.suffix not in SubtitleFormat.values():
             raise NotImplementedError
-        logger.info("importing subtitle {}", filepath)
+        logger.info("Importing subtitle {}", filepath)
         handler: Callable = SubtitleFormat.get_handler(p.suffix)
         subtitle: Subtitle = handler(filepath)
         return subtitle

@@ -2,6 +2,8 @@ import re
 from enum import Enum
 from typing import Callable, List
 
+from loguru import logger
+
 from blacklist import blacklist
 from core.section import Section
 from core.subtitle import Subtitle
@@ -43,6 +45,7 @@ class BlacklistProcessor(Processor):
 
     @staticmethod
     def add_custom_regex(regex: str):
+        logger.info("Adding custom regular expression {}", regex)
         blacklist.append(regex)
 
     def process(self) -> Subtitle:
