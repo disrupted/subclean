@@ -40,14 +40,16 @@ def main():
         nargs="+",
         type=lambda processor: Processors[processor],
         choices=set(Processors),
-        help="Processors to run",
+        help=f"Processors to run (default {' '.join([processor.name for processor in DEFAULT_PROCESSORS])})",
         default=DEFAULT_PROCESSORS,
     )
     argparser.add_argument(
         "--regex", type=str, help="Add custom regular expression to BlacklistProcessor"
     )
     argparser.add_argument(
-        "--line-length", type=int, help="Concat lines shorter than x"
+        "--line-length",
+        type=int,
+        help="Maximum total line length when concatenating short lines. (default 50)",
     )
     args = argparser.parse_args()
 
