@@ -1,17 +1,18 @@
-from typing import List, Optional
+from typing import List
 
+from core.line import Line
 from core.section.timing import SectionTiming, SrtSectionTiming
 
 
 class Section:
-    def __init__(self, timing: SectionTiming, lines: Optional[List[str]] = None):
+    def __init__(self, timing: SectionTiming, lines: List[Line] = []):
         self.timing: SectionTiming = timing
-        self.lines: List[str] = lines if lines is not None else []
+        self.lines: List[Line] = lines
 
-    def add_line(self, line: str):
+    def add_line(self, line: Line):
         self.lines.append(line)
 
-    def remove_line(self, line: str) -> bool:
+    def remove_line(self, line: Line) -> bool:
         self.lines.remove(line)
         return self.is_empty()
 
@@ -27,7 +28,7 @@ class Section:
 
 
 class SrtSection(Section):
-    def __init__(self, timing: SrtSectionTiming, lines: Optional[List[str]] = None):
+    def __init__(self, timing: SrtSectionTiming, lines: List[Line] = []):
         super().__init__(timing, lines)
 
     def content(self) -> str:
