@@ -56,13 +56,13 @@ class TestLineLengthProcessor:
     def test_merge_short_lines(self, processor: LineLengthProcessor):
         sections = processor.subtitle.sections
         section = processor.process_section(sections[0])
-        assert len(section.lines) == 1
+        assert len(section) == 1
         assert section.lines[0] == "Go on now. What you got?"
         assert processor.process_section(sections[1]) == sections[1]
         section = processor.process_section(sections[2])
-        assert len(section.lines) == 1
+        assert len(section) == 1
         assert section.lines[0] == "All right, let's pick up the pace."
         section = processor.process_section(sections[3])
-        assert len(section.lines) == 1
+        assert len(section) == 1
         assert section.lines[0] == "- What if she's supposed to be with me?"
         assert processor.process_section(sections[4]) == sections[4]
