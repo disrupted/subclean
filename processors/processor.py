@@ -175,21 +175,34 @@ class LineLengthProcessor(Processor):
         return len(line) < cls.line_length
 
     @classmethod
-    def line_meets_criteria(cls, line: Line) -> bool:
-        return cls.is_short(line) and not line.is_dialog()
-
-    @classmethod
-    def section_meets_criteria(cls, section: Section) -> bool:
-        if not len(section.lines) > 1:
-            return False
-        for line in section.lines:
-            if not cls.line_meets_criteria(line):
-                return False
-        return cls.is_short(section.join())
+    def get_slices(cls, lines: List[Line]) -> List[List[Line]]:
+        out = []
+        i = 1
+        while len(lines) > 0:
+            if not len(lines) > max(i, 1):
+                out.append(lines)
+                break
+            elif lines[i].is_dialog():
+                out.append(lines[:i])
+                lines = lines[i:]
+                i = 1
+            else:
+                i += 1
+        return out
 
     @classmethod
     def process_section(cls, section: Section) -> Section:
-        section.merge_lines()
+        if not len(section) > 1:
+            return section
+        slices = cls.get_slices(section.lines)
+        section.lines = []
+        for i, slice in enumerate(slices):
+            if not len(slice) > 1:
+                section.lines.append(slice[0])
+            elif cls.is_short(Line.merge(slice)):
+                section.lines.append(Line.merge(slice))
+            else:
+                section.lines += slice
         return section
 
     def process(self) -> Subtitle:
