@@ -185,16 +185,12 @@ class LineLengthProcessor(Processor):
         for line in section.lines:
             if not cls.line_meets_criteria(line):
                 return False
-        return cls.is_short(cls.merge_lines(section.lines))
+        return cls.is_short(section.join())
 
     @classmethod
     def process_section(cls, section: Section) -> Section:
-        section.lines = [cls.merge_lines(section.lines)]
+        section.merge_lines()
         return section
-
-    @classmethod
-    def merge_lines(cls, lines: List[Line]) -> Line:
-        return Line(" ".join(lines))
 
     def process(self) -> Subtitle:
         self.log()

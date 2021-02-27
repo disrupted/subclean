@@ -9,7 +9,7 @@ class Section:
         self.timing: SectionTiming = timing
         self.lines: List[Line] = lines
 
-    def add_line(self, line: Line):
+    def add_line(self, line: Line) -> None:
         self.lines.append(line)
 
     def remove_line(self, line: Line) -> bool:
@@ -19,6 +19,12 @@ class Section:
     def pop_line(self, index: int) -> bool:
         self.lines.pop(index)
         return self.is_empty()
+
+    def join(self) -> Line:
+        return Line(" ".join(self.lines))
+
+    def merge_lines(self) -> None:
+        self.lines = [self.join()]
 
     def is_empty(self) -> bool:
         return sum(len(line) for line in self.lines) == 0

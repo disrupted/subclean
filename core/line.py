@@ -4,12 +4,6 @@ import re
 
 
 class Line(str):
-    # def __new__(cls, value, *args, **kwargs):
-    #     return super(Line, cls).__new__(cls, value)
-
-    # def __init__(self, value, flags=None):
-    #     self.flags = flags
-
     def __len__(self) -> int:
         return len(str(self.strip_styles()))
 
