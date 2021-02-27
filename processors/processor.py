@@ -175,28 +175,41 @@ class LineLengthProcessor(Processor):
         return len(line) < cls.line_length
 
     @classmethod
-    def line_meets_criteria(cls, line: Line) -> bool:
-        return cls.is_short(line) and not line.is_dialog()
-
-    @classmethod
-    def section_meets_criteria(cls, section: Section) -> bool:
-        if not len(section.lines) > 1:
-            return False
-        for line in section.lines:
-            if not cls.line_meets_criteria(line):
-                return False
-        return cls.is_short(section.join())
+    def split_dialog_chunks(cls, lines: List[Line]) -> List[List[Line]]:
+        chunks = []
+        i = 1
+        while len(lines) > 0:
+            if not len(lines) > max(i, 1):
+                chunks.append(lines)
+                break
+            elif lines[i].is_dialog():
+                chunks.append(lines[:i])
+                lines = lines[i:]
+                i = 1
+            else:
+                i += 1
+        return chunks
 
     @classmethod
     def process_section(cls, section: Section) -> Section:
-        section.merge_lines()
+        if not len(section) > 1:
+            return section
+        chunks = cls.split_dialog_chunks(section.lines)
+        section.lines = []
+        for chunk in chunks:
+            if not len(chunk) > 1:
+                section.lines.append(chunk[0])
+            elif cls.is_short(Line.merge(chunk)):
+                section.lines.append(Line.merge(chunk))
+            else:
+                section.lines += chunk
         return section
 
     def process(self) -> Subtitle:
         self.log()
-        for section in self.subtitle.sections:
-            if self.section_meets_criteria(section):
-                section = self.process_section(section)
+        self.subtitle.sections = [
+            self.process_section(section) for section in self.subtitle.sections
+        ]
         return self.subtitle
 
 

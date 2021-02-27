@@ -1,5 +1,6 @@
 import pytest
 
+from core.line import Line
 from core.parser import SubtitleParser
 from core.subtitle import Subtitle
 from processors.processor import LineLengthProcessor
@@ -15,15 +16,53 @@ class TestLineLengthProcessor:
     def processor(self, subtitle: Subtitle) -> LineLengthProcessor:
         return LineLengthProcessor(subtitle)
 
+    def test_split_dialog_chunks(self, processor: LineLengthProcessor):
+        assert processor.split_dialog_chunks([Line("hello"), Line("there")]) == [
+            [
+                Line("hello"),
+                Line("there"),
+            ]
+        ]
+        assert processor.split_dialog_chunks([Line("- hello"), Line("there")]) == [
+            [
+                Line("- hello"),
+                Line("there"),
+            ]
+        ]
+        assert processor.split_dialog_chunks([Line("hello"), Line("- there")]) == [
+            [Line("hello")],
+            [Line("- there")],
+        ]
+        assert processor.split_dialog_chunks(
+            [Line("hello"), Line("- there"), Line("man")]
+        ) == [
+            [Line("hello")],
+            [Line("- there"), Line("man")],
+        ]
+        assert processor.split_dialog_chunks([Line("- hi"), Line("- bye")]) == [
+            [Line("- hi")],
+            [Line("- bye")],
+        ]
+        assert processor.split_dialog_chunks(
+            [Line("- hi"), Line("bob"), Line("- bye"), Line("bob")]
+        ) == [[Line("- hi"), Line("bob")], [Line("- bye"), Line("bob")]]
+        assert processor.split_dialog_chunks(
+            [Line("hi"), Line("-bob"), Line("- bye"), Line("bob")]
+        ) == [[Line("hi")], [Line("-bob")], [Line("- bye"), Line("bob")]]
+        assert processor.split_dialog_chunks(
+            [Line("-I'm gonna call the police,"), Line("this can't keep happening.")]
+        ) == [[Line("-I'm gonna call the police,"), Line("this can't keep happening.")]]
+
     def test_merge_short_lines(self, processor: LineLengthProcessor):
-        assert processor.section_meets_criteria(processor.subtitle.sections[0])
-        assert len(processor.subtitle.sections[0].lines) == 2
-        section = processor.process_section(processor.subtitle.sections[0])
-        assert len(section.lines) == 1
+        sections = processor.subtitle.sections
+        section = processor.process_section(sections[0])
+        assert len(section) == 1
         assert section.lines[0] == "Go on now. What you got?"
-        assert not processor.section_meets_criteria(processor.subtitle.sections[1])
-        assert processor.section_meets_criteria(processor.subtitle.sections[3])
-        assert len(processor.subtitle.sections[3].lines) == 2
-        section = processor.process_section(processor.subtitle.sections[3])
-        assert len(section.lines) == 1
+        assert processor.process_section(sections[1]) == sections[1]
+        section = processor.process_section(sections[2])
+        assert len(section) == 1
         assert section.lines[0] == "All right, let's pick up the pace."
+        section = processor.process_section(sections[3])
+        assert len(section) == 1
+        assert section.lines[0] == "- What if she's supposed to be with me?"
+        assert processor.process_section(sections[4]) == sections[4]

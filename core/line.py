@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from typing import List
 
 
 class Line(str):
@@ -18,3 +19,7 @@ class Line(str):
 
     def is_dialog(self) -> bool:
         return bool(re.search(r"^(<\/?i>)*[-]", self))
+
+    @staticmethod
+    def merge(lines: List[Line]) -> Line:
+        return Line(" ".join(lines))

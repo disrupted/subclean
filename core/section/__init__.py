@@ -32,6 +32,9 @@ class Section:
     def content(self) -> str:
         pass
 
+    def __len__(self) -> int:
+        return len(self.lines)
+
 
 class SrtSection(Section):
     def __init__(self, timing: SrtSectionTiming, lines: List[Line] = []):
