@@ -1,20 +1,13 @@
 #!/usr/bin/env python3
 import argparse
 import sys
+from typing import List
 
 from loguru import logger
 
 from core.parser import SubtitleParser
 from core.subtitle import Subtitle
-from processors.processor import Processors
-
-DEFAULT_PROCESSORS = [
-    Processors.Blacklist,
-    Processors.SDH,
-    Processors.Dialog,
-    Processors.Error,
-    Processors.LineLength,
-]
+from processors.processor import DEFAULT_PROCESSORS, Processor, Processors
 
 
 def main():
@@ -54,10 +47,15 @@ def main():
     args = argparser.parse_args()
 
     logger.remove()
-    logger.add(sys.stdout, level=args.log_level)
+    logger.add(
+        sys.stdout,
+        colorize=True,
+        format="<g>{time:HH:mm:ss.SSS}</> | <lvl>{level: <8}</> | <lvl>{message}</lvl>",
+        level=args.log_level,
+    )
 
     subtitle: Subtitle = SubtitleParser.load(args.file.name)
-    processors = [processor.value for processor in args.processors]
+    processors: List[Processor] = [processor.value for processor in args.processors]
     for processor in processors:
         subtitle = processor(subtitle, cli_args=args).process()
     subtitle.save(output_filepath=args.output)

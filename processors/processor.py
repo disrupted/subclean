@@ -16,7 +16,11 @@ class Processor:
         self.subtitle = subtitle
         self.operations: List[Callable] = []
 
+    def log(self):
+        logger.info("{processor} running", processor=self.__class__.__name__)
+
     def process(self) -> Subtitle:
+        self.log()
         for i, section in enumerate(self.subtitle.sections):
             for j, line in enumerate(section.lines):
                 for operation in self.operations:
@@ -45,12 +49,16 @@ class BlacklistProcessor(Processor):
                 return True
         return False
 
-    @staticmethod
-    def add_custom_regex(regex: str):
-        logger.info("Adding custom regular expression {}", regex)
+    def add_custom_regex(self, regex: str):
+        logger.debug(
+            "{processor} Adding custom regular expression: {}",
+            regex,
+            processor=self.__class__.__name__,
+        )
         blacklist.append(regex)
 
     def process(self) -> Subtitle:
+        self.log()
         self.subtitle.sections = [self.clean_section(s) for s in self.subtitle.sections]
         self.remove_empty_sections()
         return self.subtitle
@@ -143,6 +151,7 @@ class SDHProcessor(Processor):
         return section
 
     def process(self) -> Subtitle:
+        self.log()
         # Clean sections
         self.subtitle.sections = [self.clean_section(s) for s in self.subtitle.sections]
         self.remove_empty_sections()
@@ -156,6 +165,11 @@ class LineLengthProcessor(Processor):
         super().__init__(subtitle, *args, **kwargs)
         cli_args = kwargs.get("cli_args")
         if cli_args and cli_args.line_length:
+            logger.debug(
+                "{processor} Setting line length to {}",
+                cli_args.line_length,
+                processor=self.__class__.__name__,
+            )
             self.__class__.line_length = cli_args.line_length
 
     @classmethod
@@ -189,6 +203,7 @@ class LineLengthProcessor(Processor):
         return " ".join(lines)
 
     def process(self) -> Subtitle:
+        self.log()
         for section in self.subtitle.sections:
             if self.section_meets_criteria(section):
                 section = self.process_section(section)
@@ -251,3 +266,12 @@ class Processors(Enum):
     Error = ErrorProcessor
     Blacklist = BlacklistProcessor
     LineLength = LineLengthProcessor
+
+
+DEFAULT_PROCESSORS = [
+    Processors.Blacklist,
+    Processors.SDH,
+    Processors.Dialog,
+    Processors.Error,
+    Processors.LineLength,
+]
