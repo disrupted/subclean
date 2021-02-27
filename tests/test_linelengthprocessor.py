@@ -16,35 +16,37 @@ class TestLineLengthProcessor:
     def processor(self, subtitle: Subtitle) -> LineLengthProcessor:
         return LineLengthProcessor(subtitle)
 
-    def test_get_slices(self, processor: LineLengthProcessor):
-        assert processor.get_slices([Line("hello"), Line("there")]) == [
+    def test_split_dialog_chunks(self, processor: LineLengthProcessor):
+        assert processor.split_dialog_chunks([Line("hello"), Line("there")]) == [
             [
                 Line("hello"),
                 Line("there"),
             ]
         ]
-        assert processor.get_slices([Line("- hello"), Line("there")]) == [
+        assert processor.split_dialog_chunks([Line("- hello"), Line("there")]) == [
             [
                 Line("- hello"),
                 Line("there"),
             ]
         ]
-        assert processor.get_slices([Line("hello"), Line("- there")]) == [
+        assert processor.split_dialog_chunks([Line("hello"), Line("- there")]) == [
             [Line("hello")],
             [Line("- there")],
         ]
-        assert processor.get_slices([Line("hello"), Line("- there"), Line("man")]) == [
+        assert processor.split_dialog_chunks(
+            [Line("hello"), Line("- there"), Line("man")]
+        ) == [
             [Line("hello")],
             [Line("- there"), Line("man")],
         ]
-        assert processor.get_slices([Line("- hi"), Line("- bye")]) == [
+        assert processor.split_dialog_chunks([Line("- hi"), Line("- bye")]) == [
             [Line("- hi")],
             [Line("- bye")],
         ]
-        assert processor.get_slices(
+        assert processor.split_dialog_chunks(
             [Line("- hi"), Line("bob"), Line("- bye"), Line("bob")]
         ) == [[Line("- hi"), Line("bob")], [Line("- bye"), Line("bob")]]
-        assert processor.get_slices(
+        assert processor.split_dialog_chunks(
             [Line("hi"), Line("-bob"), Line("- bye"), Line("bob")]
         ) == [[Line("hi")], [Line("-bob")], [Line("- bye"), Line("bob")]]
 
