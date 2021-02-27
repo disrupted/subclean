@@ -5,10 +5,9 @@ from typing import Callable, List
 from loguru import logger
 
 from blacklist import blacklist
+from core.line import Line
 from core.section import Section
 from core.subtitle import Subtitle
-
-from .utils import remove_styles
 
 
 class Processor:
@@ -43,7 +42,7 @@ class BlacklistProcessor(Processor):
         section.lines = [line for line in section.lines if not self.in_blacklist(line)]
         return section
 
-    def in_blacklist(self, line: str) -> bool:
+    def in_blacklist(self, line: Line) -> bool:
         for regex in blacklist:
             if re.search(regex, line, flags=re.IGNORECASE):
                 return True
@@ -70,8 +69,8 @@ class DialogProcessor(Processor):
         self.operations: List[Callable] = [self.clean_dashes]
 
     @classmethod
-    def clean_dashes(cls, line: str) -> str:
-        return re.sub(r"^(<\/?i>)*([-‐]+)(\s+)?", r"\1- ", line)
+    def clean_dashes(cls, line: Line) -> Line:
+        return line.sub(r"^(<\/?i>)*([-‐]+)(\s+)?", r"\1- ")
 
 
 class SDHProcessor(Processor):
@@ -79,24 +78,24 @@ class SDHProcessor(Processor):
         super().__init__(subtitle, *args, **kwargs)
 
     @classmethod
-    def is_hi(cls, line: str) -> bool:
+    def is_hi(cls, line: Line) -> bool:
         return bool(
             cls.is_simple_hi(line) or cls.is_parentheses(line) or cls.is_music(line)
         )
 
     @classmethod
-    def is_simple_hi(cls, line: str) -> bool:
+    def is_simple_hi(cls, line: Line) -> bool:
         return bool(
             re.search(r"^[^a-hj-z.,;?!]*$", line)
             and re.search(r"[A-Z]{2,}|(<i>)?[♪]+(<\/i>)?", line)
         )
 
     @classmethod
-    def is_parentheses(cls, line: str) -> bool:
+    def is_parentheses(cls, line: Line) -> bool:
         return bool(re.search(r"^([-‐\s<i>]+)?[(\[*][^\)\]]+[)\]*<\/i>]+$", line))
 
     @classmethod
-    def is_music(cls, line: str) -> bool:
+    def is_music(cls, line: Line) -> bool:
         return bool(
             re.search(
                 r"^[- ♪]+\s?([-‐a-z,]+\s)*\b(music(al)?|song|track)\b\s?(((play|swell)(s|ing)|intensifies|crescendo|sting))?\b(\s?over\s(headphones|speakers))?\s?♪$",
@@ -105,7 +104,7 @@ class SDHProcessor(Processor):
         )
 
     @classmethod
-    def contains_hi(cls, line: str) -> bool:
+    def contains_hi(cls, line: Line) -> bool:
         return bool(
             re.search(
                 r"^([-\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?|\s?[(\[*].*?[)\]*:]+\s?",
@@ -114,18 +113,17 @@ class SDHProcessor(Processor):
         )
 
     @classmethod
-    def clean_hi(cls, line: str) -> str:
+    def clean_hi(cls, line: Line) -> Line:
         """Clean hearing impaired."""
-        line = re.sub(
+        line = line.sub(
             r"^([-\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?",
             r"\1",
-            line,
         )
         line = cls.clean_parentheses(line)
         return line
 
     @classmethod
-    def is_parenthesis_not_matching(cls, line: str) -> bool:
+    def is_parenthesis_not_matching(cls, line: Line) -> bool:
         return bool(
             re.search(r"[()\[\]]", line)
             and (
@@ -134,13 +132,13 @@ class SDHProcessor(Processor):
         )
 
     @classmethod
-    def clean_parentheses(cls, line: str) -> str:
+    def clean_parentheses(cls, line: Line) -> Line:
         """Clean parentheses ()[]."""
-        return re.sub(r"[(\[*].*?[)\]*:]+", "", line)
+        return line.sub(r"[(\[*].*?[)\]*:]+", "")
 
     @classmethod
     def clean_section(cls, section: Section) -> Section:
-        lines: List[str] = []
+        lines: List[Line] = []
         for line in section.lines:
             if cls.is_hi(line) or cls.is_parenthesis_not_matching(line):
                 continue
@@ -173,16 +171,12 @@ class LineLengthProcessor(Processor):
             self.__class__.line_length = cli_args.line_length
 
     @classmethod
-    def is_dialog(cls, line: str) -> bool:
-        return bool(re.search(r"^(<\/?i>)*[-]", line))
+    def is_short(cls, line: Line) -> bool:
+        return len(line) < cls.line_length
 
     @classmethod
-    def is_short(cls, line: str) -> bool:
-        return len(remove_styles(line)) < cls.line_length
-
-    @classmethod
-    def line_meets_criteria(cls, line: str) -> bool:
-        return cls.is_short(line) and not cls.is_dialog(line)
+    def line_meets_criteria(cls, line: Line) -> bool:
+        return cls.is_short(line) and not line.is_dialog()
 
     @classmethod
     def section_meets_criteria(cls, section: Section) -> bool:
@@ -191,16 +185,12 @@ class LineLengthProcessor(Processor):
         for line in section.lines:
             if not cls.line_meets_criteria(line):
                 return False
-        return cls.is_short(cls.merge_lines(section.lines))
+        return cls.is_short(section.join())
 
     @classmethod
     def process_section(cls, section: Section) -> Section:
-        section.lines = [cls.merge_lines(section.lines)]
+        section.merge_lines()
         return section
-
-    @classmethod
-    def merge_lines(cls, lines: List[str]) -> str:
-        return " ".join(lines)
 
     def process(self) -> Subtitle:
         self.log()
@@ -224,37 +214,37 @@ class ErrorProcessor(Processor):
         ]
 
     @classmethod
-    def fix_spaces(cls, line: str) -> str:
+    def fix_spaces(cls, line: Line) -> Line:
         """Add missing spaces between sentences."""
-        return re.sub(r"\b([.?!]+)([A-Z][a-z])", r"\1 \2", line)
+        return line.sub(r"\b([.?!]+)([A-Z][a-z])", r"\1 \2")
 
     @classmethod
-    def trim_whitespace(cls, line: str) -> str:
-        return re.sub(r"\s+", " ", line).strip()
+    def trim_whitespace(cls, line: Line) -> Line:
+        return line.sub(r"\s+", " ").strip()
 
     @classmethod
-    def fix_space_punctuation(cls, line: str) -> str:
-        line = re.sub(r"\s+([.,!?]+)", r"\1", line)  # remove space before punctuation
-        line = re.sub(
-            r"([.,!?]+)\s{2,}(?!$)", r"\1 ", line
+    def fix_space_punctuation(cls, line: Line) -> Line:
+        line = line.sub(r"\s+([.,!?]+)", r"\1")  # remove space before punctuation
+        line = line.sub(
+            r"([.,!?]+)\s{2,}(?!$)", r"\1 "
         )  # fix multiple spaces after punctuation
         return line
 
     @classmethod
-    def fix_hyphen(cls, line: str) -> str:
-        return re.sub(r"'’", "'", line)
+    def fix_hyphen(cls, line: Line) -> Line:
+        return line.sub(r"'’", "'")
 
     @classmethod
-    def fix_ampersand(cls, line: str) -> str:
-        return re.sub(r"&amp;", "&", line)
+    def fix_ampersand(cls, line: Line) -> Line:
+        return line.sub(r"&amp;", "&")
 
     @classmethod
-    def fix_quote(cls, line: str) -> str:
-        return re.sub(r"&quot;", '"', line)
+    def fix_quote(cls, line: Line) -> Line:
+        return line.sub(r"&quot;", '"')
 
     @classmethod
-    def fix_music(cls, line: str) -> str:
-        return re.sub(r"^#\s", "♪ ", line)
+    def fix_music(cls, line: Line) -> Line:
+        return line.sub(r"^#\s", "♪ ")
 
 
 class Processors(Enum):

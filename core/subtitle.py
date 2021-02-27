@@ -4,6 +4,7 @@ from typing import Callable, List, Optional, Set
 
 from loguru import logger
 
+from core.line import Line
 from core.section import Section, SrtSection
 from core.section.timing import SrtSectionTiming
 
@@ -69,11 +70,13 @@ class SrtSubtitle(Subtitle):
             # timing
             elif " --> " in line:
                 timing = self.__parse_timing(line)
-                section = SrtSection(timing)
+                section = SrtSection(
+                    timing, lines=[]
+                )  #  TODO why is it not working without explicitely passing lines=[]
                 self.sections.append(section)
             # content
             else:
-                self.sections[-1].add_line(line)
+                self.sections[-1].add_line(Line(line))
 
     def save(self, output_filepath: Optional[str] = None):
         if output_filepath is None:

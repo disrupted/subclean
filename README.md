@@ -2,7 +2,7 @@
 
 > Simple CLI to give you better subtitles in seconds.
 
-Tested with Python 3.9+
+Tested with Python 3.8 & 3.9
 
 ## Example
 
