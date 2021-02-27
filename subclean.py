@@ -33,7 +33,7 @@ def main():
         nargs="+",
         type=lambda processor: Processors[processor],
         choices=set(Processors),
-        help=f"Processors to run (default {' '.join([processor.name for processor in DEFAULT_PROCESSORS])})",
+        help=f"Processors to run (default: {' '.join([processor.name for processor in DEFAULT_PROCESSORS])})",
         default=DEFAULT_PROCESSORS,
     )
     argparser.add_argument(
@@ -42,7 +42,7 @@ def main():
     argparser.add_argument(
         "--line-length",
         type=int,
-        help="Maximum total line length when concatenating short lines. (default 50)",
+        help="Maximum total line length when concatenating short lines. (default: 50)",
     )
     args = argparser.parse_args()
 

@@ -8,8 +8,13 @@ Tested with Python 3.8 & 3.9
 
 ```
 $ python subclean.py subtitle.srt
-13:54:03.864 | INFO | core.parser:load:15 - Importing subtitle subtitle.srt
-13:54:03.958 | INFO | core.subtitle:save:81 - Saving subtitle subtitle_clean.srt
+12:35:30.337 | INFO | Importing subtitle subtitle.srt
+12:35:30.344 | INFO | BlacklistProcessor running
+12:35:30.397 | INFO | SDHProcessor running
+12:35:30.421 | INFO | DialogProcessor running
+12:35:30.426 | INFO | ErrorProcessor running
+12:35:30.458 | INFO | LineLengthProcessor running
+12:35:30.466 | INFO | Saving subtitle subtitle_clean.srt
 ```
 
 ![before-after](https://github.com/disrupted/subclean/blob/main/docs/img/subclean-diff.png?raw=true)
@@ -17,8 +22,9 @@ $ python subclean.py subtitle.srt
 ## Usage
 
 ```
-subclean.py [-h] [-v] [-o OUTPUT] [--processors {Dialog,SDH,LineLength,Blacklist,Error} [{Dialog,SDH,LineLength,Blacklist,Error} ...]]
-                   [--regex REGEX]
+subclean.py [-h] [-v] [-o OUTPUT]
+                   [--processors {LineLength,Dialog,Blacklist,SDH,Error}
+                   [--regex REGEX] [--line-length LINE_LENGTH]
                    FILE
 
 positional arguments:
@@ -29,7 +35,11 @@ optional arguments:
   -v, --verbose         Increase output verbosity
   -o OUTPUT, --output OUTPUT
                         Set output filename
-  --processors {Dialog,SDH,LineLength,Blacklist,Error} [{Dialog,SDH,LineLength,Blacklist,Error} ...]
+  --processors {LineLength,Dialog,Blacklist,SDH,Error}
                         Processors to run
+                        (default: Blacklist SDH Dialog Error LineLength)
   --regex REGEX         Add custom regular expression to BlacklistProcessor
+  --line-length LINE_LENGTH
+                        Maximum total line length when concatenating short lines.
+                        (default: 50)
 ```
