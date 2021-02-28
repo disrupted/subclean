@@ -178,7 +178,7 @@ class LineLengthProcessor(Processor):
     def split_dialog_chunks(cls, lines: List[Line]) -> List[List[Line]]:
         chunks = []
         i = 1
-        while len(lines) > 0:
+        while lines:
             if not len(lines) > max(i, 1):
                 chunks.append(lines)
                 break

@@ -7,6 +7,9 @@ class TestLine:
 
     def test_len(self):
         assert len(Line("- <i>It's working.</i>")) == len("- It's working.")
+        assert len(
+            Line('<i>Previously on <font color="#ffff00">"TV Show"</font>...</i>')
+        ) == len('Previously on "TV Show"...')
 
     def test_is_dialog(self):
         assert Line("- <i>This is a dialog.</i>").is_dialog()

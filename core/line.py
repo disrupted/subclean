@@ -9,7 +9,7 @@ class Line(str):
         return len(str(self.strip_styles()))
 
     def strip_styles(self) -> Line:
-        return self.sub(r"<\/?i>", "")
+        return self.sub(r"<[^>]*>", "")
 
     def sub(self, regex, replacement: str) -> Line:
         return Line(re.sub(regex, replacement, self))
