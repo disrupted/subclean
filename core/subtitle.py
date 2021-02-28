@@ -28,10 +28,11 @@ class Subtitle:
                 with open(self.filepath, "r", encoding=e) as f:
                     f.readlines()
                     f.seek(0)
+                    logger.debug("Found suitable encoding {}", e)
                     return e
             except UnicodeDecodeError:
                 logger.warning("UnicodeDecodeError for encoding {}", e)
-        logger.error("Failed to load file. Encoding couldn't be found.")
+        logger.error("Failed to load file. Couldn't find suitable encoding.")
         return None
 
     def parse(self):
