@@ -27,7 +27,9 @@ def main():
         const="DEBUG",
         default="INFO",
     )
-    argparser.add_argument("-o", "--output", type=str, help="Set output filename")
+    group = argparser.add_mutually_exclusive_group()
+    group.add_argument("-o", "--output", type=str, help="Set output filename")
+    group.add_argument("--overwrite", action="store_true", help="Overwrite input file")
     argparser.add_argument(
         "--processors",
         nargs="+",
@@ -58,6 +60,8 @@ def main():
     processors: List[Processor] = [processor.value for processor in args.processors]
     for processor in processors:
         subtitle = processor(subtitle, cli_args=args).process()
+    if args.overwrite:
+        args.output = args.file.name
     subtitle.save(output_filepath=args.output)
 
 
