@@ -1,6 +1,6 @@
 # Subclean
 
-> Simple CLI to give you better subtitles in seconds.
+> Simple CLI to instantly enhance your movie & TV show subtitles.
 
 Tested with Python 3.8 & 3.9
 
@@ -35,6 +35,7 @@ optional arguments:
   -v, --verbose         Increase output verbosity
   -o OUTPUT, --output OUTPUT
                         Set output filename
+  --overwrite           Overwrite input file
   --processors {LineLength,Dialog,Blacklist,SDH,Error}
                         Processors to run
                         (default: Blacklist SDH Dialog Error LineLength)
