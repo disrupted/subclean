@@ -1,7 +1,7 @@
 import pytest
 
-from core.parser import SubtitleParser
-from core.subtitle import SrtSubtitle, Subtitle
+from subclean.core.parser import SubtitleParser
+from subclean.core.subtitle import SrtSubtitle, Subtitle
 
 
 class TestSubtitleParser:

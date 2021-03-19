@@ -1,8 +1,8 @@
 import pytest
 
-from core.line import Line
-from core.subtitle import FakeSubtitle, Subtitle
-from processors.processor import ErrorProcessor
+from subclean.core.line import Line
+from subclean.core.subtitle import FakeSubtitle, Subtitle
+from subclean.processors.processor import ErrorProcessor
 
 
 class TestErrorProcessor:

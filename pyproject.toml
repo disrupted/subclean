@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "subclean"
-version = "0.1.0"
-description = "Simple CLI to instantly enhance your movie & TV show subtitles."
+version = "0.2.0"
+description = "Simple CLI tool to instantly enhance your movie & TV show subtitles."
 authors = ["disrupted <hi@salomonpopp.me>"]
 license = "GPL-3.0"
 readme = "README.md"
 homepage = "https://github.com/disrupted/subclean"
 repository = "https://github.com/disrupted/subclean"
+keywords = ["subtitle", "cli", "media", "plex"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -20,7 +21,7 @@ include = [
 "Issues" = "https://github.com/disrupted/subclean/issues"
 
 [tool.poetry.scripts]
-subclean = 'subclean:main'
+subclean = 'subclean.subclean:main'
 
 [tool.poetry.dependencies]
 python = "^3.8"

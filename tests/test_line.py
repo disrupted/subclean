@@ -1,4 +1,4 @@
-from core.line import Line
+from subclean.core.line import Line
 
 
 class TestLine:

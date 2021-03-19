@@ -4,10 +4,10 @@ from typing import Callable, List
 
 from loguru import logger
 
-from blacklist import blacklist
-from core.line import Line
-from core.section import Section
-from core.subtitle import Subtitle
+from subclean.blacklist import blacklist
+from subclean.core.line import Line
+from subclean.core.section import Section
+from subclean.core.subtitle import Subtitle
 
 
 class Processor:

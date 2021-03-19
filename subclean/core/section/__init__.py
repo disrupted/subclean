@@ -1,7 +1,7 @@
 from typing import List
 
-from core.line import Line
-from core.section.timing import SectionTiming, SrtSectionTiming
+from subclean.core.line import Line
+from subclean.core.section.timing import SectionTiming, SrtSectionTiming
 
 
 class Section:

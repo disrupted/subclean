@@ -5,9 +5,9 @@ from typing import List
 
 from loguru import logger
 
-from core.parser import SubtitleParser
-from core.subtitle import Subtitle
-from processors.processor import DEFAULT_PROCESSORS, Processor, Processors
+from subclean.core.parser import SubtitleParser
+from subclean.core.subtitle import Subtitle
+from subclean.processors.processor import DEFAULT_PROCESSORS, Processor, Processors
 
 
 def main():

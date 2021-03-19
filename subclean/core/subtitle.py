@@ -4,9 +4,9 @@ from typing import Callable, List, Optional, Set
 
 from loguru import logger
 
-from core.line import Line
-from core.section import Section, SrtSection
-from core.section.timing import SrtSectionTiming
+from subclean.core.line import Line
+from subclean.core.section import Section, SrtSection
+from subclean.core.section.timing import SrtSectionTiming
 
 ENCODINGS = [
     "utf-8-sig",

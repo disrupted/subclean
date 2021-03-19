@@ -1,9 +1,9 @@
 import pytest
 
-from core.line import Line
-from core.parser import SubtitleParser
-from core.subtitle import Subtitle
-from processors.processor import LineLengthProcessor
+from subclean.core.line import Line
+from subclean.core.parser import SubtitleParser
+from subclean.core.subtitle import Subtitle
+from subclean.processors.processor import LineLengthProcessor
 
 
 class TestLineLengthProcessor:

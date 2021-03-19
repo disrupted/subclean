@@ -3,7 +3,7 @@ from typing import Callable
 
 from loguru import logger
 
-from core.subtitle import Subtitle, SubtitleFormat
+from subclean.core.subtitle import Subtitle, SubtitleFormat
 
 
 class SubtitleParser:
