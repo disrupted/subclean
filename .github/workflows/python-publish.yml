@@ -27,11 +27,11 @@ jobs:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
         run: poetry install
-      - name: Bump version
-        env:
-          VERSION: ${{ github.event.release.tag_name }}
-        run: |
-          poetry version $(echo $VERSION | sed -e 's/^v//')
+      # - name: Bump version
+      #   env:
+      #     VERSION: ${{ github.event.release.tag_name }}
+      #   run: |
+      #     poetry version $(echo $VERSION | sed -e 's/^v//')
       - name: Build
         run: poetry build
       - name: Publish TestPyPI
