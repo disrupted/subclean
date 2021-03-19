@@ -2,12 +2,16 @@
 
 > Simple CLI to instantly enhance your movie & TV show subtitles.
 
-Tested with Python 3.8 & 3.9
+## Installation
+
+```
+pip install subclean
+```
 
 ## Example
 
 ```
-$ python subclean.py subtitle.srt
+$ subclean subtitle.srt
 12:35:30.337 | INFO | Importing subtitle subtitle.srt
 12:35:30.344 | INFO | BlacklistProcessor running
 12:35:30.397 | INFO | SDHProcessor running
@@ -22,7 +26,7 @@ $ python subclean.py subtitle.srt
 ## Usage
 
 ```
-subclean.py [-h] [-v] [-o OUTPUT]
+subclean [-h] [-v] [-o OUTPUT]
                    [--processors {LineLength,Dialog,Blacklist,SDH,Error}
                    [--regex REGEX] [--line-length LINE_LENGTH]
                    FILE
