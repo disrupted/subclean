@@ -140,3 +140,6 @@ dmypy.json
 
 *.srt
 *.bak
+
+# poetry
+poetry.lock
