@@ -41,3 +41,8 @@ jobs:
           POETRY_HTTP_BASIC_TESTPYPI_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
         run: |
           poetry publish -r testpypi
+      - name: Publish PyPI
+        env:
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          poetry publish
