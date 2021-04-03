@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from enum import Enum
 from pathlib import Path
-from typing import Callable, List, Optional, Set
+from typing import Callable
 
 from loguru import logger
 
@@ -17,15 +19,15 @@ ENCODINGS = [
 class Subtitle:
     def __init__(self, filepath: str):
         self.filepath: str = filepath
-        self.encoding: Optional[str] = self.load()
-        self.file: List[str]
-        self.sections: List[Section] = []
+        self.encoding: str | None = self.load()
+        self.file: list[str]
+        self.sections: list[Section] = []
         self.parse()
 
-    def load(self) -> Optional[str]:
+    def load(self) -> str | None:
         for e in ENCODINGS:
             try:
-                with open(self.filepath, "r", encoding=e) as f:
+                with open(self.filepath, encoding=e) as f:
                     f.readlines()
                     f.seek(0)
                     logger.debug("Found suitable encoding {}", e)
@@ -48,7 +50,7 @@ class Subtitle:
         for section in self.sections:
             print(section)
 
-    def save(self, output_filepath: Optional[str] = None):
+    def save(self, output_filepath: str | None = None):
         pass
 
 
@@ -61,8 +63,8 @@ class SrtSubtitle(Subtitle):
         return SrtSectionTiming(start_time, end_time)
 
     def parse(self):
-        with open(self.filepath, "r", encoding=self.encoding) as f:
-            lines: List[str] = list(line.strip() for line in f) + [""]
+        with open(self.filepath, encoding=self.encoding) as f:
+            lines: list[str] = list(line.strip() for line in f) + [""]
 
         for line in lines:
             # empty line (end of section) or index number (begin of section)
@@ -79,7 +81,7 @@ class SrtSubtitle(Subtitle):
             else:
                 self.sections[-1].add_line(Line(line))
 
-    def save(self, output_filepath: Optional[str] = None):
+    def save(self, output_filepath: str | None = None):
         if output_filepath is None:
             p = Path(self.filepath)
             output_filepath = f"{p.stem}_clean{p.suffix}"
@@ -104,7 +106,7 @@ class SubtitleFormat(Enum):
         return list(e.handler for e in cls if e.ext == ext)[0]
 
     @classmethod
-    def values(cls) -> Set[str]:
-        return set(e.ext for e in cls)
+    def values(cls) -> set[str]:
+        return {e.ext for e in cls}
 
     SRT = (".srt", SrtSubtitle)

@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import re
 from enum import Enum
-from typing import Callable, List
+from typing import Callable
 
 from loguru import logger
 
@@ -13,7 +15,7 @@ from subclean.core.subtitle import Subtitle
 class Processor:
     def __init__(self, subtitle: Subtitle, *args, **kwargs):
         self.subtitle = subtitle
-        self.operations: List[Callable] = []
+        self.operations: list[Callable] = []
 
     def log(self):
         logger.info("{processor} running", processor=self.__class__.__name__)
@@ -66,7 +68,7 @@ class BlacklistProcessor(Processor):
 class DialogProcessor(Processor):
     def __init__(self, subtitle: Subtitle, *args, **kwargs):
         super().__init__(subtitle, *args, **kwargs)
-        self.operations: List[Callable] = [self.clean_dashes]
+        self.operations: list[Callable] = [self.clean_dashes]
 
     @classmethod
     def clean_dashes(cls, line: Line) -> Line:
@@ -138,7 +140,7 @@ class SDHProcessor(Processor):
 
     @classmethod
     def clean_section(cls, section: Section) -> Section:
-        lines: List[Line] = []
+        lines: list[Line] = []
         for line in section.lines:
             if cls.is_hi(line) or cls.is_parenthesis_not_matching(line):
                 continue
@@ -175,7 +177,7 @@ class LineLengthProcessor(Processor):
         return len(line) < cls.line_length
 
     @classmethod
-    def split_dialog_chunks(cls, lines: List[Line]) -> List[List[Line]]:
+    def split_dialog_chunks(cls, lines: list[Line]) -> list[list[Line]]:
         chunks = []
         i = 1
         while lines:
@@ -216,7 +218,7 @@ class LineLengthProcessor(Processor):
 class ErrorProcessor(Processor):
     def __init__(self, subtitle: Subtitle, *args, **kwargs):
         super().__init__(subtitle, *args, **kwargs)
-        self.operations: List[Callable] = [
+        self.operations: list[Callable] = [
             self.fix_hyphen,
             self.fix_spaces,
             self.fix_space_punctuation,

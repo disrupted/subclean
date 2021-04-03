@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import argparse
 import sys
-from typing import List, Type
 
 from loguru import logger
 
@@ -57,7 +58,7 @@ def main():
     )
 
     subtitle: Subtitle = SubtitleParser.load(args.file.name)
-    processors: List[Type[Processor]] = [
+    processors: list[type[Processor]] = [
         processor.value for processor in args.processors
     ]
     for processor in processors:

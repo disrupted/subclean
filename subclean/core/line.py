@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import re
-from typing import List
 
 
 class Line(str):
@@ -21,5 +20,5 @@ class Line(str):
         return bool(re.search(r"^(<\/?i>)*[-]", self))
 
     @staticmethod
-    def merge(lines: List[Line]) -> Line:
+    def merge(lines: list[Line]) -> Line:
         return Line(" ".join(lines))

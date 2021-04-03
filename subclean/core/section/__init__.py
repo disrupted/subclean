@@ -1,13 +1,13 @@
-from typing import List
+from __future__ import annotations
 
 from subclean.core.line import Line
 from subclean.core.section.timing import SectionTiming, SrtSectionTiming
 
 
 class Section:
-    def __init__(self, timing: SectionTiming, lines: List[Line] = []):
+    def __init__(self, timing: SectionTiming, lines: list[Line] = []):
         self.timing: SectionTiming = timing
-        self.lines: List[Line] = lines
+        self.lines: list[Line] = lines
 
     def add_line(self, line: Line) -> None:
         self.lines.append(line)
@@ -37,7 +37,7 @@ class Section:
 
 
 class SrtSection(Section):
-    def __init__(self, timing: SrtSectionTiming, lines: List[Line] = []):
+    def __init__(self, timing: SrtSectionTiming, lines: list[Line] = []):
         super().__init__(timing, lines)
 
     def __str__(self) -> str:
