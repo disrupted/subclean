@@ -1,7 +1,13 @@
 ---
 repos:
+  - repo: https://github.com/cdce8p/python-typing-update
+    rev: v0.3.2
+    hooks:
+      - id: python-typing-update
+        stages: [manual]
+        args: ["--py39-plus"]
   - repo: https://github.com/pycqa/isort
-    rev: 5.7.0
+    rev: 5.8.0
     hooks:
       - id: isort
         args: ["--settings", ".isort.cfg"]
@@ -11,7 +17,7 @@ repos:
       - id: black
         language_version: python3
   - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.8.4
+    rev: 3.9.0
     hooks:
       - id: flake8
         args: ["--config=.flake8"]
