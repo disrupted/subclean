@@ -30,7 +30,7 @@ class Section:
         return sum(len(line) for line in self.lines) == 0
 
     def content(self) -> str:
-        pass
+        return "\n".join(self.lines)
 
     def __len__(self) -> int:
         return len(self.lines)
@@ -39,9 +39,6 @@ class Section:
 class SrtSection(Section):
     def __init__(self, timing: SrtSectionTiming, lines: List[Line] = []):
         super().__init__(timing, lines)
-
-    def content(self) -> str:
-        return "\n".join(self.lines)
 
     def __str__(self) -> str:
         return f"{self.timing}\n{self.content()}\n"

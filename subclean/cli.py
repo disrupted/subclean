@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import sys
-from typing import List
+from typing import List, Type
 
 from loguru import logger
 
@@ -57,7 +57,9 @@ def main():
     )
 
     subtitle: Subtitle = SubtitleParser.load(args.file.name)
-    processors: List[Processor] = [processor.value for processor in args.processors]
+    processors: List[Type[Processor]] = [
+        processor.value for processor in args.processors
+    ]
     for processor in processors:
         subtitle = processor(subtitle, cli_args=args).process()
     if args.overwrite:
