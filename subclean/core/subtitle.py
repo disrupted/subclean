@@ -58,7 +58,8 @@ class SrtSubtitle(Subtitle):
     def __init__(self, filepath: str):
         super().__init__(filepath)
 
-    def __parse_timing(self, input: str) -> SrtSectionTiming:
+    @staticmethod
+    def __parse_timing(input: str) -> SrtSectionTiming:
         start_time, end_time = input.split(" --> ")
         return SrtSectionTiming(start_time, end_time)
 
