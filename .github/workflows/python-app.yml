@@ -22,7 +22,7 @@ jobs:
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
       - name: Run poetry image
-        uses: abatilo/actions-poetry@v2.0.0
+        uses: abatilo/actions-poetry@v2.1.2
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
