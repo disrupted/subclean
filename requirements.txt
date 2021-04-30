@@ -21,7 +21,7 @@ packaging==20.8
 parso==0.8.1
 pathspec==0.8.1
 pluggy==0.13.1
-pre-commit==2.9.3
+pre-commit==2.12.1
 py==1.10.0
 pycodestyle==2.6.0
 pyflakes==2.2.0
