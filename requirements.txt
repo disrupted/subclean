@@ -30,7 +30,7 @@ pynvim==0.4.2
 pyparsing==2.4.7
 pytest==6.2.1
 python-jsonrpc-server==0.4.0
-python-language-server==0.35.1
+python-language-server==0.36.2
 PyYAML==5.4.1
 regex==2020.11.13
 six==1.15.0
