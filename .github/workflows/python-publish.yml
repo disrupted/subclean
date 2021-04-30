@@ -36,7 +36,7 @@ jobs:
       #     VERSION: ${{ github.event.release.tag_name }}
       #   run: |
       #     poetry version $(echo $VERSION | sed -e 's/^v//')
-      #
+
       - name: Build
         run: poetry build
 

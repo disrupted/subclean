@@ -62,7 +62,7 @@ jobs:
           cd $GITHUB_WORKSPACE
           source ./.venv/bin/activate
           npx pyright --venv-path ./.venv
-        
+
       - name: Update Python syntax update
         run: |
           poetry run pre-commit run --hook-stage manual python-typing-update --all-files
