@@ -33,6 +33,9 @@ jobs:
       - name: Check black
         run: |
           poetry run pre-commit run --hook-stage manual black --all-files --show-diff-on-failure
+      - name: Check mypy
+        run: |
+          poetry run pre-commit run --hook-stage manual mypy --all-files
       - name: Test pytest
         run: |
           poetry run pytest
