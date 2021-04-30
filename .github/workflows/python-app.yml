@@ -63,6 +63,12 @@ jobs:
           source ./.venv/bin/activate
           npx pyright --venv-path ./.venv
 
+      - name: Type completeness
+        run: |
+          cd $GITHUB_WORKSPACE
+          source ./.venv/bin/activate
+          npx pyright --verifytypes subclean --outputjson | jq --arg prefix "completeness " '.typeCompleteness.completenessScore * 100 | tostring + "% type completeness"'
+
       - name: Update Python syntax update
         run: |
           poetry run pre-commit run --hook-stage manual python-typing-update --all-files
