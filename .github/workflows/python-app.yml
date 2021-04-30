@@ -15,30 +15,58 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 1
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Display Python version
         run: python -c "import sys; print(sys.version)"
+
       - name: Run poetry image
         uses: abatilo/actions-poetry@v2.1.2
         with:
           poetry-version: ${{ matrix.poetry-version }}
+
+      - name: Set poetry virtualenv
+        run: poetry config virtualenvs.in-project true
+
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --no-interaction
+
       - name: Lint flake8
         run: |
           poetry run pre-commit run --hook-stage manual flake8 --all-files --show-diff-on-failure
+
       - name: Check black
         run: |
           poetry run pre-commit run --hook-stage manual black --all-files --show-diff-on-failure
+
       - name: Check mypy
         run: |
           poetry run pre-commit run --hook-stage manual mypy --all-files
+
+      # - name: Source virtualenv
+      #   run: |
+      #     source $GITHUB_WORKSPACE/.venv/bin/activate
+
+      # - name: Check pyright
+      #   uses: jakebailey/pyright-action@v1.0.0
+
+      - uses: actions/setup-node@v2
+
+      - name: Check pyright
+        run: |
+          npm install pyright
+          cd $GITHUB_WORKSPACE
+          source ./.venv/bin/activate
+          npx pyright --venv-path ./.venv
+        
       - name: Update Python syntax update
         run: |
           poetry run pre-commit run --hook-stage manual python-typing-update --all-files
+
       - name: Test pytest
         run: |
           poetry run pytest
