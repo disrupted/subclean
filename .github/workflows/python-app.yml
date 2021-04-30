@@ -36,6 +36,9 @@ jobs:
       - name: Check mypy
         run: |
           poetry run pre-commit run --hook-stage manual mypy --all-files
+      - name: Update Python syntax update
+        run: |
+          poetry run pre-commit run --hook-stage manual python-typing-update --all-files
       - name: Test pytest
         run: |
           poetry run pytest
