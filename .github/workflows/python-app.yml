@@ -29,10 +29,10 @@ jobs:
         run: poetry install
       - name: Lint flake8
         run: |
-          pre-commit run --hook-stage manual flake8 --all-files --show-diff-on-failure
+          poetry run pre-commit run --hook-stage manual flake8 --all-files --show-diff-on-failure
       - name: Check black
         run: |
-          pre-commit run --hook-stage manual black --all-files --show-diff-on-failure
+          poetry run pre-commit run --hook-stage manual black --all-files --show-diff-on-failure
       - name: Test pytest
         run: |
-          pytest
+          poetry run pytest
