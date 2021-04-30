@@ -22,7 +22,9 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Display Python version
-        run: python -c "import sys; print(sys.version)"
+        run: |
+          python -c "import sys; print(sys.version)"
+          echo "##[set-output name=version;]$(python -V)"
 
       - name: Run poetry image
         uses: abatilo/actions-poetry@v2.1.2
@@ -67,7 +69,9 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           source ./.venv/bin/activate
-          npx pyright --verifytypes subclean --outputjson | jq --arg prefix "completeness " '.typeCompleteness.completenessScore * 100 | tostring + "% type completeness"'
+          type_completeness=$(npx pyright --verifytypes subclean --outputjson | jq --arg prefix "completeness " '.typeCompleteness.completenessScore * 100 | tostring + "% type completeness"')
+          echo "##[set-output name=type_completeness;]$typeCompleteness"
+        id: type_completeness
 
       - name: Update Python syntax update
         run: |
