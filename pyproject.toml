@@ -28,7 +28,7 @@ python = "^3.9"
 loguru = "^0.5.3"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2.2"
+pytest = "^6.2.4"
 flake8 = "^3.9.1"
 black = "^21.5b0"
 pre-commit = "^2.12.1"
