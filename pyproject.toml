@@ -30,7 +30,7 @@ loguru = "^0.5.3"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.2"
 flake8 = "^3.9.1"
-black = "^21.4b2"
+black = "^21.5b0"
 pre-commit = "^2.12.1"
 mypy = "^0.812"
 
