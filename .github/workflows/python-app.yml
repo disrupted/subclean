@@ -54,7 +54,7 @@ jobs:
       # - name: Check pyright
       #   uses: jakebailey/pyright-action@v1.0.0
 
-      - uses: actions/setup-node@v2.1.5
+      - uses: actions/setup-node@v2.2.0
 
       - name: Check pyright
         run: |
