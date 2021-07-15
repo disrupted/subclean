@@ -33,6 +33,10 @@ class TestSDHProcessor:
 
     def test_contains_hi(self, fake_processor: SDHProcessor):
         assert fake_processor.contains_hi(Line("that's for you. [sighs]"))
+        assert fake_processor.contains_hi(Line("‐TEACHER: blabla..."))
+
+    def test_clean_hi(self, fake_processor: SDHProcessor):
+        assert fake_processor.clean_hi(Line("‐TEACHER: blabla...")) == "‐blabla..."
 
     def test_clean_parentheses(self, fake_processor: SDHProcessor):
         assert (
