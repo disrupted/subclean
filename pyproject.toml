@@ -31,7 +31,7 @@ loguru = "^0.5.3"
 pytest = "^6.2.5"
 flake8 = "^3.9.2"
 black = "^21.8b0"
-pre-commit = "^2.14.1"
+pre-commit = "^2.15.0"
 mypy = "^0.910"
 isort = "^5.9.3"
 
