@@ -71,7 +71,7 @@ jobs:
 
       - name: Update Python syntax update
         run: |
-          poetry run pre-commit run --hook-stage manual python-typing-update --all-files
+          poetry run pre-commit run --hook-stage manual pyupgrade --all-files
 
       - name: Test pytest
         run: |
