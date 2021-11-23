@@ -32,6 +32,9 @@ class Section:
     def content(self) -> str:
         return "\n".join(self.lines)
 
+    def __repr__(self) -> str:
+        return self.content()
+
     def __len__(self) -> int:
         return len(self.lines)
 
