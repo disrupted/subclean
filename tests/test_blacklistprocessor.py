@@ -31,5 +31,4 @@ class TestBlacklistProcessor:
     def test_process(self, sub_processor: BlacklistProcessor):
         assert len(sub_processor.subtitle.sections) == 2
         output_subtitle = sub_processor.process()
-        print(output_subtitle.sections)
         assert len(output_subtitle.sections) == 0
