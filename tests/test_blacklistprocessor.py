@@ -29,6 +29,6 @@ class TestBlacklistProcessor:
         assert fake_processor.in_blacklist(Line("twitter.com/username"))
 
     def test_process(self, sub_processor: BlacklistProcessor):
-        assert len(sub_processor.subtitle.sections) == 2
+        assert len(sub_processor.subtitle.sections) == 3
         output_subtitle = sub_processor.process()
         assert len(output_subtitle.sections) == 0
