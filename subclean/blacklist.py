@@ -6,7 +6,7 @@ blacklist = [
     r"\b(rate this subtitle|Help other users to choose the best subtitles|Helfe anderen Usern die besten Untertitel auszuwählen)\b",
     r"Übersetzung:|Untertitel:",
     r"\b((sub(title)?s?|sync(e|')?d?|cleaned|corrected|rip(ped)?|improved|encod|resync|edit|caption|version)(ed|ing)?\b\s((&|and|,)\s)?)+(by|for|at)\b",
-    r"www\.|http:\/\/|\.org|\.link",
+    r"www\.|http:\/\/|\.(org|link|com)",
     r"\[at\]",  # email
     r"WEB[- ]?(DL|Rip)|HDTV|dTV",  # release tags
     r"\bSDH\b|Season\s*\d+[\s-]+Episode\s*\d+|Episode\s+Title",
