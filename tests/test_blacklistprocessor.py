@@ -24,6 +24,7 @@ class TestBlacklistProcessor:
             Line('<font color="#ffff00">Provided by username</font>')
         )
         assert fake_processor.in_blacklist(Line("[http://example.com]"))
+        assert fake_processor.in_blacklist(Line("http://foo.network"))
         assert fake_processor.in_blacklist(Line("Visit https://another-example.com"))
         assert fake_processor.in_blacklist(Line("find more under subs.link"))
         assert fake_processor.in_blacklist(Line("twitter.com/username"))
