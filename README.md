@@ -26,7 +26,7 @@ $ subclean subtitle.srt
 ## Usage
 
 ```
-subclean [-h] [-v] [-o OUTPUT]
+subclean [-h] [-v] [-V] [-o OUTPUT]
                    [--processors {LineLength,Dialog,Blacklist,SDH,Error}
                    [--regex REGEX] [--line-length LINE_LENGTH]
                    FILE
@@ -37,6 +37,8 @@ positional arguments:
 optional arguments:
   -h, --help            show this help message and exit
   -v, --verbose         Increase output verbosity
+  -V, --version         show program's version number and
+                        exit
   -o OUTPUT, --output OUTPUT
                         Set output filename
   --overwrite           Overwrite input file
