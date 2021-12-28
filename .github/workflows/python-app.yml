@@ -51,11 +51,12 @@ jobs:
       # - name: Check pyright
       #   uses: jakebailey/pyright-action@v1
 
-      - uses: jordemort/action-pyright@v1
+      - name: Check pyright
+        uses: jordemort/action-pyright@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          venv_path: ./.venv
-          lib: true
+          # venv_path: ./.venv
+          # lib: true
 
       # - uses: actions/setup-node@v2
 
