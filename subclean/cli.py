@@ -10,6 +10,8 @@ from subclean.core.parser import SubtitleParser
 from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import DEFAULT_PROCESSORS, Processor, Processors
 
+from . import __version__
+
 
 def main():
     argparser = argparse.ArgumentParser(description="Clean Subtitles")
@@ -27,6 +29,12 @@ def main():
         dest="log_level",
         const="DEBUG",
         default="INFO",
+    )
+    argparser.add_argument(
+        "-V",
+        "--version",
+        action="version",
+        version="%(prog)s " + __version__,
     )
     group = argparser.add_mutually_exclusive_group()
     group.add_argument("-o", "--output", type=str, help="Set output filename")
