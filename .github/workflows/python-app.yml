@@ -51,14 +51,20 @@ jobs:
       # - name: Check pyright
       #   uses: jakebailey/pyright-action@v1
 
-      - uses: actions/setup-node@v2
+      - uses: jordemort/action-pyright@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          venv_path: ./.venv
+          lib: true
 
-      - name: Check pyright
-        run: |
-          npm install pyright
-          cd $GITHUB_WORKSPACE
-          source ./.venv/bin/activate
-          npx pyright --venv-path ./.venv
+      # - uses: actions/setup-node@v2
+
+      # - name: Check pyright
+      #   run: |
+      #     npm install pyright
+      #     cd $GITHUB_WORKSPACE
+      #     source ./.venv/bin/activate
+      #     npx pyright --venv-path ./.venv
 
       - name: Type completeness
         run: |
