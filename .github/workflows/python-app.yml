@@ -9,15 +9,12 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.10"]
-        poetry-version: ["1.1.11"]
 
     steps:
-      - uses: actions/checkout@v2.4.0
-        with:
-          fetch-depth: 1
+      - uses: actions/checkout@v2
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2.3.1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -27,7 +24,7 @@ jobs:
       - name: Run poetry image
         uses: abatilo/actions-poetry@v2.1.4
         with:
-          poetry-version: ${{ matrix.poetry-version }}
+          poetry-version: "1.1.12"
 
       - name: Set poetry virtualenv
         run: poetry config virtualenvs.in-project true
@@ -52,9 +49,9 @@ jobs:
       #     source $GITHUB_WORKSPACE/.venv/bin/activate
 
       # - name: Check pyright
-      #   uses: jakebailey/pyright-action@v1.0.0
+      #   uses: jakebailey/pyright-action@v1
 
-      - uses: actions/setup-node@v2.5.0
+      - uses: actions/setup-node@v2
 
       - name: Check pyright
         run: |
