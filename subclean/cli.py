@@ -17,6 +17,7 @@ def main():
     argparser = argparse.ArgumentParser(description="Clean Subtitles")
     argparser.add_argument(
         "file",
+        nargs="+",
         metavar="FILE",
         type=argparse.FileType("r"),
         help="Subtitle file to be processed",
@@ -65,15 +66,16 @@ def main():
         level=args.log_level,
     )
 
-    subtitle: Subtitle = SubtitleParser.load(args.file.name)
     processors: list[type[Processor]] = [
         processor.value for processor in args.processors
     ]
-    for processor in processors:
-        subtitle = processor(subtitle, cli_args=args).process()
-    if args.overwrite:
-        args.output = args.file.name
-    subtitle.save(output_filepath=args.output)
+    for f in args.file:
+        subtitle: Subtitle = SubtitleParser.load(f.name)
+        for processor in processors:
+            subtitle = processor(subtitle, cli_args=args).process()
+        if args.overwrite:
+            args.output = args.file.name
+        subtitle.save(output_filepath=args.output)
 
 
 if __name__ == "__main__":
