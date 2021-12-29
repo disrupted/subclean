@@ -26,10 +26,10 @@ $ subclean subtitle.srt
 ## Usage
 
 ```
-subclean [-h] [-v] [-V] [-o OUTPUT]
+subclean [-h] [-v] [-V] [-o OUTPUT | --overwrite]
                    [--processors {LineLength,Dialog,Blacklist,SDH,Error}
                    [--regex REGEX] [--line-length LINE_LENGTH]
-                   FILE
+                   FILE [FILE ...]
 
 positional arguments:
   FILE                  Subtitle file to be processed
