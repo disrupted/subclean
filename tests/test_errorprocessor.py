@@ -20,6 +20,7 @@ class TestErrorProcessor:
     def test_fix_styles(self, processor: ErrorProcessor):
         assert processor.fix_styles(Line("<i></i>")) == ""
         assert processor.fix_styles(Line("<i> </i>")) == " "
+        assert processor.fix_styles(Line("</i> <i>")) == " "
         assert processor.fix_styles(Line("<i></i><i></i>")) == ""
         assert (
             processor.fix_styles(Line("<i></i> <i> </i> <i>sentence</i>"))

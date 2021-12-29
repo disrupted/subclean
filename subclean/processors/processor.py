@@ -233,7 +233,7 @@ class ErrorProcessor(Processor):
     @staticmethod
     def fix_styles(line: Line) -> Line:
         """Remove leftover style tags"""
-        return line.sub(r"<i>(\s*)<\/i>", r"\1")
+        return line.sub(r"<\/?i>(\s*)<\/?i>", r"\1")
 
     @staticmethod
     def fix_spaces(line: Line) -> Line:
