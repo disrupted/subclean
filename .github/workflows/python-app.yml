@@ -72,8 +72,6 @@ jobs:
       # lib: true
 
       - uses: actions/setup-node@v2
-        with:
-          cache: npm
 
       - name: Check pyright
         run: |
