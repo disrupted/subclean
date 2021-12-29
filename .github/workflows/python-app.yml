@@ -44,13 +44,13 @@ jobs:
         run: |
           poetry run pre-commit run --hook-stage manual mypy --all-files
 
-      - name: Source virtualenv
-        run: source $GITHUB_WORKSPACE/.venv/bin/activate
+      # - name: Source virtualenv
+      #   run: source $GITHUB_WORKSPACE/.venv/bin/activate
 
-      - name: Check pyright
-        uses: jakebailey/pyright-action@v1
-        with:
-          venv-path: ./.venv
+      # - name: Check pyright
+      #   uses: jakebailey/pyright-action@v1
+      #   with:
+      #     venv-path: ./.venv
 
       # - name: Check pyright
       #   uses: jordemort/action-pyright@v1
@@ -59,14 +59,14 @@ jobs:
       # venv_path: ./.venv
       # lib: true
 
-      # - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
 
-      # - name: Check pyright
-      #   run: |
-      #     npm install pyright
-      #     cd $GITHUB_WORKSPACE
-      #     source ./.venv/bin/activate
-      #     npx pyright --venv-path ./.venv
+      - name: Check pyright
+        run: |
+          npm install pyright
+          cd $GITHUB_WORKSPACE
+          source ./.venv/bin/activate
+          npx pyright --venv-path ./.venv
 
       - name: Type completeness
         run: |
