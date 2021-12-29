@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "subclean"
-version = "0.3.0"
+version = "0.3.1"
 description = "Simple CLI tool to instantly enhance your movie & TV show subtitles."
 authors = ["disrupted <hi@salomonpopp.me>"]
 license = "GPL-3.0"
