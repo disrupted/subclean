@@ -74,7 +74,7 @@ def main():
         for processor in processors:
             subtitle = processor(subtitle, cli_args=args).process()
         if args.overwrite:
-            args.output = args.file.name
+            args.output = f.name
         subtitle.save(output_filepath=args.output)
 
 
