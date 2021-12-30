@@ -17,8 +17,8 @@ ENCODINGS = [
 
 
 class Subtitle:
-    def __init__(self, filepath: str):
-        self.filepath: str = filepath
+    def __init__(self, filepath: Path):
+        self.filepath: Path = filepath
         self.encoding: str | None = self.load()
         self.file: list[str]
         self.sections: list[Section] = []
@@ -50,12 +50,12 @@ class Subtitle:
         for section in self.sections:
             print(section)
 
-    def save(self, output_filepath: str | None = None):
+    def save(self, path: Path | None = None):
         pass
 
 
 class SrtSubtitle(Subtitle):
-    def __init__(self, filepath: str):
+    def __init__(self, filepath: Path):
         super().__init__(filepath)
 
     @staticmethod
@@ -82,12 +82,11 @@ class SrtSubtitle(Subtitle):
             else:
                 self.sections[-1].add_line(Line(line))
 
-    def save(self, output_filepath: str | None = None):
-        if output_filepath is None:
-            p = Path(self.filepath)
-            output_filepath = f"{p.stem}_clean{p.suffix}"
-        logger.info("Saving subtitle {}", output_filepath)
-        with open(output_filepath, "w") as out_f:
+    def save(self, path: Path | None = None):
+        if path is None:
+            path = self.filepath.with_stem(self.filepath.stem + "_clean")
+        logger.info("Saving subtitle {}", path)
+        with open(path, "w") as out_f:
             for index, section in enumerate(self.sections, start=1):
                 out_f.write(f"{index}\n{section}\n")
 

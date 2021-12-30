@@ -10,12 +10,12 @@ from subclean.processors.processor import Processor
 
 
 def subclean(f: Path, processors: list[type[Processor]], args):
-    subtitle: Subtitle = SubtitleParser.load(f.name)
+    subtitle: Subtitle = SubtitleParser.load(f)
     for processor in processors:
         subtitle = processor(subtitle, cli_args=args).process()
     if args.overwrite:
-        args.output = f.name
-    subtitle.save(output_filepath=args.output)
+        args.output = f
+    subtitle.save(args.output)
 
 
 def main(argv: list[str] | None = None):
@@ -32,7 +32,7 @@ def main(argv: list[str] | None = None):
         processor.value for processor in args.processors
     ]
     for f in args.file:
-        subclean(f, processors, args)
+        subclean(Path(f.name), processors, args)
 
 
 if __name__ == "__main__":

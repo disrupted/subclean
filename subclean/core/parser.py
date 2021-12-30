@@ -8,11 +8,10 @@ from subclean.core.subtitle import Subtitle, SubtitleFormat
 
 class SubtitleParser:
     @staticmethod
-    def load(filepath: str) -> Subtitle:
-        p = Path(filepath)
-        if p.suffix not in SubtitleFormat.values():
+    def load(path: Path) -> Subtitle:
+        if path.suffix not in SubtitleFormat.values():
             raise NotImplementedError
-        logger.info("Importing subtitle {}", filepath)
-        handler: Callable = SubtitleFormat.get_handler(p.suffix)
-        subtitle: Subtitle = handler(filepath)
+        logger.info("Importing subtitle {}", path)
+        handler: Callable = SubtitleFormat.get_handler(path.suffix)
+        subtitle: Subtitle = handler(path)
         return subtitle
