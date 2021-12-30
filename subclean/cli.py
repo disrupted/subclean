@@ -13,7 +13,7 @@ from subclean.processors.processor import DEFAULT_PROCESSORS, Processor, Process
 from . import __version__
 
 
-def main():
+def parse_args(args: list[str]) -> argparse.Namespace:
     argparser = argparse.ArgumentParser(description="Clean Subtitles")
     argparser.add_argument(
         "file",
@@ -56,8 +56,11 @@ def main():
         type=int,
         help="Maximum total line length when concatenating short lines. (default: 50)",
     )
-    args = argparser.parse_args()
+    return argparser.parse_args(args)
 
+
+def main():
+    args = parse_args(sys.argv[1:])
     logger.remove()
     logger.add(
         sys.stdout,
