@@ -37,6 +37,7 @@ class TestSDHProcessor:
         assert fake_processor.contains_hi(Line("[Laura] sentence"))
         assert fake_processor.contains_hi(Line("<i>[Laura]</i> <i>sentence</i>"))
         assert fake_processor.contains_hi(Line("- CHRISTOPHER:<i> Hello?</i>"))
+        assert not fake_processor.contains_hi(Line("9:17 a.m., to be specific,"))
 
     def test_clean_hi(self, fake_processor: SDHProcessor):
         assert (
@@ -52,6 +53,10 @@ class TestSDHProcessor:
         assert (
             fake_processor.clean_hi(Line("- CHRISTOPHER:<i> Hello?</i>"))
             == "- <i>Hello?</i>"
+        )
+        assert (
+            fake_processor.clean_hi(Line("9:17 a.m., to be specific,"))
+            == "9:17 a.m., to be specific,"
         )
 
     def test_clean_parentheses(self, fake_processor: SDHProcessor):

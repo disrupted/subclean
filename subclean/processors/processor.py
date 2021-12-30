@@ -110,7 +110,7 @@ class SDHProcessor(Processor):
     def contains_hi(line: Line) -> bool:
         return bool(
             re.search(
-                r"^([-‐\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:|[\[]+.*[\]:]+)(<i>)?([\s])*|\s?[(\[*].*?[)\]*:]+\s?",
+                r"^([-‐\s<i>]+)?((\b[-A-Za-z.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:|[\[]+.*[\]:]+)(<i>)?([\s])*|\s?[(\[*].*?[)\]*:]+\s?",
                 line,
             )
         )
@@ -119,7 +119,7 @@ class SDHProcessor(Processor):
     def clean_hi(cls, line: Line) -> Line:
         """Clean hearing impaired."""
         line = line.sub(
-            r"^([-‐\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:|[\[]+.*[\]:]+)(<i>)?([\s])*",
+            r"^([-‐\s<i>]+)?((\b[-A-Za-z.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:|[\[]+.*[\]:]+)(<i>)?([\s])*",
             r"\1\5",
         )
         line = cls.clean_parentheses(line)
