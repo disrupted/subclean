@@ -8,7 +8,7 @@ from subclean.processors.processor import DEFAULT_PROCESSORS, Processors
 from . import __version__
 
 
-def parse_args(args: list[str]) -> argparse.Namespace:
+def parse_args(args: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Clean Subtitles")
     parser.add_argument(
         "file",

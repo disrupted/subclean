@@ -19,7 +19,7 @@ def subclean(f: Path, processors: list[type[Processor]], args):
 
 
 def main():
-    args = parse_args(sys.argv[1:])
+    args = parse_args()
     logger.remove()
     logger.add(
         sys.stdout,
