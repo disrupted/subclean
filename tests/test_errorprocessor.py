@@ -63,6 +63,10 @@ class TestErrorProcessor:
         assert (
             processor.fix_space_punctuation(Line("Yeah. ..maybe.")) == "Yeah...maybe."
         )
+        assert (
+            processor.fix_space_punctuation(Line("Begin... ...end."))
+            == "Begin... ...end."
+        )
 
     def test_fix_hyphen(self, processor: ErrorProcessor):
         assert processor.fix_hyphen(Line("'’")) == "'"
@@ -79,3 +83,6 @@ class TestErrorProcessor:
     def test_integration(self, sub_processor: ErrorProcessor):
         output_subtitle = sub_processor.process()
         assert output_subtitle.sections[0].lines == ["<i>sentence</i>"]
+        assert output_subtitle.sections[1].lines == [
+            "Madame... ...for you, I'll make it"
+        ]
