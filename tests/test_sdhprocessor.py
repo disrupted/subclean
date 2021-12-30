@@ -14,7 +14,7 @@ class TestSDHProcessor:
 
     @pytest.fixture()
     def sub_processor(self) -> SDHProcessor:
-        subtitle = SubtitleParser.load("sub_sdh.srt")
+        subtitle = SubtitleParser.load("tests/resources/sub_sdh.srt")
         return SDHProcessor(subtitle)
 
     def test_is_hi(self, fake_processor: SDHProcessor):

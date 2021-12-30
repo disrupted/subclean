@@ -14,7 +14,7 @@ class TestErrorProcessor:
 
     @pytest.fixture()
     def sub_processor(self) -> ErrorProcessor:
-        subtitle = SubtitleParser.load("sub_error.srt")
+        subtitle = SubtitleParser.load("tests/resources/sub_error.srt")
         return ErrorProcessor(subtitle)
 
     def test_fix_styles(self, processor: ErrorProcessor):

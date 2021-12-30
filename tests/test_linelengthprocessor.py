@@ -9,7 +9,7 @@ from subclean.processors.processor import LineLengthProcessor
 class TestLineLengthProcessor:
     @pytest.fixture()
     def subtitle(self) -> Subtitle:
-        subtitle: Subtitle = SubtitleParser.load("linelength.srt")
+        subtitle: Subtitle = SubtitleParser.load("tests/resources/sub_linelength.srt")
         return subtitle
 
     @pytest.fixture()

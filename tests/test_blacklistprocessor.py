@@ -14,7 +14,7 @@ class TestBlacklistProcessor:
 
     @pytest.fixture()
     def sub_processor(self) -> BlacklistProcessor:
-        subtitle = SubtitleParser.load("sub_ads.srt")
+        subtitle = SubtitleParser.load("tests/resources/sub_ads.srt")
         return BlacklistProcessor(subtitle)
 
     def test_in_blacklist(self, fake_processor: BlacklistProcessor):
