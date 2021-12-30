@@ -91,11 +91,6 @@ class SrtSubtitle(Subtitle):
                 out_f.write(f"{index}\n{section}\n")
 
 
-class FakeSubtitle(Subtitle):
-    def __init__(self):
-        pass
-
-
 class SubtitleFormat(Enum):
     def __init__(self, ext, handler):
         self.ext: str = ext
