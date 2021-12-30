@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from subclean.core.parser import SubtitleParser
@@ -7,7 +9,7 @@ from subclean.core.subtitle import SrtSubtitle, Subtitle
 class TestSubtitleParser:
     @pytest.fixture()
     def subtitle(self) -> Subtitle:
-        subtitle: Subtitle = SubtitleParser.load("sub.srt")
+        subtitle: Subtitle = SubtitleParser.load(Path("tests/resources/sub.srt"))
         return subtitle
 
     def test_handler(self, subtitle: Subtitle):

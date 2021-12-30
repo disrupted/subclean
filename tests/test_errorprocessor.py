@@ -1,9 +1,12 @@
+from pathlib import Path
+
 import pytest
 
 from subclean.core.line import Line
 from subclean.core.parser import SubtitleParser
-from subclean.core.subtitle import FakeSubtitle, Subtitle
+from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import ErrorProcessor
+from tests.utils import FakeSubtitle
 
 
 class TestErrorProcessor:
@@ -14,18 +17,8 @@ class TestErrorProcessor:
 
     @pytest.fixture()
     def sub_processor(self) -> ErrorProcessor:
-        subtitle = SubtitleParser.load("sub_error.srt")
+        subtitle = SubtitleParser.load(Path("tests/resources/sub_error.srt"))
         return ErrorProcessor(subtitle)
-
-    def test_fix_styles(self, processor: ErrorProcessor):
-        assert processor.fix_styles(Line("<i></i>")) == ""
-        assert processor.fix_styles(Line("<i> </i>")) == " "
-        assert processor.fix_styles(Line("</i> <i>")) == " "
-        assert processor.fix_styles(Line("<i></i><i></i>")) == ""
-        assert (
-            processor.fix_styles(Line("<i></i> <i> </i> <i>sentence</i>"))
-            == "   <i>sentence</i>"
-        )
 
     def test_fix_spaces(self, processor: ErrorProcessor):
         assert (
@@ -82,7 +75,6 @@ class TestErrorProcessor:
 
     def test_integration(self, sub_processor: ErrorProcessor):
         output_subtitle = sub_processor.process()
-        assert output_subtitle.sections[0].lines == ["<i>sentence</i>"]
-        assert output_subtitle.sections[1].lines == [
+        assert output_subtitle.sections[0].lines == [
             "Madame... ...for you, I'll make it"
         ]

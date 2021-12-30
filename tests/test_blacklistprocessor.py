@@ -1,9 +1,12 @@
+from pathlib import Path
+
 import pytest
 
 from subclean.core.line import Line
 from subclean.core.parser import SubtitleParser
-from subclean.core.subtitle import FakeSubtitle, Subtitle
+from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import BlacklistProcessor
+from tests.utils import FakeSubtitle
 
 
 class TestBlacklistProcessor:
@@ -14,7 +17,7 @@ class TestBlacklistProcessor:
 
     @pytest.fixture()
     def sub_processor(self) -> BlacklistProcessor:
-        subtitle = SubtitleParser.load("sub_ads.srt")
+        subtitle = SubtitleParser.load(Path("tests/resources/sub_ads.srt"))
         return BlacklistProcessor(subtitle)
 
     def test_in_blacklist(self, fake_processor: BlacklistProcessor):

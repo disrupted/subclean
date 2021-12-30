@@ -1,9 +1,12 @@
+from pathlib import Path
+
 import pytest
 
 from subclean.core.line import Line
 from subclean.core.parser import SubtitleParser
-from subclean.core.subtitle import FakeSubtitle, Subtitle
+from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import SDHProcessor
+from tests.utils import FakeSubtitle
 
 
 class TestSDHProcessor:
@@ -14,7 +17,7 @@ class TestSDHProcessor:
 
     @pytest.fixture()
     def sub_processor(self) -> SDHProcessor:
-        subtitle = SubtitleParser.load("sub_sdh.srt")
+        subtitle = SubtitleParser.load(Path("tests/resources/sub_sdh.srt"))
         return SDHProcessor(subtitle)
 
     def test_is_hi(self, fake_processor: SDHProcessor):

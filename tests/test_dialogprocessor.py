@@ -1,8 +1,9 @@
 import pytest
 
 from subclean.core.line import Line
-from subclean.core.subtitle import FakeSubtitle, Subtitle
+from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import DialogProcessor
+from tests.utils import FakeSubtitle
 
 
 class TestDialogProcessor:

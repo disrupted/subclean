@@ -21,7 +21,7 @@ include = [
 "Issues" = "https://github.com/disrupted/subclean/issues"
 
 [tool.poetry.scripts]
-subclean = "subclean.cli:main"
+subclean = "subclean.subclean:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
