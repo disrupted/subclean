@@ -18,8 +18,8 @@ def subclean(f: Path, processors: list[type[Processor]], args):
     subtitle.save(output_filepath=args.output)
 
 
-def main():
-    args = parse_args()
+def main(argv: list[str] | None = None):
+    args = parse_args(argv)
     logger.remove()
     logger.add(
         sys.stdout,
