@@ -1,12 +1,17 @@
 1
-00:00:06,605 --> 00:00:08,845
+00:00:00,000 --> 00:00:01,000
 A NETFLIX ORIGINAL SERIES
 
 2
-00:00:29,685 --> 00:00:30,925
+00:00:01,000 --> 00:00:02,000
 ♪ up‐tempo percussive music playing ♪
 
 3
-00:00:31,725 --> 00:00:33,205
+00:00:02,000 --> 00:00:03,000
 ♪ up‐tempo percussive music playing ♪
 - blablabla
+
+4
+00:00:03,000 --> 00:00:04,000
+I got some time
+between 4:00 and 6:00.

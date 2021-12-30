@@ -41,6 +41,10 @@ class TestSDHProcessor:
         assert fake_processor.contains_hi(Line("<i>[Laura]</i> <i>sentence</i>"))
         assert fake_processor.contains_hi(Line("- CHRISTOPHER:<i> Hello?</i>"))
         assert not fake_processor.contains_hi(Line("9:17 a.m., to be specific,"))
+        assert not fake_processor.contains_hi(Line("between 4:00 and 6:00."))
+        assert not fake_processor.contains_hi(
+            Line("I got some time between 4:00 and 6:00.")
+        )
 
     def test_clean_hi(self, fake_processor: SDHProcessor):
         assert (
@@ -137,6 +141,13 @@ class TestSDHProcessor:
         assert fake_processor.is_music(Line("♪ up‐tempo percussive music playing ♪"))
 
     def test_delete_empty_section(self, sub_processor: SDHProcessor):
-        assert len(sub_processor.subtitle.sections) == 3
+        assert len(sub_processor.subtitle.sections) == 4
         output_subtitle = sub_processor.process()
-        assert len(output_subtitle.sections) == 1
+        assert len(output_subtitle.sections) == 2
+
+    def test_integration(self, sub_processor: SDHProcessor):
+        output_subtitle = sub_processor.process()
+        assert output_subtitle.sections[1].lines == [
+            "I got some time",
+            "between 4:00 and 6:00.",
+        ]
