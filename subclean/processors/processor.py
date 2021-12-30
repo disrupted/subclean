@@ -110,7 +110,7 @@ class SDHProcessor(Processor):
     def contains_hi(line: Line) -> bool:
         return bool(
             re.search(
-                r"^([-‐\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?|\s?[(\[*].*?[)\]*:]+\s?",
+                r"^([-‐\s<i>]+)?((\b[-A-Za-z.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:|[\[]+.*[\]:]+)(<i>)?([\s])*|\s?[(\[*].*?[)\]*:]+\s?",
                 line,
             )
         )
@@ -119,8 +119,8 @@ class SDHProcessor(Processor):
     def clean_hi(cls, line: Line) -> Line:
         """Clean hearing impaired."""
         line = line.sub(
-            r"^([-‐\s<i>]+)?((\b[-\w.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:(?![\S])|[\[]+.*[\]:]+)(\s+)?",
-            r"\1",
+            r"^([-‐\s<i>]+)?((\b[-A-Za-z.']+\s?#?\d?){1,2}(?!\.)([\[(][\w\s]*[\])])?:|[\[]+.*[\]:]+)(<i>)?([\s])*",
+            r"\1\5",
         )
         line = cls.clean_parentheses(line)
         return line
@@ -233,7 +233,7 @@ class ErrorProcessor(Processor):
     @staticmethod
     def fix_styles(line: Line) -> Line:
         """Remove leftover style tags"""
-        return line.sub(r"<i>(\s*)<\/i>", r"\1")
+        return line.sub(r"<\/?i>(\s*)<\/?i>", r"\1")
 
     @staticmethod
     def fix_spaces(line: Line) -> Line:
@@ -246,7 +246,9 @@ class ErrorProcessor(Processor):
 
     @staticmethod
     def fix_space_punctuation(line: Line) -> Line:
-        line = line.sub(r"\s+([.,!?]+)", r"\1")  # remove space before punctuation
+        line = line.sub(
+            r"(?<!\.{3})\s+([.,!?]+)", r"\1"
+        )  # remove space before punctuation
         line = line.sub(
             r"([.,!?]+)\s{2,}(?!$)", r"\1 "
         )  # fix multiple spaces after punctuation
