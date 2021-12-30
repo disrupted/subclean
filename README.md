@@ -27,7 +27,7 @@ $ subclean subtitle.srt
 
 ```
 subclean [-h] [-v] [-V] [-o OUTPUT | --overwrite]
-                   [--processors {LineLength,Dialog,Blacklist,SDH,Error}
+                   [--processors {LineLength,SDH,Blacklist,Error,Style,Dialog}
                    [--regex REGEX] [--line-length LINE_LENGTH]
                    FILE [FILE ...]
 
@@ -42,9 +42,9 @@ optional arguments:
   -o OUTPUT, --output OUTPUT
                         Set output filename
   --overwrite           Overwrite input file
-  --processors {LineLength,Dialog,Blacklist,SDH,Error}
+  --processors {LineLength,SDH,Blacklist,Error,Style,Dialog}
                         Processors to run
-                        (default: Blacklist SDH Dialog Error LineLength)
+                        (default: Blacklist SDH Dialog Error LineLength Style)
   --regex REGEX         Add custom regular expression to BlacklistProcessor
   --line-length LINE_LENGTH
                         Maximum total line length when concatenating short lines.
