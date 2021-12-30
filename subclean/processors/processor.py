@@ -220,7 +220,6 @@ class ErrorProcessor(Processor):
     def __init__(self, subtitle: Subtitle, *args, **kwargs):
         super().__init__(subtitle, *args, **kwargs)
         self.operations: list[Callable] = [
-            self.fix_styles,
             self.fix_hyphen,
             self.fix_spaces,
             self.fix_space_punctuation,
@@ -229,11 +228,6 @@ class ErrorProcessor(Processor):
             self.fix_quote,
             self.fix_music,
         ]
-
-    @staticmethod
-    def fix_styles(line: Line) -> Line:
-        """Remove leftover style tags"""
-        return line.sub(r"<\/?i>(\s*)<\/?i>", r"\1")
 
     @staticmethod
     def fix_spaces(line: Line) -> Line:
@@ -271,6 +265,19 @@ class ErrorProcessor(Processor):
         return line.sub(r"^#\s", "♪ ")
 
 
+class StyleProcessor(Processor):
+    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+        super().__init__(subtitle, *args, **kwargs)
+        self.operations: list[Callable] = [
+            self.fix_styles,
+        ]
+
+    @staticmethod
+    def fix_styles(line: Line) -> Line:
+        """Remove leftover style tags"""
+        return line.sub(r"<\/?i>(\s*)<\/?i>", r"\1")
+
+
 class Processors(Enum):
     def __str__(self) -> str:
         return self.name
@@ -280,6 +287,7 @@ class Processors(Enum):
     Error = ErrorProcessor
     Blacklist = BlacklistProcessor
     LineLength = LineLengthProcessor
+    Style = StyleProcessor
 
 
 DEFAULT_PROCESSORS = [
@@ -288,4 +296,5 @@ DEFAULT_PROCESSORS = [
     Processors.Dialog,
     Processors.Error,
     Processors.LineLength,
+    Processors.Style,
 ]
