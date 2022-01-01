@@ -74,9 +74,7 @@ class SrtSubtitle(Subtitle):
             # timing
             elif " --> " in line:
                 timing = self.__parse_timing(line)
-                section = SrtSection(
-                    timing, lines=[]
-                )  #  TODO why is it not working without explicitely passing lines=[]
+                section = SrtSection(timing)
                 self.sections.append(section)
             # content
             else:
