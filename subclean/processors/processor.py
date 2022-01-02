@@ -101,7 +101,7 @@ class SDHProcessor(Processor):
     def is_music(line: Line) -> bool:
         return bool(
             re.search(
-                r"^[- ♪]+\s?([-‐a-z,]+\s)*\b(music(al)?|song|track)\b\s?(((play|swell)(s|ing)|intensifies|crescendo|sting))?\b(\s?over\s(headphones|speakers))?\s?♪$",
+                r"^[- ♪<i>]*\s?([-‐a-z,]+\s)*\b(music(al)?|song|track|vocalizing)\b\s?(((play|swell)(s|ing)|intensifies|crescendo|sting)|(fades (in|out)))?\b(\s?over\s(headphones|speakers))?[\s♪<\/i>]*$",
                 line,
             )
         )
