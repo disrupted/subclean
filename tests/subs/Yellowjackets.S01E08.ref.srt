@@ -20,7 +20,7 @@
 
 6
 00:00:13,555 --> 00:00:14,931
- <i>I know I don't have to come with you.</i>
+<i>I know I don't have to come with you.</i>
 
 7
 00:00:14,973 --> 00:00:16,182

@@ -55,7 +55,7 @@ class TestSDHProcessor:
         assert fake_processor.clean_hi(Line("[Laura] sentence")) == "sentence"
         assert (
             fake_processor.clean_hi(Line("<i>[Laura]</i> <i>sentence</i>"))
-            == "<i></i> <i>sentence</i>"
+            == "<i></i><i>sentence</i>"
         )
         assert (
             fake_processor.clean_hi(Line("- CHRISTOPHER:<i> Hello?</i>"))
