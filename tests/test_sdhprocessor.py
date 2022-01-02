@@ -141,6 +141,7 @@ class TestSDHProcessor:
         assert fake_processor.is_music(Line("♪ up‐tempo percussive music playing ♪"))
         assert fake_processor.is_music(Line("<i>quiet, eerie music </i>"))
         assert fake_processor.is_music(Line("<i>droning music fades in </i>"))
+        assert fake_processor.is_music(Line("<i>women vocalizing eerily </i>"))
         assert not fake_processor.is_music(Line("this is not a music subtitle"))
 
     def test_delete_empty_section(self, sub_processor: SDHProcessor):
