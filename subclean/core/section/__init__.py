@@ -44,4 +44,4 @@ class SrtSection(Section):
         super().__init__(timing, lines)
 
     def __str__(self) -> str:
-        return f"{self.timing}\n{self.content()}\n"
+        return f"{self.timing}\n{self.content().strip()}\n"
