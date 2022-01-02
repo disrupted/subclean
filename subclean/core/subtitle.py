@@ -38,7 +38,7 @@ class Subtitle:
         return None
 
     def parse(self):
-        pass
+        raise NotImplementedError
 
     def add_section(self, section: Section):
         self.sections.append(section)
@@ -57,7 +57,7 @@ class Subtitle:
         yield ""  # append empty new line
 
     def save(self, path: Path | None = None):
-        pass
+        raise NotImplementedError
 
 
 class SrtSubtitle(Subtitle):
