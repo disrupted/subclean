@@ -5,9 +5,9 @@ from subclean.core.section.timing import SectionTiming, SrtSectionTiming
 
 
 class Section:
-    def __init__(self, timing: SectionTiming, lines: list[Line] = []):
+    def __init__(self, timing: SectionTiming, lines: list[Line] | None = None):
         self.timing: SectionTiming = timing
-        self.lines: list[Line] = lines
+        self.lines: list[Line] = lines if lines else []
 
     def add_line(self, line: Line) -> None:
         self.lines.append(line)
@@ -40,7 +40,7 @@ class Section:
 
 
 class SrtSection(Section):
-    def __init__(self, timing: SrtSectionTiming, lines: list[Line] = []):
+    def __init__(self, timing: SrtSectionTiming, lines: list[Line] | None = None):
         super().__init__(timing, lines)
 
     def __str__(self) -> str:
