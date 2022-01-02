@@ -10,32 +10,33 @@ from subclean.core.line import Line
 from subclean.core.section import Section, SrtSection
 from subclean.core.section.timing import SrtSectionTiming
 
-ENCODINGS = [
-    "utf-8-sig",
-    "iso-8859-1",
-]
+
+class Encoding(Enum):
+    UTF_8_SIG = "utf-8-sig"
+    ISO_8859_1 = "iso-8859-1"
+    NONE = None
 
 
 class Subtitle:
     def __init__(self, filepath: Path):
         self.filepath: Path = filepath
-        self.encoding: str | None = self.load()
+        self.encoding: Encoding = self.load()
         self.file: list[str]
         self.sections: list[Section] = []
         self.parse()
 
-    def load(self) -> str | None:
-        for e in ENCODINGS:
+    def load(self) -> Encoding:
+        for e in Encoding:
             try:
-                with open(self.filepath, encoding=e) as f:
-                    f.readlines()
+                with open(self.filepath, encoding=e.value) as f:
+                    f.read()
                     f.seek(0)
                     logger.debug("Found suitable encoding {}", e)
                     return e
             except UnicodeDecodeError:
                 logger.warning("UnicodeDecodeError for encoding {}", e)
         logger.error("Failed to load file. Couldn't find suitable encoding.")
-        return None
+        return Encoding.NONE
 
     def parse(self):
         raise NotImplementedError
@@ -51,7 +52,7 @@ class Subtitle:
             print(section)
 
     def read(self):
-        with open(self.filepath, encoding=self.encoding) as f:
+        with open(self.filepath, encoding=self.encoding.value) as f:
             for line in f:
                 yield line.strip()
         yield ""  # append empty new line
