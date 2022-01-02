@@ -72,7 +72,6 @@ class SrtSubtitle(Subtitle):
 
     def parse(self):
         for line in self.read():
-            line = line.strip()
             # empty line (end of section) or index number (begin of section)
             if not line or line.isdigit():
                 continue
