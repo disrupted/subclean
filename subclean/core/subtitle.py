@@ -50,6 +50,12 @@ class Subtitle:
         for section in self.sections:
             print(section)
 
+    def read(self):
+        with open(self.filepath, encoding=self.encoding) as f:
+            for line in f:
+                yield line.strip()
+        yield ""  # append empty new line
+
     def save(self, path: Path | None = None):
         pass
 
@@ -64,10 +70,8 @@ class SrtSubtitle(Subtitle):
         return SrtSectionTiming(start_time, end_time)
 
     def parse(self):
-        with open(self.filepath, encoding=self.encoding) as f:
-            lines: list[str] = list(line.strip() for line in f) + [""]
-
-        for line in lines:
+        for line in self.read():
+            line = line.strip()
             # empty line (end of section) or index number (begin of section)
             if not line or line.isdigit():
                 continue
