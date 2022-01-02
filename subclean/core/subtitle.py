@@ -10,35 +10,36 @@ from subclean.core.line import Line
 from subclean.core.section import Section, SrtSection
 from subclean.core.section.timing import SrtSectionTiming
 
-ENCODINGS = [
-    "utf-8-sig",
-    "iso-8859-1",
-]
+
+class Encoding(Enum):
+    UTF_8_SIG = "utf-8-sig"
+    ISO_8859_1 = "iso-8859-1"
+    NONE = None
 
 
 class Subtitle:
     def __init__(self, filepath: Path):
         self.filepath: Path = filepath
-        self.encoding: str | None = self.load()
+        self.encoding: Encoding = self.load()
         self.file: list[str]
         self.sections: list[Section] = []
         self.parse()
 
-    def load(self) -> str | None:
-        for e in ENCODINGS:
+    def load(self) -> Encoding:
+        for e in Encoding:
             try:
-                with open(self.filepath, encoding=e) as f:
-                    f.readlines()
+                with open(self.filepath, encoding=e.value) as f:
+                    f.read()
                     f.seek(0)
                     logger.debug("Found suitable encoding {}", e)
                     return e
             except UnicodeDecodeError:
                 logger.warning("UnicodeDecodeError for encoding {}", e)
         logger.error("Failed to load file. Couldn't find suitable encoding.")
-        return None
+        return Encoding.NONE
 
     def parse(self):
-        pass
+        raise NotImplementedError
 
     def add_section(self, section: Section):
         self.sections.append(section)
@@ -50,8 +51,14 @@ class Subtitle:
         for section in self.sections:
             print(section)
 
+    def read(self):
+        with open(self.filepath, encoding=self.encoding.value) as f:
+            for line in f:
+                yield line.strip()
+        yield ""  # append empty new line
+
     def save(self, path: Path | None = None):
-        pass
+        raise NotImplementedError
 
 
 class SrtSubtitle(Subtitle):
@@ -64,10 +71,7 @@ class SrtSubtitle(Subtitle):
         return SrtSectionTiming(start_time, end_time)
 
     def parse(self):
-        with open(self.filepath, encoding=self.encoding) as f:
-            lines: list[str] = list(line.strip() for line in f) + [""]
-
-        for line in lines:
+        for line in self.read():
             # empty line (end of section) or index number (begin of section)
             if not line or line.isdigit():
                 continue
