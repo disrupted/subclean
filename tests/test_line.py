@@ -13,6 +13,18 @@ class TestLine:
             Line('<i>Previously on <font color="#ffff00">"TV Show"</font>...</i>')
         ) == len('Previously on "TV Show"...')
 
+    def test_strip(self):
+        assert Line("").strip() == ""
+        assert Line(" ").strip() == ""
+        assert Line(" ").strip() == ""
+        assert Line("test").strip() == "test"
+        assert Line(" test").strip() == "test"
+        assert Line(" test  ").strip() == "test"
+        assert Line("test <i>").strip() == "test<i>"
+        assert Line("<i>  test").strip() == "<i>test"
+        assert Line(" <i>test").strip() == "<i>test"
+        assert Line("<i>test</i>").strip() == "<i>test</i>"
+
     def test_is_dialog(self):
         assert Line("- <i>This is a dialog.</i>").is_dialog()
         assert Line("-this is also a dialog").is_dialog()
