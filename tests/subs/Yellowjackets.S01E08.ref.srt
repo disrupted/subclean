@@ -127,135 +127,135 @@
 
 32
 00:02:47,750 --> 00:02:50,587
-<i>"No Return" by Craig Wedren and Anna Waronker </i>
+<i>"No Return" by Craig Wedren and Anna Waronker</i>
 
 33
 00:03:00,221 --> 00:03:03,099
-<i>It was cool, nothing fire </i>
+<i>It was cool, nothing fire</i>
 
 34
 00:03:03,141 --> 00:03:04,726
-<i>Nothing broke </i>
+<i>Nothing broke</i>
 
 35
 00:03:04,767 --> 00:03:06,352
-<i>Keep simple </i>
+<i>Keep simple</i>
 
 36
 00:03:06,394 --> 00:03:10,398
-<i>Nothing tired, nothing old </i>
+<i>Nothing tired, nothing old</i>
 
 37
 00:03:11,399 --> 00:03:14,861
-<i>Same as you </i>
+<i>Same as you</i>
 
 38
 00:03:17,405 --> 00:03:21,743
-<i>Same as you </i>
+<i>Same as you</i>
 
 39
 00:03:23,077 --> 00:03:25,997
-<i>Oh, so cute, so revival </i>
+<i>Oh, so cute, so revival</i>
 
 40
 00:03:26,039 --> 00:03:28,208
-<i>So alone </i>
+<i>So alone</i>
 
 41
 00:03:28,249 --> 00:03:31,169
-<i>Birthday suit, just a smile </i>
+<i>Birthday suit, just a smile</i>
 
 42
 00:03:31,211 --> 00:03:33,546
-<i>No one home </i>
+<i>No one home</i>
 
 43
 00:03:34,756 --> 00:03:38,593
-<i>Same as you </i>
+<i>Same as you</i>
 
 44
 00:03:41,054 --> 00:03:45,558
-<i>Same as you </i>
+<i>Same as you</i>
 
 45
 00:03:54,943 --> 00:03:57,028
-<i>No return, no return </i>
+<i>No return, no return</i>
 
 46
 00:03:57,070 --> 00:03:59,572
-<i>No reason </i>
+<i>No reason</i>
 
 47
 00:03:59,614 --> 00:04:01,991
-<i>No return, no return </i>
+<i>No return, no return</i>
 
 48
 00:04:02,033 --> 00:04:04,577
-<i>No reason </i>
+<i>No reason</i>
 
 49
 00:04:04,619 --> 00:04:07,413
-<i>No return, no return </i>
+<i>No return, no return</i>
 
 50
 00:04:07,455 --> 00:04:09,832
-<i>No reason </i>
+<i>No reason</i>
 
 51
 00:04:09,874 --> 00:04:12,418
-<i>No return, no return </i>
+<i>No return, no return</i>
 
 52
 00:04:12,460 --> 00:04:15,588
-<i>No reason </i>
+<i>No reason</i>
 
 53
 00:04:23,304 --> 00:04:25,265
-<i>One, two, three </i>
+<i>One, two, three</i>
 
 54
 00:04:25,306 --> 00:04:27,267
-<i>The devil's after me </i>
+<i>The devil's after me</i>
 
 55
 00:04:27,308 --> 00:04:28,768
-<i>Four, five, six </i>
+<i>Four, five, six</i>
 
 56
 00:04:28,810 --> 00:04:30,395
-<i>He's always throwing bricks </i>
+<i>He's always throwing bricks</i>
 
 57
 00:04:30,436 --> 00:04:32,272
-<i>Seven, eight, nine </i>
+<i>Seven, eight, nine</i>
 
 58
 00:04:32,313 --> 00:04:34,023
-<i>He misses every time </i>
+<i>He misses every time</i>
 
 59
 00:04:34,065 --> 00:04:36,943
-<i>- Glory, hallelujah, amen </i>
+<i>- Glory, hallelujah, amen</i>
 
 60
 00:04:36,985 --> 00:04:38,945
-<i>One, two, three </i>
+<i>One, two, three</i>
 
 61
 00:04:38,987 --> 00:04:40,446
-<i>The devil's after me </i>
+<i>The devil's after me</i>
 
 62
 00:04:40,488 --> 00:04:42,115
-<i>Four, five, six </i>
+<i>Four, five, six</i>
 
 63
 00:04:42,156 --> 00:04:43,449
-<i>He's always throwing bricks </i>
+<i>He's always throwing bricks</i>
 
 64
 00:04:43,491 --> 00:04:44,534
-<i>Seven, eight, nine... </i>
+<i>Seven, eight, nine...</i>
 
 65
 00:05:20,862 --> 00:05:22,780
@@ -368,7 +368,7 @@
 
 92
 00:07:22,233 --> 00:07:23,860
-<i>I'm... </i>
+<i>I'm...</i>
 
 93
 00:07:23,901 --> 00:07:27,780
@@ -682,11 +682,11 @@
 
 168
 00:11:49,083 --> 00:11:52,002
-<i>"Fade into Me" by Mazzy Star </i>
+<i>"Fade into Me" by Mazzy Star</i>
 
 169
 00:11:58,426 --> 00:12:03,889
-<i>I want to hold the hand inside you </i>
+<i>I want to hold the hand inside you</i>
 
 170
 00:12:05,015 --> 00:12:06,559
@@ -694,32 +694,32 @@
 
 171
 00:12:07,143 --> 00:12:12,773
-<i>I want to take the breath that's true </i>
+<i>I want to take the breath that's true</i>
 
 172
 00:12:16,944 --> 00:12:21,907
-<i>I look to you and I see nothing </i>
+<i>I look to you and I see nothing</i>
 
 173
 00:12:25,745 --> 00:12:27,913
-<i>Fade </i>
+<i>Fade</i>
 
 174
 00:12:27,955 --> 00:12:31,250
-<i>Into you </i>
+<i>Into you</i>
 <i>- Mm.</i>
 
 175
 00:12:35,045 --> 00:12:40,301
-<i>Strange you never knew </i>
+<i>Strange you never knew</i>
 
 176
 00:12:44,472 --> 00:12:46,599
-<i>Fade </i>
+<i>Fade</i>
 
 177
 00:12:46,640 --> 00:12:49,101
-<i>Into you </i>
+<i>Into you</i>
 
 178
 00:12:49,143 --> 00:12:51,020
@@ -727,7 +727,7 @@
 
 179
 00:12:53,439 --> 00:12:58,486
-<i>I think it's strange you never knew </i>
+<i>I think it's strange you never knew</i>
 
 180
 00:13:11,999 --> 00:13:13,459
@@ -884,7 +884,7 @@
 
 217
 00:15:10,034 --> 00:15:11,827
-<i>- </i>
+<i>-</i>
 <i>- Uh...</i>
 
 218
@@ -1072,7 +1072,7 @@
 
 263
 00:17:35,971 --> 00:17:38,974
-<i>Wow. All right. </i>
+<i>Wow. All right.</i>
 
 264
 00:17:39,016 --> 00:17:42,728
@@ -1245,7 +1245,7 @@
 
 305
 00:20:07,915 --> 00:20:09,333
-<i>Is that normal? </i>
+<i>Is that normal?</i>
 
 306
 00:20:09,374 --> 00:20:11,210
@@ -1465,7 +1465,7 @@
 
 358
 00:23:26,780 --> 00:23:29,741
-<i>And that's not much of a competition, is it? </i>
+<i>And that's not much of a competition, is it?</i>
 
 359
 00:23:29,783 --> 00:23:31,660
@@ -1562,7 +1562,7 @@
 
 381
 00:24:57,537 --> 00:24:58,830
-<i>Ta-da? </i>
+<i>Ta-da?</i>
 
 382
 00:24:58,872 --> 00:25:00,832
@@ -1745,7 +1745,7 @@
 
 425
 00:27:35,904 --> 00:27:37,656
-<i>She... </i>
+<i>She...</i>
 
 426
 00:27:37,697 --> 00:27:39,741
@@ -1827,7 +1827,7 @@
 
 445
 00:29:07,162 --> 00:29:09,164
-<i>- Okay. </i>
+<i>- Okay.</i>
 
 446
 00:29:09,205 --> 00:29:10,665
@@ -1913,7 +1913,7 @@
 466
 00:30:29,452 --> 00:30:30,954
 <i>- until we weren't, you know?</i>
-<i>- Yes. Yes. </i>
+<i>- Yes. Yes.</i>
 
 467
 00:30:30,995 --> 00:30:32,497
@@ -1997,7 +1997,7 @@
 
 486
 00:31:04,571 --> 00:31:06,114
-<i>Okay. </i>
+<i>Okay.</i>
 
 487
 00:31:06,155 --> 00:31:10,201
@@ -2030,7 +2030,7 @@
 
 494
 00:31:28,928 --> 00:31:32,265
-<i>in one of the biggest firms in the city. </i>
+<i>in one of the biggest firms in the city.</i>
 
 495
 00:31:34,017 --> 00:31:35,894
@@ -2603,7 +2603,7 @@
 
 634
 00:40:41,605 --> 00:40:44,442
-<i>Well...  I know. I'm sorry.</i>
+<i>Well... I know. I'm sorry.</i>
 
 635
 00:40:44,483 --> 00:40:48,070
@@ -2977,7 +2977,7 @@
 
 726
 00:45:40,612 --> 00:45:43,323
-<i>the brink... </i>
+<i>the brink...</i>
 
 727
 00:45:43,365 --> 00:45:45,159
@@ -2997,7 +2997,7 @@
 
 731
 00:45:58,088 --> 00:46:01,675
-<i>And even though my words... </i>
+<i>And even though my words...</i>
 
 732
 00:46:01,717 --> 00:46:03,761
@@ -3210,7 +3210,7 @@
 783
 00:49:43,355 --> 00:49:45,857
 <i>- It's okay. I know, it's okay.</i>
-<i>- No. </i>
+<i>- No.</i>
 
 784
 00:49:45,899 --> 00:49:49,736
