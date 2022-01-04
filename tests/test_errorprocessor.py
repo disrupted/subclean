@@ -55,6 +55,9 @@ class TestErrorProcessor:
         assert processor.trim_whitespace(Line("test  test")) == "test test"
         assert processor.trim_whitespace(Line("test<i>  test")) == "test<i> test"
         assert processor.trim_whitespace(Line("test  <i> test")) == "test <i>test"
+        assert (
+            processor.trim_whitespace(Line(" test</i><i> </i> ")) == "test</i><i></i>"
+        )
 
     def test_fix_space_punctuation(self, processor: ErrorProcessor):
         assert (
