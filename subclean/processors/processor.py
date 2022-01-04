@@ -236,7 +236,8 @@ class ErrorProcessor(Processor):
 
     @staticmethod
     def trim_whitespace(line: Line) -> Line:
-        return line.sub(r"\s+", " ").strip()
+        """Trim multiple spaces between words, also if there are style tags in between"""
+        return line.sub(r"\s+(<\/?i>)*\s*", r" \1").strip()
 
     @staticmethod
     def fix_space_punctuation(line: Line) -> Line:
