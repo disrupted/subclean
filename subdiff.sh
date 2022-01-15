@@ -10,6 +10,6 @@ _read_file() {
     cat "$1" | rg '[^\d]|^\s*$'
 }
 
-diff -u <(_read_file "$1") <(_read_file "$2") | delta -s
+diff -u <(_read_file "$1") <(_read_file "$2") | delta -s --wrap-max-lines unlimited
 
 exit 0
