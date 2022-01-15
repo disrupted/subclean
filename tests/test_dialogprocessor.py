@@ -18,3 +18,4 @@ class TestDialogProcessor:
         assert processor.clean_dashes(Line("i-in")) == "i-in"
         assert processor.clean_dashes(Line("<i>-dialog.</i>")) == "<i>- dialog.</i>"
         assert processor.clean_dashes(Line("<i>-</i>dialog.")) == "<i>- </i>dialog."
+        assert processor.clean_dashes(Line("-...dialog.")) == "- ...dialog."
