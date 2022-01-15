@@ -242,7 +242,7 @@ class ErrorProcessor(Processor):
     @staticmethod
     def fix_space_punctuation(line: Line) -> Line:
         line = line.sub(
-            r"(?<!\.{3})\s+([.,!?]+)", r"\1"
+            r"(?<!^-)(?<!\.{3})\s+([.,!?]+)", r"\1"
         )  # remove space before punctuation
         line = line.sub(
             r"([.,!?]+)\s{2,}(?!$)", r"\1 "
