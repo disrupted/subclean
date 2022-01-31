@@ -25,7 +25,7 @@ subclean = "subclean.subclean:main"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-loguru = "^0.5.3"
+loguru = ">=0.5.3,<0.7.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.5"
