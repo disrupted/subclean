@@ -74,7 +74,7 @@ jobs:
       # venv_path: ./.venv
       # lib: true
 
-      - uses: actions/setup-node@v3.2.0
+      - uses: actions/setup-node@v3.3.0
 
       - name: Check pyright
         run: |
