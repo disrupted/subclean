@@ -19,15 +19,15 @@ jobs:
         run: pipx install poetry
 
       - name: Configure poetry virtualenv
-        run: |
-          poetry config virtualenvs.in-project true
-          poetry env use ${{ matrix.python-version }}
+        run: poetry config virtualenvs.in-project true
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
           cache: poetry
+
+      - run: poetry env use ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: poetry install --no-interaction
