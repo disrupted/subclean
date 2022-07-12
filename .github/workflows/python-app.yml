@@ -44,9 +44,6 @@ jobs:
         run: |
           poetry run pre-commit run --hook-stage manual mypy --all-files
 
-      # - name: Source virtualenv
-      #   run: source $GITHUB_WORKSPACE/.venv/bin/activate
-
       # - name: Check pyright
       #   uses: jakebailey/pyright-action@v1
       #   with:
@@ -74,7 +71,7 @@ jobs:
           source ./.venv/bin/activate
           npx pyright --verifytypes subclean --outputjson | jq --arg prefix "completeness " '.typeCompleteness.completenessScore * 100 | tostring + "% type completeness"'
 
-      - name: Update Python syntax update
+      - name: Check syntax update
         run: |
           poetry run pre-commit run --hook-stage manual pyupgrade --all-files
 
