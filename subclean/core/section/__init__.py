@@ -5,7 +5,7 @@ from subclean.core.section.timing import SectionTiming, SrtSectionTiming
 
 
 class Section:
-    def __init__(self, timing: SectionTiming, lines: list[Line] | None = None):
+    def __init__(self, timing: SectionTiming, lines: list[Line] | None = None) -> None:
         self.timing: SectionTiming = timing
         self.lines: list[Line] = lines if lines is not None else []
 
@@ -40,7 +40,9 @@ class Section:
 
 
 class SrtSection(Section):
-    def __init__(self, timing: SrtSectionTiming, lines: list[Line] | None = None):
+    def __init__(
+        self, timing: SrtSectionTiming, lines: list[Line] | None = None
+    ) -> None:
         super().__init__(timing, lines)
 
     def __str__(self) -> str:
