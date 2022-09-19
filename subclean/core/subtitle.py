@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Callable
+from collections.abc import Callable, Iterator
 from enum import Enum
 from pathlib import Path
 
@@ -18,7 +18,7 @@ class Encoding(Enum):
 
 
 class Subtitle:
-    def __init__(self, filepath: Path):
+    def __init__(self, filepath: Path) -> None:
         self.filepath: Path = filepath
         self.encoding: Encoding = self.load()
         self.file: list[str]
@@ -38,31 +38,31 @@ class Subtitle:
         logger.error("Failed to load file. Couldn't find suitable encoding.")
         return Encoding.NONE
 
-    def parse(self):
+    def parse(self) -> None:
         raise NotImplementedError
 
-    def add_section(self, section: Section):
+    def add_section(self, section: Section) -> None:
         self.sections.append(section)
 
-    def pop_section(self, index: int):
+    def pop_section(self, index: int) -> None:
         self.sections.pop(index)
 
-    def print(self):
+    def print(self) -> None:
         for section in self.sections:
             print(section)
 
-    def read(self):
+    def read(self) -> Iterator[str]:
         with open(self.filepath, encoding=self.encoding.value) as f:
             for line in f:
                 yield line.strip()
         yield ""  # append empty new line
 
-    def save(self, path: Path | None = None):
+    def save(self, path: Path | None = None) -> None:
         raise NotImplementedError
 
 
 class SrtSubtitle(Subtitle):
-    def __init__(self, filepath: Path):
+    def __init__(self, filepath: Path) -> None:
         super().__init__(filepath)
 
     @staticmethod
@@ -70,7 +70,7 @@ class SrtSubtitle(Subtitle):
         start_time, end_time = input.split(" --> ")
         return SrtSectionTiming(start_time, end_time)
 
-    def parse(self):
+    def parse(self) -> None:
         for line in self.read():
             # empty line (end of section) or index number (begin of section)
             if not line or line.isdigit():
@@ -84,7 +84,7 @@ class SrtSubtitle(Subtitle):
             else:
                 self.sections[-1].add_line(Line(line))
 
-    def save(self, path: Path | None = None):
+    def save(self, path: Path | None = None) -> None:
         if path is None:
             path = self.filepath.with_stem(self.filepath.stem + "_clean")
         logger.info("Saving subtitle {}", path)
@@ -94,7 +94,7 @@ class SrtSubtitle(Subtitle):
 
 
 class SubtitleFormat(Enum):
-    def __init__(self, ext, handler):
+    def __init__(self, ext, handler) -> None:
         self.ext: str = ext
         self.handler: Callable = handler
 

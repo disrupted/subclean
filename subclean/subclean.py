@@ -12,7 +12,7 @@ from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import Processor
 
 
-def subclean(f: Path, processors: list[type[Processor]], args):
+def subclean(f: Path, processors: list[type[Processor]], args) -> None:
     subtitle: Subtitle = SubtitleParser.load(f)
     for processor in processors:
         subtitle = processor(subtitle, cli_args=args).process()
@@ -21,7 +21,7 @@ def subclean(f: Path, processors: list[type[Processor]], args):
     subtitle.save(args.output)
 
 
-def main(argv: list[str] | None = None):
+def main(argv: list[str] | None = None) -> None:
     args = parse_args(argv)
     logger.remove()
     logger.add(

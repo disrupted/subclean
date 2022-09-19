@@ -13,11 +13,11 @@ from subclean.core.subtitle import Subtitle
 
 
 class Processor:
-    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         self.subtitle = subtitle
         self.operations: list[Callable] = []
 
-    def log(self):
+    def log(self) -> None:
         logger.info("{processor} running", processor=self.__class__.__name__)
 
     def process(self) -> Subtitle:
@@ -34,7 +34,7 @@ class Processor:
 
 
 class BlacklistProcessor(Processor):
-    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         super().__init__(subtitle, *args, **kwargs)
         cli_args = kwargs.get("cli_args")
         if cli_args and cli_args.regex:
@@ -51,7 +51,7 @@ class BlacklistProcessor(Processor):
                 return True
         return False
 
-    def add_custom_regex(self, regex: str):
+    def add_custom_regex(self, regex: str) -> None:
         logger.debug(
             "{processor} Adding custom regular expression: {}",
             regex,
@@ -67,7 +67,7 @@ class BlacklistProcessor(Processor):
 
 
 class DialogProcessor(Processor):
-    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         super().__init__(subtitle, *args, **kwargs)
         self.operations: list[Callable] = [self.clean_dashes]
 
@@ -77,7 +77,7 @@ class DialogProcessor(Processor):
 
 
 class SDHProcessor(Processor):
-    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         super().__init__(subtitle, *args, **kwargs)
 
     @classmethod
@@ -162,7 +162,7 @@ class SDHProcessor(Processor):
 class LineLengthProcessor(Processor):
     line_length = 50
 
-    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         super().__init__(subtitle, *args, **kwargs)
         cli_args = kwargs.get("cli_args")
         if cli_args and cli_args.line_length:
@@ -217,7 +217,7 @@ class LineLengthProcessor(Processor):
 
 
 class ErrorProcessor(Processor):
-    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         super().__init__(subtitle, *args, **kwargs)
         self.operations: list[Callable] = [
             self.fix_hyphen,
@@ -267,7 +267,7 @@ class ErrorProcessor(Processor):
 
 
 class StyleProcessor(Processor):
-    def __init__(self, subtitle: Subtitle, *args, **kwargs):
+    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         super().__init__(subtitle, *args, **kwargs)
         self.operations: list[Callable] = [
             self.fix_styles,
