@@ -1,18 +1,17 @@
 from pathlib import Path
+from unittest.mock import MagicMock
 
 import pytest
 
 from subclean.core.line import Line
 from subclean.core.parser import SubtitleParser
-from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import ErrorProcessor
-from tests.utils import FakeSubtitle
 
 
 class TestErrorProcessor:
     @pytest.fixture()
     def processor(self) -> ErrorProcessor:
-        subtitle: Subtitle = FakeSubtitle()
+        subtitle = MagicMock()
         return ErrorProcessor(subtitle)
 
     @pytest.fixture()

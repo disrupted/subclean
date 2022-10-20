@@ -1,15 +1,15 @@
+from unittest.mock import MagicMock
+
 import pytest
 
 from subclean.core.line import Line
-from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import DialogProcessor
-from tests.utils import FakeSubtitle
 
 
 class TestDialogProcessor:
     @pytest.fixture()
     def processor(self) -> DialogProcessor:
-        subtitle: Subtitle = FakeSubtitle()
+        subtitle = MagicMock()
         return DialogProcessor(subtitle)
 
     def test_clean_dashes(self, processor: DialogProcessor):

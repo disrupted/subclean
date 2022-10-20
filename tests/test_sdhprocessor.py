@@ -1,18 +1,17 @@
 from pathlib import Path
+from unittest.mock import MagicMock
 
 import pytest
 
 from subclean.core.line import Line
 from subclean.core.parser import SubtitleParser
-from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import SDHProcessor
-from tests.utils import FakeSubtitle
 
 
 class TestSDHProcessor:
     @pytest.fixture()
     def fake_processor(self) -> SDHProcessor:
-        subtitle: Subtitle = FakeSubtitle()
+        subtitle = MagicMock()
         return SDHProcessor(subtitle)
 
     @pytest.fixture()
@@ -142,6 +141,7 @@ class TestSDHProcessor:
         assert fake_processor.is_music(Line("<i>quiet, eerie music </i>"))
         assert fake_processor.is_music(Line("<i>droning music fades in </i>"))
         assert fake_processor.is_music(Line("<i>women vocalizing eerily </i>"))
+        assert fake_processor.is_music(Line("suspenseful, percussive music"))
         assert not fake_processor.is_music(Line("this is not a music subtitle"))
 
     def test_delete_empty_section(self, sub_processor: SDHProcessor):

@@ -13,7 +13,7 @@ from subclean.core.subtitle import Subtitle
 
 
 class Processor:
-    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
+    def __init__(self, subtitle: Subtitle, *_, **kwargs) -> None:
         self.subtitle = subtitle
         self.operations: list[Callable] = []
 

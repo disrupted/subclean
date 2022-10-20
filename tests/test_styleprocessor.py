@@ -1,15 +1,15 @@
+from unittest.mock import MagicMock
+
 import pytest
 
 from subclean.core.line import Line
-from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import StyleProcessor
-from tests.utils import FakeSubtitle
 
 
 class TestStyleProcessor:
     @pytest.fixture()
     def processor(self) -> StyleProcessor:
-        subtitle: Subtitle = FakeSubtitle()
+        subtitle = MagicMock()
         return StyleProcessor(subtitle)
 
     def test_fix_styles(self, processor: StyleProcessor):
