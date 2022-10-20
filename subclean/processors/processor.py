@@ -77,9 +77,6 @@ class DialogProcessor(Processor):
 
 
 class SDHProcessor(Processor):
-    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
-        super().__init__(subtitle, *args, **kwargs)
-
     @classmethod
     def is_hi(cls, line: Line) -> bool:
         return bool(
