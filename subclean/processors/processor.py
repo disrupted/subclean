@@ -14,8 +14,8 @@ from subclean.core.subtitle import Subtitle
 
 class Processor:
     def __init__(self, subtitle: Subtitle, *_, **kwargs) -> None:
-        self.subtitle = subtitle
-        self.operations: list[Callable] = []
+        self.subtitle: Subtitle = subtitle
+        self.operations: list[Callable[[Line], Line]] = []
 
     def log(self) -> None:
         logger.info("{processor} running", processor=self.__class__.__name__)
