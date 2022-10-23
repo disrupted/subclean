@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from argparse import Namespace
 from collections.abc import Callable
 from enum import Enum
 
@@ -13,9 +14,9 @@ from subclean.core.subtitle import Subtitle
 
 
 class Processor:
-    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
-        self.subtitle = subtitle
-        self.operations: list[Callable] = []
+    def __init__(self, subtitle: Subtitle, *_, **kwargs) -> None:
+        self.subtitle: Subtitle = subtitle
+        self.operations: list[Callable[[Line], Line]] = []
 
     def log(self) -> None:
         logger.info("{processor} running", processor=self.__class__.__name__)
@@ -36,7 +37,7 @@ class Processor:
 class BlacklistProcessor(Processor):
     def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         super().__init__(subtitle, *args, **kwargs)
-        cli_args = kwargs.get("cli_args")
+        cli_args: Namespace | None = kwargs.get("cli_args")
         if cli_args and cli_args.regex:
             self.add_custom_regex(cli_args.regex)
 
@@ -77,9 +78,6 @@ class DialogProcessor(Processor):
 
 
 class SDHProcessor(Processor):
-    def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
-        super().__init__(subtitle, *args, **kwargs)
-
     @classmethod
     def is_hi(cls, line: Line) -> bool:
         return bool(
@@ -164,7 +162,7 @@ class LineLengthProcessor(Processor):
 
     def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         super().__init__(subtitle, *args, **kwargs)
-        cli_args = kwargs.get("cli_args")
+        cli_args: Namespace | None = kwargs.get("cli_args")
         if cli_args and cli_args.line_length:
             logger.debug(
                 "{processor} Setting line length to {}",
@@ -179,8 +177,8 @@ class LineLengthProcessor(Processor):
 
     @staticmethod
     def split_dialog_chunks(lines: list[Line]) -> list[list[Line]]:
-        chunks = []
-        i = 1
+        chunks: list[list[Line]] = []
+        i: int = 1
         while lines:
             if not len(lines) > max(i, 1):
                 chunks.append(lines)

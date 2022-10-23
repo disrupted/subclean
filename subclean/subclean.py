@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import sys
+from argparse import Namespace
 from pathlib import Path
 
 from loguru import logger
@@ -12,7 +13,7 @@ from subclean.core.subtitle import Subtitle
 from subclean.processors.processor import Processor
 
 
-def subclean(f: Path, processors: list[type[Processor]], args) -> None:
+def subclean(f: Path, processors: list[type[Processor]], args: Namespace) -> None:
     subtitle: Subtitle = SubtitleParser.load(f)
     for processor in processors:
         subtitle = processor(subtitle, cli_args=args).process()

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from collections.abc import Callable, Iterator
 from enum import Enum
 from pathlib import Path
@@ -17,7 +18,7 @@ class Encoding(Enum):
     NONE = None
 
 
-class Subtitle:
+class Subtitle(ABC):
     def __init__(self, filepath: Path) -> None:
         self.filepath: Path = filepath
         self.encoding: Encoding = self.load()
@@ -38,8 +39,9 @@ class Subtitle:
         logger.error("Failed to load file. Couldn't find suitable encoding.")
         return Encoding.NONE
 
+    @abstractmethod
     def parse(self) -> None:
-        raise NotImplementedError
+        ...
 
     def add_section(self, section: Section) -> None:
         self.sections.append(section)
@@ -57,8 +59,9 @@ class Subtitle:
                 yield line.strip()
         yield ""  # append empty new line
 
+    @abstractmethod
     def save(self, path: Path | None = None) -> None:
-        raise NotImplementedError
+        ...
 
 
 class SrtSubtitle(Subtitle):
