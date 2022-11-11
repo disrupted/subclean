@@ -15,7 +15,7 @@ repos:
             "--ignore-init-module-imports",
           ]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.2.0
+    rev: v3.2.2
     hooks:
       - id: pyupgrade
         stages: [manual]
