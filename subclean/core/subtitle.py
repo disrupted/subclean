@@ -40,8 +40,7 @@ class Subtitle(ABC):
         return Encoding.NONE
 
     @abstractmethod
-    def parse(self) -> None:
-        ...
+    def parse(self) -> None: ...
 
     def add_section(self, section: Section) -> None:
         self.sections.append(section)
@@ -60,8 +59,7 @@ class Subtitle(ABC):
         yield ""  # append empty new line
 
     @abstractmethod
-    def save(self, path: Path | None = None) -> None:
-        ...
+    def save(self, path: Path | None = None) -> None: ...
 
 
 class SrtSubtitle(Subtitle):
