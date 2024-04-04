@@ -34,7 +34,7 @@ black = ">=22.10,<25.0"
 pre-commit = ">=2.20,<4.0"
 mypy = ">=0.982,<1.10"
 isort = "^5.10.1"
-autoflake = "^1.7.6"
+autoflake = ">=1.7.6,<3.0.0"
 
 [tool.pyright]
 include = ["subclean", "tests"]
