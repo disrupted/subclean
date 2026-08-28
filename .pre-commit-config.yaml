@@ -1,11 +1,11 @@
 ---
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v6.0.0
     hooks:
       - id: debug-statements
   - repo: https://github.com/PyCQA/autoflake
-    rev: v2.3.1
+    rev: v2.4.0
     hooks:
       - id: autoflake
         args:
@@ -15,28 +15,28 @@ repos:
             "--ignore-init-module-imports",
           ]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.2
+    rev: v3.21.2
     hooks:
       - id: pyupgrade
         stages: [manual]
         args: ["--py39-plus"]
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 9.0.1
     hooks:
       - id: isort
         args: ["--settings", "setup.cfg"]
   - repo: https://github.com/psf/black
-    rev: 24.4.2
+    rev: 26.5.1
     hooks:
       - id: black
         language_version: python3
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
+    rev: v2.3.1
     hooks:
       - id: mypy
         args: ["--pretty"]
   - repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
+    rev: 7.3.0
     hooks:
       - id: flake8
         args: ["--config", "setup.cfg"]
