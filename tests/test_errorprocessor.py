@@ -79,6 +79,14 @@ class TestErrorProcessor:
             == "Begin... ...end."
         )
         assert processor.fix_space_punctuation(Line("- ...dialog")) == "- ...dialog"
+        assert (
+            processor.fix_space_punctuation(Line("weighed as much as his .45."))
+            == "weighed as much as his .45."
+        )
+        assert (
+            processor.fix_space_punctuation(Line("black-handled .38"))
+            == "black-handled .38"
+        )
 
     def test_fix_hyphen(self, processor: ErrorProcessor):
         assert processor.fix_hyphen(Line("'’")) == "'"

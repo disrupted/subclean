@@ -158,10 +158,11 @@ class SDHProcessor(Processor):
 
 
 class LineLengthProcessor(Processor):
-    line_length = 50
+    default_line_length = 50
 
     def __init__(self, subtitle: Subtitle, *args, **kwargs) -> None:
         super().__init__(subtitle, *args, **kwargs)
+        self.line_length: int = self.default_line_length
         cli_args: Namespace | None = kwargs.get("cli_args")
         if cli_args and cli_args.line_length:
             logger.debug(
@@ -169,11 +170,10 @@ class LineLengthProcessor(Processor):
                 cli_args.line_length,
                 processor=self.__class__.__name__,
             )
-            self.__class__.line_length = cli_args.line_length
+            self.line_length = cli_args.line_length
 
-    @classmethod
-    def is_short(cls, line: Line) -> bool:
-        return len(line) < cls.line_length
+    def is_short(self, line: Line) -> bool:
+        return len(line) < self.line_length
 
     @staticmethod
     def split_dialog_chunks(lines: list[Line]) -> list[list[Line]]:
@@ -191,16 +191,15 @@ class LineLengthProcessor(Processor):
                 i += 1
         return chunks
 
-    @classmethod
-    def process_section(cls, section: Section) -> Section:
+    def process_section(self, section: Section) -> Section:
         if not len(section) > 1:
             return section
-        chunks = cls.split_dialog_chunks(section.lines)
+        chunks = self.split_dialog_chunks(section.lines)
         section.lines = []
         for chunk in chunks:
             if not len(chunk) > 1:
                 section.lines.append(chunk[0])
-            elif cls.is_short(Line.merge(chunk)):
+            elif self.is_short(Line.merge(chunk)):
                 section.lines.append(Line.merge(chunk))
             else:
                 section.lines += chunk
@@ -240,7 +239,7 @@ class ErrorProcessor(Processor):
     @staticmethod
     def fix_space_punctuation(line: Line) -> Line:
         line = line.sub(
-            r"(?<!^-)(?<!\.{3})\s+([.,!?]+)", r"\1"
+            r"(?<!^-)(?<!\.{3})\s+([.,!?]+)(?!\d)", r"\1"
         )  # remove space before punctuation
         line = line.sub(
             r"([.,!?]+)\s{2,}(?!$)", r"\1 "
