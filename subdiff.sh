@@ -7,7 +7,7 @@ if [ ! -s "$1" ] || [ ! -s "$2" ] || [ "$1" == "$2" ]; then
 fi
 
 _read_file() {
-    rg '[^\d]|^\s*$' "$1"
+    rg '[^-\d:>, ]|^\s*$' "$1" # exclude section index & timing
 }
 
 diff -u <(_read_file "$1") <(_read_file "$2") | delta -s --wrap-max-lines unlimited
