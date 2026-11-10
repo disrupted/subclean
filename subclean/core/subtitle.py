@@ -82,8 +82,10 @@ class SrtSubtitle(Subtitle):
                 section = SrtSection(timing)
                 self.sections.append(section)
             # content
-            else:
+            elif self.sections:
                 self.sections[-1].add_line(Line(line))
+            else:
+                logger.warning("Skipping content before first timing block: {}", line)
 
     def save(self, path: Path | None = None) -> None:
         if path is None:
