@@ -15,6 +15,18 @@ class TestSubtitleParser:
     def test_handler(self, subtitle: Subtitle):
         assert isinstance(subtitle, SrtSubtitle)
 
+    def test_leading_content_without_timing(self, tmp_path: Path):
+        srt = tmp_path / "leading.srt"
+        srt.write_text(
+            "This line comes before any timing block\n"
+            "00:00:01,000 --> 00:00:02,000\n"
+            "Hello\n",
+            encoding="utf-8",
+        )
+        subtitle = SubtitleParser.load(srt)
+        assert len(subtitle.sections) == 1
+        assert subtitle.sections[0].lines == ["Hello"]
+
     def test_srtparser(self, subtitle: SrtSubtitle):
         assert len(subtitle.sections) == 667
         assert len(subtitle.sections[0].lines) == 1
