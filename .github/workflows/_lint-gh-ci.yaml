@@ -13,6 +13,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Lint actions and workflows
-        uses: bakdata/ci-templates/actions/action-lint@6a97ae255090bdd725bfbb21d0eb05d46a9abd59 # https://github.com/bakdata/ci-templates/releases/tag/1.83.0
+        uses: bakdata/ci-templates/actions/action-lint@dcb4d9d45060d891da1bc59f0657dceec112527c # https://github.com/bakdata/ci-templates/releases/tag/2.3.0
         with:
           action-lint-version: "v1.7.6"
