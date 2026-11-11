@@ -17,6 +17,10 @@ local linters = new Mapping<String, Step> {
   ["dprint"] = (Builtins.dprint) {
     glob = List("*.json", "*.jsonc", "*.yaml", "*.yml", "*.md", "*.toml")
   }
+  ["jactionlint"] {
+    glob = List(".github/**")
+    check = "jactionlint --pyflakes="
+  }
 }
 
 steps = linters
