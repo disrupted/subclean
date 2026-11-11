@@ -16,9 +16,7 @@ classifiers = [
   "Environment :: Console",
   "Typing :: Typed",
 ]
-dependencies = [
-  "loguru>=0.8.0",
-]
+dependencies = []
 
 [project.urls]
 Homepage = "https://github.com/disrupted/subclean"
@@ -26,7 +24,7 @@ Repository = "https://github.com/disrupted/subclean"
 Issues = "https://github.com/disrupted/subclean/issues"
 
 [project.scripts]
-subclean = "subclean.subclean:main"
+subclean = "subclean.cli:main"
 
 [dependency-groups]
 dev = [
@@ -87,6 +85,7 @@ ignore = [
   "PLR09",
   "PLR2004",
   "TRY003",
+  "TRY400",
   "RET504",
   "RET505",
   "RUF001",

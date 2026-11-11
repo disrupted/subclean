@@ -26,27 +26,20 @@ $ subclean subtitle.srt
 ## Usage
 
 ```
-subclean [-h] [-v] [-V] [-o OUTPUT | --overwrite]
-                   [--processors {LineLength,SDH,Blacklist,Error,Style,Dialog}
-                   [--regex REGEX] [--line-length LINE_LENGTH]
-                   FILE [FILE ...]
+usage: subclean [-h] [-v] [-V] [-o OUTPUT | --overwrite] [--processors NAME [NAME ...]] [--regex REGEX] [--line-length LINE_LENGTH] FILE [FILE ...]
 
 positional arguments:
-  FILE                  Subtitle file to be processed
+  FILE                  subtitle file to process
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  -v, --verbose         Increase output verbosity
-  -V, --version         show program's version number and
-                        exit
-  -o OUTPUT, --output OUTPUT
-                        Set output filename
-  --overwrite           Overwrite input file
-  --processors {LineLength,SDH,Blacklist,Error,Style,Dialog}
-                        Processors to run
-                        (default: Blacklist SDH Dialog Error LineLength Style)
-  --regex REGEX         Add custom regular expression to BlacklistProcessor
+  -v, --verbose         increase output verbosity
+  -V, --version         show program's version number and exit
+  -o, --output OUTPUT   output file (single input only)
+  --overwrite           overwrite input file
+  --processors NAME [NAME ...]
+                        processors to run, in order (default: Blacklist SDH Dialog Error LineLength Style)
+  --regex REGEX         additional blacklist regex, can be repeated
   --line-length LINE_LENGTH
-                        Maximum total line length when concatenating short lines.
-                        (default: 50)
+                        maximum length when merging short lines (default: 50)
 ```

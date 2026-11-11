@@ -1,4 +1,3 @@
 import importlib.metadata
 
-PACKAGE = "subclean"
-__version__ = importlib.metadata.version(PACKAGE)
+__version__ = importlib.metadata.version(__package__ or __name__)

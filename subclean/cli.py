@@ -1,54 +1,88 @@
-from __future__ import annotations
-
 import argparse
+import logging
+import sys
+from collections.abc import Sequence
 from pathlib import Path
 
-from subclean.processors.processor import DEFAULT_PROCESSORS, Processors
+from subclean import __version__, io
+from subclean.formats import UnsupportedFormatError
+from subclean.processors import PROCESSORS, Options, Processor, build, run
 
-from . import __version__
+logger = logging.getLogger("subclean")
 
 
-def parse_args(args: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Clean Subtitles")
+def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(prog="subclean", description="Clean subtitles")
     parser.add_argument(
-        "file",
-        nargs="+",
-        metavar="FILE",
-        type=Path,
-        help="Subtitle file to be processed",
+        "files", nargs="+", metavar="FILE", type=Path, help="subtitle file to process"
     )
     parser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_const",
-        help="Increase output verbosity",
-        dest="log_level",
-        const="DEBUG",
-        default="INFO",
+        "-v", "--verbose", action="store_true", help="increase output verbosity"
     )
     parser.add_argument(
-        "-V",
-        "--version",
-        action="version",
-        version="%(prog)s " + __version__,
+        "-V", "--version", action="version", version=f"%(prog)s {__version__}"
     )
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument("-o", "--output", type=Path, help="Set output filename")
-    group.add_argument("--overwrite", action="store_true", help="Overwrite input file")
+    output = parser.add_mutually_exclusive_group()
+    output.add_argument(
+        "-o", "--output", type=Path, help="output file (single input only)"
+    )
+    output.add_argument("--overwrite", action="store_true", help="overwrite input file")
     parser.add_argument(
         "--processors",
         nargs="+",
-        type=lambda processor: Processors[processor],
-        choices=set(Processors),
-        help=f"Processors to run (default: {' '.join([processor.name for processor in DEFAULT_PROCESSORS])})",
-        default=DEFAULT_PROCESSORS,
+        choices=list(PROCESSORS),
+        default=list(PROCESSORS),
+        metavar="NAME",
+        help=f"processors to run, in order (default: {' '.join(PROCESSORS)})",
     )
     parser.add_argument(
-        "--regex", type=str, help="Add custom regular expression to BlacklistProcessor"
+        "--regex",
+        action="append",
+        default=[],
+        help="additional blacklist regex, can be repeated",
     )
     parser.add_argument(
         "--line-length",
         type=int,
-        help="Maximum total line length when concatenating short lines. (default: 50)",
+        default=Options().max_line_length,
+        help="maximum length when merging short lines (default: %(default)s)",
     )
-    return parser.parse_args(args)
+    args = parser.parse_args(argv)
+    if args.output and len(args.files) > 1:
+        parser.error("--output can only be used with a single input file")
+    return args
+
+
+def output_path(path: Path, args: argparse.Namespace) -> Path:
+    if args.overwrite:
+        return path
+    return args.output or path.with_stem(f"{path.stem}_clean")
+
+
+def clean_file(
+    path: Path, output: Path, processors: Sequence[tuple[str, Processor]]
+) -> None:
+    io.save(output, run(io.load(path), processors))
+
+
+def main(argv: Sequence[str] | None = None) -> None:
+    args = parse_args(argv)
+    logging.basicConfig(
+        level=logging.DEBUG if args.verbose else logging.INFO,
+        format="%(asctime)s | %(levelname)-8s | %(message)s",
+        datefmt="%H:%M:%S",
+        stream=sys.stderr,
+    )
+    processors = build(
+        args.processors,
+        Options(extra_patterns=tuple(args.regex), max_line_length=args.line_length),
+    )
+    failed = False
+    for path in args.files:
+        try:
+            clean_file(path, output_path(path, args), processors)
+        except (OSError, UnsupportedFormatError) as e:
+            logger.error("%s: %s", path, e)
+            failed = True
+    if failed:
+        sys.exit(1)
