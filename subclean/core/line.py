@@ -5,6 +5,8 @@ from collections.abc import Sequence
 
 
 class Line(str):
+    __slots__ = ()
+
     def __len__(self) -> int:
         return len(str(self.strip_styles()))
 

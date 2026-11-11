@@ -1,0 +1,30 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    commit-message:
+      prefix: ci
+
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    versioning-strategy: "increase-if-necessary"
+    groups:
+      development:
+        dependency-type: "development"
+        exclude-patterns:
+          - "ruff"
+          - "ty"
+        update-types:
+          - "minor"
+          - "patch"
+    commit-message:
+      prefix: chore
+      include: scope

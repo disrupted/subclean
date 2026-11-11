@@ -1,0 +1,40 @@
+amends "package://github.com/jdx/hk/releases/download/v2.8.0/hk@2.8.0#/Config.pkl"
+
+import "package://github.com/jdx/hk/releases/download/v2.8.0/hk@2.8.0#/Builtins.pkl"
+
+local linters = new Mapping<String, Step> {
+  ["uv-lock"] {
+    glob = List("pyproject.toml", "uv.lock")
+    check = "uv lock --check"
+  }
+  ["ruff-check"] = Builtins.ruff
+  ["ruff-format"] = (Builtins.ruff_format) {
+    depends = "ruff-check"
+  }
+  ["ty"] = (Builtins.ty) {
+    check = "ty check"
+  }
+  ["dprint"] = (Builtins.dprint) {
+    glob = List("*.json", "*.jsonc", "*.yaml", "*.yml", "*.md", "*.toml")
+  }
+}
+
+steps = linters
+
+hooks {
+  ["post-checkout"] {
+    steps {
+      ["uv-sync"] {
+        step_condition = "is_branch_checkout"
+        check = "mise deps"
+      }
+    }
+  }
+  ["post-merge"] {
+    steps {
+      ["uv-sync"] {
+        check = "mise deps"
+      }
+    }
+  }
+}

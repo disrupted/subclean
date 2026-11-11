@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
 
 from subclean.processors.processor import DEFAULT_PROCESSORS, Processors
 
@@ -13,7 +14,7 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         "file",
         nargs="+",
         metavar="FILE",
-        type=argparse.FileType("r"),
+        type=Path,
         help="Subtitle file to be processed",
     )
     parser.add_argument(
@@ -32,7 +33,7 @@ def parse_args(args: list[str] | None = None) -> argparse.Namespace:
         version="%(prog)s " + __version__,
     )
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-o", "--output", type=str, help="Set output filename")
+    group.add_argument("-o", "--output", type=Path, help="Set output filename")
     group.add_argument("--overwrite", action="store_true", help="Overwrite input file")
     parser.add_argument(
         "--processors",

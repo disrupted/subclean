@@ -47,10 +47,7 @@ class BlacklistProcessor(Processor):
 
     @staticmethod
     def in_blacklist(line: Line) -> bool:
-        for regex in blacklist:
-            if re.search(regex, line, flags=re.IGNORECASE):
-                return True
-        return False
+        return any(re.search(regex, line, flags=re.IGNORECASE) for regex in blacklist)
 
     def add_custom_regex(self, regex: str) -> None:
         logger.debug(
@@ -143,7 +140,7 @@ class SDHProcessor(Processor):
         for line in section.lines:
             if cls.is_hi(line) or cls.is_parenthesis_not_matching(line):
                 continue
-            elif cls.contains_hi(line):
+            if cls.contains_hi(line):
                 line = cls.clean_hi(line)
             lines.append(line)
         section.lines = lines
@@ -183,7 +180,7 @@ class LineLengthProcessor(Processor):
             if not len(lines) > max(i, 1):
                 chunks.append(lines)
                 break
-            elif lines[i].is_dialog():
+            if lines[i].is_dialog():
                 chunks.append(lines[:i])
                 lines = lines[i:]
                 i = 1

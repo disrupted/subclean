@@ -36,7 +36,7 @@ def main(argv: list[str] | None = None) -> None:
         processor.value for processor in args.processors
     ]
     for f in args.file:
-        subclean(Path(f.name), processors, args)
+        subclean(f, processors, args)
 
 
 if __name__ == "__main__":

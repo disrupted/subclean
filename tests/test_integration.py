@@ -11,6 +11,6 @@ class TestIntegration:
             try:
                 # run subclean
                 main([str(input_path)])
-                assert list(open(result_path)) == list(open(ref_path))
+                assert result_path.read_text() == ref_path.read_text()
             finally:
                 result_path.unlink()

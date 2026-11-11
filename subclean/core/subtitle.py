@@ -29,7 +29,7 @@ class Subtitle(ABC):
     def load(self) -> Encoding:
         for e in Encoding:
             try:
-                with open(self.filepath, encoding=e.value) as f:
+                with self.filepath.open(encoding=e.value) as f:
                     f.read()
                     f.seek(0)
                     logger.debug("Found suitable encoding {}", e)
@@ -53,7 +53,7 @@ class Subtitle(ABC):
             print(section)
 
     def read(self) -> Iterator[str]:
-        with open(self.filepath, encoding=self.encoding.value) as f:
+        with self.filepath.open(encoding=self.encoding.value) as f:
             for line in f:
                 yield line.strip()
         yield ""  # append empty new line
@@ -77,7 +77,7 @@ class SrtSubtitle(Subtitle):
             if not line or line.isdigit():
                 continue
             # timing
-            elif " --> " in line:
+            if " --> " in line:
                 timing = self.__parse_timing(line)
                 section = SrtSection(timing)
                 self.sections.append(section)
@@ -89,7 +89,7 @@ class SrtSubtitle(Subtitle):
         if path is None:
             path = self.filepath.with_stem(self.filepath.stem + "_clean")
         logger.info("Saving subtitle {}", path)
-        with open(path, "w") as out_f:
+        with path.open("w") as out_f:
             for index, section in enumerate(self.sections, start=1):
                 out_f.write(f"{index}\n{section}\n")
 
@@ -101,7 +101,7 @@ class SubtitleFormat(Enum):
 
     @classmethod
     def get_handler(cls, ext: str) -> Callable:
-        return list(e.handler for e in cls if e.ext == ext)[0]
+        return next(e.handler for e in cls if e.ext == ext)
 
     @classmethod
     def values(cls) -> set[str]:

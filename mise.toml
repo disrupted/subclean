@@ -1,0 +1,13 @@
+[tools]
+dprint = "0.63.0"
+hk = "2.8.0"
+
+[hooks]
+postinstall = "hk install --mise"
+
+[settings]
+experimental = true
+python.uv_venv_auto = "source"
+
+[deps.uv]
+auto = true
