@@ -1,6 +1,6 @@
 [project]
 name = "subclean"
-version = "0.5.0"
+version = "0.6.0"
 description = "Simple CLI tool to instantly enhance your movie & TV show subtitles."
 readme = "README.md"
 license = "GPL-3.0-only"
