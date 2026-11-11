@@ -65,3 +65,18 @@ jobs:
 
       - name: Test
         run: uv run --frozen pytest tests
+
+  automerge:
+    name: Auto-merge Dependabot PR
+    needs: [lint, format, test]
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Merge
+        run: gh pr merge "$PR_URL" --squash --delete-branch
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
