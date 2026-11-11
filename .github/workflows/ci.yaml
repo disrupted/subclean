@@ -44,7 +44,7 @@ jobs:
         run: uv run --frozen ruff format --check
 
       - name: dprint
-        uses: dprint/check@v2.5
+        uses: dprint/check@v2.6
 
   test:
     name: Test
